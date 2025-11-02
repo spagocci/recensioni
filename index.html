@@ -1,44 +1,113 @@
-<!-- =========================================================================
-file: public/index.html — Spagocci 1.6.2 (persistenza ordine + refresh post-salvataggio)
-============================================================================= -->
 <!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Spagocci 1.0.0</title>
-<link rel="icon" href="https://github.com/spagocci/recensioni/blob/main/icona.png" type="image/png" />
+<title>Spagocci 2.0 — Vetrina + Riordino fluido</title>
+<link rel="icon" href="https://www.github.com/spagocci/recensioni/raw/main/icona.png" type="image/png" />
 <style>
-  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding:20px; background:#f9f9f9; padding-bottom:96px; }
-  button { margin:5px; padding:8px 12px; font-size:1em; cursor:pointer; }
-  .contenuto { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
-  .item { background:#fff; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.1); padding:10px; position:relative; text-align:center; }
-  .item img { width:100%; max-width:180px; object-fit:contain; }
-  .controls { display:flex; align-items:center; justify-content:center; gap:5px; margin-top:5px; }
+  body {font-family:sans-serif;padding:20px;background:#f9f9f9;}
+  button {margin-bottom:10px;padding:8px 12px;font-size:1em;cursor:pointer;}
+
+  #filtroParole {width:100%;max-width:400px;padding:8px 10px;margin:10px 0;font-size:1em;border:2px solid #b30000;border-radius:10px;box-sizing:border-box;}
+  #mostraBox {position:relative;width:100%;max-width:400px;margin:10px 0;}
+  #mostraParole {width:100%;padding:8px 10px;font-size:1em;border:2px solid #b30000;border-radius:10px;box-sizing:border-box;}
+  #clearMostra {position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#b30000;color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-weight:bold;display:none;line-height:18px;z-index:1;}
+  #clearMostra:hover{background:darkred;}
+
+  #statusBar {display:flex;align-items:center;gap:15px;margin-bottom:15px;flex-wrap:wrap;}
+  #apiInfo { display: none; } 
+  #statusMsg {margin:5px 0;font-weight:600;white-space:pre-wrap;}
+
+  .row {display:flex;flex-wrap:wrap;gap:10px;height:auto;}
+  .column {flex:1 1 380px;background:linear-gradient(to bottom,#fff,#f0f0f0);padding:20px;border-radius:20px;border:none;box-shadow:inset 0 0 10px rgba(0,0,0,0.05),0 4px 10px rgba(0,0,0,0.1);overflow-y:auto;}
+  .column h2{margin-top:0;}
+  .contenuto {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:0 4px;box-sizing:border-box;}
+  .reorder-on .contenuto { grid-template-columns:1fr; gap:14px; }
+
+  .item {background:#fff;border:1px solid #eee;border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;touch-action:none;}
+  .item-content {text-align:center;position:relative;}
+  .item-content a.img-link { display:block; }
+  .item-content img {width:100%;max-width:200px;aspect-ratio:1/1;object-fit:contain;}
+  .price-big {font-weight:bold;color:#009900;font-size:1em;margin-top:6px;}
+  .column a {color:#000;text-decoration:none;font-weight:bold;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;line-height:1.2em;}
+  .column a:hover{text-decoration:underline;}
+  small{color:#666;font-size:0.8em;}
+
+  .controls { display:none; align-items:center; justify-content:center; gap:5px; margin-top:6px; }
   .controls button { font-size:14px; padding:4px 6px; }
   .controls input { width:56px; text-align:center; }
-  .footer-save { position: fixed; left: 0; right: 0; bottom: 0; background: #ffffff; box-shadow: 0 -2px 10px rgba(0,0,0,.08); padding: 12px 16px; display: flex; align-items: center; gap: 12px; justify-content: center; z-index: 1000; }
-  #salvaOrdine { background:#007a00; color:#fff; border:none; border-radius:10px; padding:10px 18px; font-weight:bold; }
+  .btn-asin { display:none; position:absolute; right:6px; top:6px; border:1px solid #b30000; background:#fff; color:#b30000; font-size:10px; padding:3px 5px; border-radius:6px; cursor:pointer; z-index:2; }
+  .reorder-on .controls { display:flex; }
+  .reorder-on .btn-asin { display:inline-block; }
+  .reorder-on { user-select:none; }
+  .reorder-on .item-content a { pointer-events:none; }
+
+  .drag-enabled .item { cursor:grab; }
+  .drag-enabled .item:active { cursor:grabbing; }
+  .ghost-drag { position:fixed; z-index:10000; pointer-events:none; transform:translate(-50%,-50%) scale(1.02); box-shadow:0 10px 25px rgba(0,0,0,.2); border-radius:12px; background:#fff; }
+  .placeholder { border:2px dashed #b30000; border-radius:12px; background:rgba(179,0,0,0.04); }
+
+  img[loading="lazy"] {content-visibility:auto;}
+
+  @media(max-width:768px){
+    body{padding:10px;}
+    .row{flex-direction:column;}
+    .column{flex:1 1 100%;max-width:100%;padding:10px;}
+    .contenuto{grid-template-columns:repeat(2,1fr);}
+    .reorder-on .contenuto{grid-template-columns:1fr;}
+    .item-content img{max-width:110px;}
+    .column a{-webkit-line-clamp:4;font-size:0.8em;line-height:1.1em;}
+    .price-big{font-size:0.9em;}
+    small{font-size:0.7em;}
+    h2{font-size:0.9em;margin-bottom:5px;}
+  }
+
+  #salvaOrdine { background:#0a7; color:#fff; border:none; border-radius:10px; padding:10px 18px; font-weight:bold; display:none; }
   #salvaOrdine[disabled] { opacity:.6; cursor:not-allowed; }
-  #salvaOrdine:hover:not([disabled]) { background:#005a00; }
-  #statusMsg { margin:0; font-weight:600; white-space:pre-wrap; }
-  .btn-asin { position:absolute; right:6px; top:6px; border:1px solid #b30000; background:#fff; color:#b30000; font-size:10px; padding:3px 5px; border-radius:6px; cursor:pointer; }
-  .muted { color:#666; font-weight:400; }
-  #apiInfo { display: none; } /* nasconde “API: …” */
+  #salvaOrdine:hover:not([disabled]) { background:#086; }
+
+  /* Console segreta */
+  #secretConsole { margin-top:20px; padding:12px; border-top:1px dashed #bbb; }
+  #secretForm { display:flex; gap:8px; align-items:center; }
+  #secretPrompt { font-weight:600; color:#666; }
+  #secretInput { flex:1; max-width:320px; padding:8px 10px; border:2px solid #ccc; border-radius:10px; }
+  #secretInput.error { animation: shake .25s linear 2; border-color:#c00; }
+  @keyframes shake { 0%{transform:translateX(0)} 25%{transform:translateX(-4px)} 50%{transform:translateX(4px)} 75%{transform:translateX(-4px)} 100%{transform:translateX(0)} }
 </style>
 </head>
 <body>
-  <h2>Usato Recensioni Davide Spagocci</h2>
-  <div class="muted" id="apiInfo"></div>
+<p class="link-bar">
+  <b>
+    <a href="https://whatsapp.com/channel/0029Vb6FyJ88qIzyi9nRtV2O">WHATSAPP📦</a> -
+    <a href="https://www.ebay.it/sch/i.html?_dkr=1&_ssn=davidespagocci">🛍️EBAY</a>
+  </b>
+</p>
 
-  <div class="contenuto" id="contenutoVetrina"></div>
+<div id="mostraBox">
+  <input id="mostraParole" type="text" placeholder="Cerca Parole (es: Cane, Per Lamborghini)🔍">
+  <button id="clearMostra">❌</button>
+</div>
+<input id="filtroParole" type="text" placeholder="Nascondi Parole (es: Custodia, per finestre)🚫">
+<button id="toggleAudio">📢Notifiche</button>
 
-  <div class="footer-save" role="region" aria-label="Azioni salvataggio">
-    <button id="salvaOrdine">💾 Salva ordine su GitHub</button>
-    <div id="statusMsg"></div>
-  </div>
+<div id="statusBar">
+  <span id="apiInfo"></span>
+</div>
+<div id="statusMsg"></div>
+
+<audio id="audioGenerale" src="https://raw.githubusercontent.com/spagocci/recensioni/main/tutti.mp3" preload="auto"></audio>
+<audio id="audioPochiSecondi" src="https://raw.githubusercontent.com/spagocci/recensioni/main/perte.mp3" preload="auto"></audio>
+<audio id="audioAttivate" src="https://raw.githubusercontent.com/spagocci/recensioni/main/attivate.mp3" preload="auto"></audio>
+<audio id="audioDisattivate" src="https://raw.githubusercontent.com/spagocci/recensioni/main/disattivate.mp3" preload="auto"></audio>
+
+<div class="row">
+  <div class="column" id="canaleVetrina"><h2>#vetrina</h2><div class="contenuto" id="contenutoVetrina"></div></div>
+  <div class="column" id="canalePerte"><h2>#perte</h2><div class="contenuto" id="contenutoPerte"></div></div>
+</div>
 
 <script>
+/* ===== Config/API ===== */
 const qs = new URLSearchParams(location.search);
 const API_BASE = (() => {
   const manual = qs.get('api');
@@ -49,44 +118,13 @@ const API_BASE = (() => {
 })();
 document.getElementById('apiInfo').textContent = `API: ${API_BASE}`;
 
+/* ===== UI/Status ===== */
 const STATUS = document.getElementById('statusMsg');
-const BTN_SAVE = document.getElementById('salvaOrdine');
-const STORAGE_KEY = 'spagocci_order';
-
+let BTN_SAVE = null;            // riferimento dinamico quando appare
 function setStatus(msg) { STATUS.textContent = msg; }
-function setBusy(b) { BTN_SAVE.disabled = b; }
+function setBusy(b) { if (BTN_SAVE) BTN_SAVE.disabled = b; }
 
-/* Persistenza locale dell’ordine (per UX immediata) */
-function readLocalOrder() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
-  catch { return []; }
-}
-function writeLocalOrder(order) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
-  catch { /* quota piena o disabled */ }
-}
-function clearLocalOrder() {
-  try { localStorage.removeItem(STORAGE_KEY); } catch {}
-}
-function currentDomOrder() {
-  return [...document.querySelectorAll('.item')]
-    .map((el, i) => ({ asin: el.dataset.asin || '', position: i + 1 }))
-    .filter(o => o.asin);
-}
-function applyLocalOrderIfAny() {
-  const local = readLocalOrder();
-  if (!local.length) return;
-  const byAsin = new Map(local.map(o => [o.asin, o.position]));
-  document.querySelectorAll('.item').forEach(el => {
-    const asin = el.dataset.asin || '';
-    const pos = byAsin.get(asin);
-    if (pos) el.dataset.position = String(pos);
-  });
-  riordinaPerNumero();
-  aggiornaPosizioni();
-}
-
-/* HTTP utils */
+/* ===== HTTP ===== */
 async function getJSON(url) {
   const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 12000);
   try {
@@ -99,130 +137,388 @@ async function postJSON(url, body) {
   const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 15000);
   try {
     const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      mode: 'cors',
-      body: JSON.stringify(body),
-      signal: ctrl.signal,
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, mode: 'cors',
+      body: JSON.stringify(body), signal: ctrl.signal,
     });
     const text = await res.text();
-    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} — ${text.slice(0,300)}`);
-    try { return JSON.parse(text); } catch { return { ok:false, error:'JSON parse error', raw:text }; }
-  } catch (err) {
-    const isMixed = location.protocol === 'https:' && API_BASE.startsWith('http://');
-    const hints = [
-      isMixed ? 'Mixed content: usa HTTPS per l’API o apri la pagina in HTTP.' : null,
-      'Server spento/porta errata?',
-      'CORS disabilitato sul server?',
-      err.name === 'AbortError' ? 'Timeout richiesta.' : null,
-    ].filter(Boolean).join(' ');
-    throw new Error(`${err.message}${hints ? ` | Hint: ${hints}` : ''}`);
+    try { return { ok: res.ok, status: res.status, data: JSON.parse(text) }; }
+    catch { return { ok: res.ok, status: res.status, data: { raw:text } }; }
   } finally { clearTimeout(t); }
 }
 
-/* Catalogo */
-async function caricaCatalogo(){
-  try {
-    const data = await getJSON('https://spagocci.github.io/recensioni/data.json?t=' + Date.now());
-    data.sort((a,b)=>(a.position??9999)-(b.position??9999)||new Date(b.timestamp)-new Date(a.timestamp));
-    const contenuto = document.getElementById('contenutoVetrina');
-    contenuto.innerHTML='';
-    data.forEach((item,idx)=>{
-      const div=document.createElement('div');
-      div.className='item';
-      div.dataset.asin=item.asin||'';
-      div.dataset.position=item.position || (idx+1);
-      div.innerHTML=`
-        ${item.image?`<img src="${item.image}" alt="">`:''}
-        <p>${item.text||''}</p>
-        <div>${item.price||''}</div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="${item.position||idx+1}" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div>
-        ${item.asin?`<button class="btn-asin" data-asin="${item.asin}">ASIN</button>`:''}
-      `;
-      contenuto.appendChild(div);
-    });
-    /* Applica l’ordine locale subito, così la Vetrina “rimane” ordinata senza ricarichi */
-    applyLocalOrderIfAny();
-  } catch (e) {
-    setStatus(`❌ Errore caricamento catalogo: ${e.message}`);
-  }
+/* ===== Canali ===== */
+const PERTE_CHANNELS = new Set(['1430829927175032954','1430131174197690479']);
+const VETRINA_CHANNEL = '1433444235851468980';
+
+/* ===== Stato app ===== */
+let audioAttivo = localStorage.getItem('audioAttivo') === 'true';
+let messaggiVisualizzati = new Set(JSON.parse(localStorage.getItem('messaggiVisualizzati') || '[]'));
+let reorderMode = false;
+window.__CATALOGO_ORIG = [];
+
+/* ===== Persistenza ordine ===== */
+const KEY_VETRINA_ORDER = 'vetrinaOrder';
+function readLocalOrderMap(){
+  try { return JSON.parse(localStorage.getItem(KEY_VETRINA_ORDER) || '{}') || {}; }
+  catch { return {}; }
 }
-
-/* Interazioni */
-document.addEventListener('click',e=>{
-  const btn=e.target.closest('button'); if(!btn) return;
-  const item=btn.closest('.item'); const parent=item?.parentNode;
-  if(btn.classList.contains('move-up') && item && parent && item.previousElementSibling){
-    parent.insertBefore(item,item.previousElementSibling);
-  } else if(btn.classList.contains('move-down') && item && parent && item.nextElementSibling){
-    parent.insertBefore(item.nextElementSibling,item);
-  } else if(btn.classList.contains('btn-asin')){
-    navigator.clipboard.writeText(btn.dataset.asin);
-    btn.textContent='📋 Copiato'; setTimeout(()=>btn.textContent='ASIN',1000);
-  }
-  if(item){
-    aggiornaPosizioni();
-    writeLocalOrder(currentDomOrder()); /* evita perdere l’ordine se navighi/richiami la pagina */
-  }
-});
-
-document.addEventListener('input',e=>{
-  if(e.target.classList.contains('order-input')){
-    const item=e.target.closest('.item');
-    const pos=parseInt(e.target.value,10);
-    if(!isNaN(pos)){
-      item.dataset.position=pos;
-      riordinaPerNumero();
-      aggiornaPosizioni();
-      writeLocalOrder(currentDomOrder());
+function writeLocalOrderMapFromDOM(){
+  const ordine = [...document.querySelectorAll('#contenutoVetrina .item')]
+    .map(el=>({asin:el.dataset.asin, position:Number(el.dataset.position)}))
+    .filter(o=>o.asin && Number.isFinite(o.position));
+  const map = Object.fromEntries(ordine.map(o=>[o.asin, o.position]));
+  localStorage.setItem(KEY_VETRINA_ORDER, JSON.stringify(map));
+}
+function applyOrderMapToData(data, orderMap){
+  if (!orderMap || !Object.keys(orderMap).length) return data;
+  return data.map(it=>{
+    if (it.sourceChannel===VETRINA_CHANNEL && it.asin && orderMap[it.asin]!=null){
+      return { ...it, position: Number(orderMap[it.asin]) };
     }
-  }
-});
-
-/* Ordinamento DOM */
-function aggiornaPosizioni(){
-  document.querySelectorAll('.item').forEach((el,i)=>{
-    el.dataset.position=i+1;
-    const input = el.querySelector('.order-input');
-    if (input) input.value=i+1;
+    return it;
   });
 }
-function riordinaPerNumero(){
+
+/* ===== UI base ===== */
+const toggleAudioBtn = document.getElementById('toggleAudio');
+function aggiornaBottoneAudio(){ toggleAudioBtn.textContent = audioAttivo ? "🔊Audio" : "🔇Audio"; }
+aggiornaBottoneAudio();
+toggleAudioBtn.addEventListener('click', async () => {
+  audioAttivo = !audioAttivo; localStorage.setItem('audioAttivo', audioAttivo); aggiornaBottoneAudio();
+  try { await (audioAttivo ? audioAttivate.play() : audioDisattivate.play()); } catch(e){}
+});
+
+const filtroInput = document.getElementById('filtroParole');
+const mostraInput = document.getElementById('mostraParole');
+const clearMostra = document.getElementById('clearMostra');
+filtroInput.value = localStorage.getItem('paroleNascondi') || '';
+mostraInput.value = localStorage.getItem('mostraParole') || '';
+if (mostraInput.value.trim()) clearMostra.style.display='inline-block';
+filtroInput.addEventListener('input', ()=>{ localStorage.setItem('paroleNascondi', filtroInput.value.trim()); applicaFiltri(); });
+mostraInput.addEventListener('input', ()=>{ localStorage.setItem('mostraParole', mostraInput.value.trim()); clearMostra.style.display = mostraInput.value.trim()? 'inline-block':'none'; applicaFiltri(); });
+clearMostra.addEventListener('click', ()=>{ mostraInput.value=''; localStorage.removeItem('mostraParole'); clearMostra.style.display='none'; applicaFiltri(); });
+function applicaFiltri(){
+  const nascondi = filtroInput.value.toLowerCase().split(/[;,]+/).map(x=>x.trim()).filter(Boolean);
+  const mostra   = mostraInput.value.toLowerCase().split(/[;,]+/).map(x=>x.trim()).filter(Boolean);
+  document.querySelectorAll('.item').forEach(el=>{
+    const testo = (el.innerText||'').toLowerCase();
+    const hide = nascondi.some(w=>testo.includes(w));
+    const show = (mostra.length===0) || mostra.some(w=>testo.includes(w));
+    el.style.display = (!hide && show) ? '' : 'none';
+  });
+}
+
+/* ===== Render ===== */
+async function caricaCatalogo(){
+  try{
+    const raw = await getJSON(`https://spagocci.github.io/recensioni/data.json?t=${Date.now()}`);
+    window.__CATALOGO_ORIG = Array.isArray(raw) ? raw : [];
+    const localMap = readLocalOrderMap();
+    const data = applyOrderMapToData(window.__CATALOGO_ORIG, localMap);
+
+    const byTimeDesc = (a,b)=> new Date(b.timestamp) - new Date(a.timestamp);
+    const byPosTime  = (a,b)=>(a.position??999999)-(b.position??999999) || new Date(b.timestamp)-new Date(a.timestamp);
+
+    const p = document.getElementById('contenutoPerte');
+    const v = document.getElementById('contenutoVetrina');
+    p.innerHTML = v.innerHTML = '';
+
+    const perte   = data.filter(i=>PERTE_CHANNELS.has(i.sourceChannel)).sort(byTimeDesc);
+    const vetRaw  = data.filter(i=>i.sourceChannel===VETRINA_CHANNEL);
+    const hasPos  = vetRaw.some(it=>Number.isFinite(Number(it.position)));
+    const vetrina = vetRaw.sort(hasPos ? byPosTime : byTimeDesc);
+
+    function renderItem(item, withControls){
+      const div = document.createElement('div');
+      div.className = 'item';
+      const asin = item.asin || '';
+      const pos = item.position || '';
+      const link = item.link || '';
+      div.innerHTML = `
+        <div class="item-content">
+          ${
+            item.image
+              ? (link ? `<a class="img-link" href="${link}" target="_blank" rel="noopener noreferrer"><img src="${item.image}" alt="" loading="lazy"></a>`
+                       : `<img src="${item.image}" alt="" loading="lazy">`)
+              : ''
+          }
+          ${item.price ? `<div class="price-big">${item.price}</div>` : ''}
+          <p>${ link ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${item.text || ''}</a>` : (item.text || '') }</p>
+          ${withControls ? `<button class="btn-asin" data-asin="${asin}">ASIN</button>` : ''}
+        </div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="${pos || ''}" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div>`;
+      if (withControls){ div.dataset.asin = asin; div.dataset.position = pos || ''; }
+      return div;
+    }
+
+    perte.forEach(it=>{ if (!messaggiVisualizzati.has(it.id)) messaggiVisualizzati.add(it.id); p.appendChild(renderItem(it,false)); });
+    vetrina.forEach((it,idx)=>{
+      if (!messaggiVisualizzati.has(it.id)) messaggiVisualizzati.add(it.id);
+      const el = renderItem(it, reorderMode);
+      if (reorderMode){
+        if (!el.dataset.position) el.dataset.position = (idx+1).toString();
+        const inp = el.querySelector('.order-input'); if (inp && !inp.value) inp.value = el.dataset.position;
+      }
+      v.appendChild(el);
+    });
+
+    localStorage.setItem('messaggiVisualizzati', JSON.stringify([...messaggiVisualizzati]));
+    document.getElementById('canaleVetrina').classList.toggle('reorder-on', reorderMode);
+    document.getElementById('contenutoVetrina').classList.toggle('drag-enabled', reorderMode);
+
+    enablePointerSort(document.getElementById('contenutoVetrina'), reorderMode);
+    applicaFiltri();
+  }catch(err){
+    ['contenutoPerte','contenutoVetrina']
+      .forEach(id => { document.getElementById(id).innerHTML = `<p style="color:red;">❌ ${err.message}</p>`; });
+  }
+}
+
+/* ===== Pointer-based Sort con RAF + soglia ===== */
+let ps = { enabled:false, down:false, origin:null, ghost:null, placeholder:null, oy:0, gx:0, gy:0, raf:false, nx:0, ny:0 };
+
+function enablePointerSort(container, enable){
+  container.removeEventListener('pointerdown', onPD);
+  window.removeEventListener('pointermove', onPM);
+  window.removeEventListener('pointerup', onPU);
+  [...container.querySelectorAll('.item')].forEach(i => i.style.touchAction = enable ? 'none' : '');
+
+  ps = { enabled: !!enable, down:false, origin:null, ghost:null, placeholder:null, oy:0, gx:0, gy:0, raf:false, nx:0, ny:0 };
+  if (!enable) return;
+
+  container.addEventListener('pointerdown', onPD);
+  window.addEventListener('pointermove', onPM);
+  window.addEventListener('pointerup', onPU);
+}
+
+function onPD(e){
+  if (!ps.enabled) return;
+  const item = e.target.closest('.item');
+  const container = document.getElementById('contenutoVetrina');
+  if (!item || item.parentElement !== container) return;
+
+  e.preventDefault();
+  e.currentTarget?.setPointerCapture?.(e.pointerId);
+
+  ps.down = true;
+  ps.origin = item;
+
+  const r = item.getBoundingClientRect();
+
+  const ph = document.createElement('div');
+  ph.className = 'placeholder';
+  ph.style.width  = r.width + 'px';
+  ph.style.height = r.height + 'px';
+
+  const g = item.cloneNode(true);
+  g.className = 'ghost-drag';
+  g.style.width = r.width + 'px';
+  g.style.height = r.height + 'px';
+  ps.gx = e.clientX; ps.gy = e.clientY;
+  g.style.left = ps.gx + 'px';
+  g.style.top  = ps.gy + 'px';
+
+  ps.placeholder = ph;
+  ps.ghost = g;
+  ps.oy = e.clientY - r.top;
+
+  item.parentElement.insertBefore(ph, item);
+  item.style.display = 'none';
+  document.body.appendChild(g);
+}
+
+function onPM(e){
+  if (!ps.enabled || !ps.down || !ps.ghost) return;
+  ps.nx = e.clientX; ps.ny = e.clientY;
+  if (!ps.raf) { ps.raf = true; requestAnimationFrame(tickMove); }
+}
+function tickMove(){
+  ps.raf = false;
+  if (!ps.down || !ps.ghost) return;
+
+  ps.ghost.style.left = ps.nx + 'px';
+  ps.ghost.style.top  = ps.ny + 'px';
+
+  const container = document.getElementById('contenutoVetrina');
+  const items = [...container.querySelectorAll('.item')].filter(n => n !== ps.origin && n.style.display !== 'none');
+
+  if (!items.length) return;
+
+  const y = ps.ny;
+  let beforeNode = null;
+  for (const it of items){
+    const r = it.getBoundingClientRect();
+    const mid = r.top + r.height * 0.4;
+    if (y < mid) { beforeNode = it; break; }
+  }
+
+  if (beforeNode) container.insertBefore(ps.placeholder, beforeNode);
+  else container.appendChild(ps.placeholder);
+}
+
+function onPU(){
+  if (!ps.enabled || !ps.down) return;
+  ps.down = false;
+
+  const container = document.getElementById('contenutoVetrina');
+  if (ps.placeholder && ps.placeholder.parentElement === container && ps.origin){
+    container.insertBefore(ps.origin, ps.placeholder);
+    ps.origin.style.display = '';
+  }
+
+  if (ps.placeholder?.parentElement) ps.placeholder.remove();
+  if (ps.ghost?.parentElement) ps.ghost.remove();
+
+  aggiornaPosizioniVetrina();
+  writeLocalOrderMapFromDOM();
+
+  ps.origin = null; ps.placeholder = null; ps.ghost = null;
+}
+
+/* ===== Posizioni ===== */
+function aggiornaPosizioniVetrina(){
   const container=document.getElementById('contenutoVetrina');
-  const items=[...container.children];
-  items.sort((a,b)=>parseInt(a.dataset.position)-parseInt(b.dataset.position));
+  const items=[...container.children].filter(n=>n.classList?.contains('item'));
+  items.forEach((el,i)=>{ el.dataset.position=i+1; const inp=el.querySelector('.order-input'); if(inp) inp.value=i+1; });
+}
+function riordinaPerNumeroVetrina(){
+  const container=document.getElementById('contenutoVetrina');
+  const items=[...container.children].filter(n=>n.classList?.contains('item'))
+    .sort((a,b)=>(parseInt(a.dataset.position)||999999)-(parseInt(b.dataset.position)||999999));
   items.forEach(it=>container.appendChild(it));
 }
 
-/* Salvataggio */
-document.getElementById('salvaOrdine').addEventListener('click',async()=>{
-  const ordine=[...document.querySelectorAll('.item')]
-    .map(el=>({asin:el.dataset.asin,position:parseInt(el.dataset.position)}))
-    .filter(o=>o.asin && !isNaN(o.position));
-  try{
-    setBusy(true);
-    setStatus("⏳ Invio ordine al bot…");
-    const js = await postJSON(`${API_BASE}/saveorder`, ordine);
-    if(js.ok){
-      setStatus(`✅ Ordine salvato su GitHub (${js.modificati} prodotti aggiornati).`);
-      clearLocalOrder();              /* evita conflitti tra locale e remoto */
-      await caricaCatalogo();         /* ricarica dal JSON remoto con cache-busting */
-    } else {
-      setStatus(`⚠️ Errore dal server: ${js.error || 'upload fallito'}`);
-    }
-  }catch(e){
-    setStatus(`❌ Errore invio ordine: ${e.message}`);
-  }finally{
-    setBusy(false);
+/* ===== Auto-refresh (pausa in riordino) ===== */
+let loopOn = true;
+(async function aggiornaCatalogoLoop(){
+  while(loopOn){
+    if (!reorderMode) await caricaCatalogo();
+    await new Promise(r => setTimeout(r, 25000));
+  }
+})();
+
+/* ===== Bottoni interni scheda ===== */
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('button'); if(!btn) return;
+
+  if(btn.classList.contains('btn-asin')){
+    navigator.clipboard.writeText(btn.dataset.asin||''); btn.textContent='📋 Copiato'; setTimeout(()=>btn.textContent='ASIN',1000);
+    return;
+  }
+
+  if(btn.classList.contains('move-up') || btn.classList.contains('move-down')){
+    const item=btn.closest('.item'); const parent=document.getElementById('contenutoVetrina'); if(!item||!parent) return;
+    if(btn.classList.contains('move-up') && item.previousElementSibling){ parent.insertBefore(item,item.previousElementSibling); }
+    else if(btn.classList.contains('move-down') && item.nextElementSibling){ parent.insertBefore(item.nextElementSibling,item); }
+    aggiornaPosizioniVetrina(); writeLocalOrderMapFromDOM();
   }
 });
 
-/* Init */
-caricaCatalogo();
+/* ===== Input posizione manuale ===== */
+document.addEventListener('input',e=>{
+  if(e.target.classList.contains('order-input')){
+    const item=e.target.closest('.item'); const pos=parseInt(e.target.value,10);
+    if(!isNaN(pos)){ item.dataset.position=pos; riordinaPerNumeroVetrina(); writeLocalOrderMapFromDOM(); }
+  }
+});
+
+/* ===== Avvio ===== */
+window.onload = () => { caricaCatalogo(); };
+</script>
+
+<!-- Console segreta (sblocca i bottoni riordino/salva) -->
+<div id="secretConsole">
+  <form id="secretForm" autocomplete="off">
+    <span id="secretPrompt">Console:</span>
+    <input id="secretInput" type="password" placeholder="digita comando e premi Invio" />
+  </form>
+</div>
+<script>
+  const UNLOCK_KEY = 'reorderUnlocked';
+
+  function ensureReorderButtons() {
+    if (document.getElementById('toggleReorder')) return;
+    const controls = document.createElement('div');
+    controls.innerHTML = `
+      <button id="toggleReorder">🎛️ Riordina Vetrina</button>
+      <button id="salvaOrdine" style="display:none;">💾 Salva (GitHub + data.json)</button>
+    `;
+    const statusBar = document.getElementById('statusBar') || document.body;
+    statusBar.parentNode.insertBefore(controls, statusBar.nextSibling);
+
+    BTN_SAVE = document.getElementById('salvaOrdine');
+
+document.getElementById('toggleReorder').addEventListener('click', () => {
+  reorderMode = !reorderMode; // <-- questa è la correzione
+  document.getElementById('salvaOrdine').style.display = reorderMode ? 'inline-block' : 'none';
+  (window.setStatus || (()=>{}))(reorderMode ? '✏️ Riordino attivo' : '');
+  (window.caricaCatalogo || (()=>{}))();
+});
+    const salva = document.getElementById('salvaOrdine');
+    if (salva && typeof window.postJSON === 'function') {
+      salva.addEventListener('click', async () => {
+        const ordine = [...document.querySelectorAll('#contenutoVetrina .item')]
+          .map(el => ({ asin: el.dataset.asin, position: parseInt(el.dataset.position, 10) }))
+          .filter(o => o.asin && !isNaN(o.position));
+
+        if (!ordine.length) { (window.setStatus || console.log)('⚠️ Nessun elemento da salvare.'); return; }
+
+        localStorage.setItem('vetrinaOrder',
+          JSON.stringify(Object.fromEntries(ordine.map(o => [o.asin, o.position]))));
+
+        setBusy(true);
+        try {
+          (window.setStatus || console.log)('⏳ Salvo ordine…');
+          const resp = await postJSON(`${API_BASE}/saveorder`, ordine);
+          if (resp.ok && resp.data?.ok) {
+            (window.setStatus || console.log)(`✅ Ordine salvato: ${resp.data.modificati} aggiornati.`);
+          } else {
+            (window.setStatus || console.log)(`❌ Errore ${resp.status}: ${resp.data?.error || resp.data?.raw || 'unknown'}`);
+          }
+        } catch (e) {
+          (window.setStatus || console.log)(`❌ Errore salvataggio: ${String(e?.message || e)}`);
+        } finally {
+          setBusy(false);
+        }
+      });
+    }
+  }
+
+  (function initSecretConsole(){
+    const form  = document.getElementById('secretForm');
+    const input = document.getElementById('secretInput');
+    if (!form || !input) return;
+
+    if (localStorage.getItem(UNLOCK_KEY) === '1') {
+      ensureReorderButtons();
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pass = input.value.trim();
+      input.value = '';
+      if (!pass) return;
+
+      try {
+        const resp = await postJSON(`${API_BASE}/unlock`, { pass });
+        if (resp.ok && resp.data?.ok) {
+          localStorage.setItem(UNLOCK_KEY, '1');
+          ensureReorderButtons();
+          if (window.setStatus) window.setStatus('🔓 Modalità riordino sbloccata');
+        } else {
+          input.classList.add('error'); setTimeout(()=>input.classList.remove('error'), 600);
+          if (window.setStatus) window.setStatus('❌ Unlock KO');
+        }
+      } catch (err) {
+        input.classList.add('error'); setTimeout(()=>input.classList.remove('error'), 600);
+        if (window.setStatus) window.setStatus('❌ Unlock errore di rete');
+      }
+    });
+  })();
 </script>
 </body>
 </html>
