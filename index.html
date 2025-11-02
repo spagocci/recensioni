@@ -1,10 +1,11 @@
+<!-- /index.html -->
 <!DOCTYPE html>
 <html lang="it">
 <head>
 <link rel="icon" href="https://github.com/spagocci/recensioni/blob/main/icona.png" type="image/png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spagocci 1.5.2</title>
+<title>Spagocci 1.5.3</title>
 <style>
 body {font-family:sans-serif;padding:20px;background:#f9f9f9;}
 button {margin-bottom:10px;padding:8px 12px;font-size:1em;cursor:pointer;}
@@ -25,13 +26,21 @@ button {margin-bottom:10px;padding:8px 12px;font-size:1em;cursor:pointer;}
 
 /* === OGGETTI === */
 .contenuto {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:0 4px;box-sizing:border-box;}
-.item {background:none;border:none;box-shadow:none;padding:5px;display:flex;flex-direction:column;align-items:center;}
+.item {background:none;border:none;box-shadow:none;padding:5px;display:flex;flex-direction:column;align-items:center;position:relative;}
 .item-content {text-align:center;}
 .item-content img {width:100%;max-width:200px;aspect-ratio:1/1;object-fit:contain;}
 .price-big {font-weight:bold;color:#009900;font-size:1em;}
 .column a {color:#000;text-decoration:none;font-weight:bold;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;line-height:1.2em;}
 .column a:hover{text-decoration:underline;}
 small{color:#666;font-size:0.8em;}
+
+/* === PULSANTE ASIN (micro) === */
+.btn-asin{
+  position:absolute; right:6px; top:6px;
+  border:1px solid #b30000; background:#fff; color:#b30000;
+  font-size:10px; line-height:1; padding:3px 5px; border-radius:6px; cursor:pointer;
+}
+.btn-asin:active{transform:scale(0.98);}
 
 /* === PERFORMANCE === */
 img[loading="lazy"] {content-visibility:auto;}
@@ -71,7 +80,7 @@ img[loading="lazy"] {content-visibility:auto;}
 <input id="filtroParole" type="text" placeholder="Nascondi Parole (es: Custodia, per finestre)🚫">
 <button id="btnGestisciParole">✏️Nascoste🫣</button>
 <button id="toggleAudio">📢Notifiche</button>
-<button id="btnSoloMigliori">🤩Mostra solo i <b>Migliori</b> oggetti⭐</button>
+<!-- RIMOSSO: <button id="btnSoloMigliori">...</button> -->
 
 <div id="statusBar">
   <span id="conteggioNascosti">🔕 Oggetti nascosti: 0</span>
@@ -95,11 +104,9 @@ img[loading="lazy"] {content-visibility:auto;}
 <audio id="audioAttivate" src="https://raw.githubusercontent.com/spagocci/recensioni/main/attivate.mp3" preload="auto"></audio>
 <audio id="audioDisattivate" src="https://raw.githubusercontent.com/spagocci/recensioni/main/disattivate.mp3" preload="auto"></audio>
 
-<!-- === COLONNE === -->
+<!-- === COLONNE (solo Vetrina + Perte) === -->
 <div class="row">
   <div class="column" id="canaleVetrina"><h2>#vetrina</h2><div class="contenuto" id="contenutoVetrina"></div></div>
-  <div class="column" id="canaleSinistra"><h2>#tutti</h2><div class="contenuto" id="contenutoSinistra"></div></div>
-  <div class="column" id="canaleFiltrati"><h2>#filtrati</h2><div class="contenuto" id="contenutoFiltrati"></div></div>
   <div class="column" id="canalePerte"><h2>#perte</h2><div class="contenuto" id="contenutoPerte"></div></div>
 </div>
 
@@ -123,7 +130,36 @@ window.onload = () => {
   let messaggiVisualizzati = new Set(JSON.parse(localStorage.getItem('messaggiVisualizzati') || '[]'));
 
   // canali che vanno nella colonna "perte"
-  const PERTE_CHANNELS = new Set(['1430829927175032954','1430131174197690479']); // <- aggiunto
+  const PERTE_CHANNELS = new Set(['1430829927175032954','1430131174197690479']);
+
+  // Estrae/parsa ASIN
+  function extractASIN(item){
+    if (item.asin && /^[A-Z0-9]{10}$/.test(item.asin)) return item.asin.toUpperCase();
+    const src = item.link || item.text || '';
+    if (!src) return null;
+    try{
+      const u = new URL(src);
+      const path = u.pathname;
+      const qpAsin = u.searchParams.get('asin');
+      if (qpAsin && /^[A-Z0-9]{10}$/i.test(qpAsin)) return qpAsin.toUpperCase();
+      const m1 = path.match(/\/(?:dp|gp\/product|product)\/([A-Z0-9]{10})(?:[\/?]|$)/i);
+      if (m1) return m1[1].toUpperCase();
+    }catch(e){/* non-URL, continua */}
+    const m2 = String(src).match(/\b([A-Z0-9]{10})\b/i);
+    return m2 ? m2[1].toUpperCase() : null;
+  }
+
+  async function copyToClipboard(text){
+    try{
+      await navigator.clipboard.writeText(text);
+      return true;
+    }catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      const ok = document.execCommand('copy'); document.body.removeChild(ta);
+      return ok;
+    }
+  }
 
   function caricaCatalogo(){
     const t = Date.now();
@@ -131,39 +167,34 @@ window.onload = () => {
       .then(r => r.ok ? r.json() : Promise.reject(new Error("Errore nel caricamento")))
       .then(data => {
         data.sort((a,b)=> new Date(b.timestamp) - new Date(a.timestamp));
-        const s = document.getElementById('contenutoSinistra');
         const p = document.getElementById('contenutoPerte');
-        const f = document.getElementById('contenutoFiltrati');
         const v = document.getElementById('contenutoVetrina');
-        s.innerHTML = p.innerHTML = f.innerHTML = v.innerHTML = '';
+        p.innerHTML = v.innerHTML = '';
 
         data.forEach(item => {
           if (!messaggiVisualizzati.has(item.id)) {
             messaggiVisualizzati.add(item.id);
           }
+          const asin = extractASIN(item);
           const div = document.createElement('div');
           div.className = 'item';
           div.innerHTML = `
             <div class="item-content">
               ${
                 item.image && item.link
-                  ? `<a href="${item.link}" target="_blank"><img src="${item.image}" alt="" loading="lazy"></a>`
+                  ? `<a href="${item.link}" target="_blank" rel="noopener"><img src="${item.image}" alt="" loading="lazy"></a>`
                   : item.image
                     ? `<img src="${item.image}" alt="" loading="lazy">`
                     : ''
               }
               ${item.price ? `<div class="price-big">${item.price}</div>` : ''}
-              <p>${item.link ? `<a href="${item.link}" target="_blank">${item.text}</a>` : item.text}</p>
-              <small>${new Date(item.timestamp).toLocaleString()}</small>
-            </div>`;
+              <p>${item.link ? `<a href="${item.link}" target="_blank" rel="noopener">${item.text}</a>` : item.text}</p>
+            </div>
+            ${asin ? `<button class="btn-asin" data-asin="${asin}" title="Copia ASIN">ASIN</button>` : ''}`;
 
-          if (item.sourceChannel === '1432128848534962402') {
-            s.appendChild(div);
-          } else if (PERTE_CHANNELS.has(item.sourceChannel)) {
+          if (PERTE_CHANNELS.has(item.sourceChannel)) {
             p.appendChild(div);
-          } else if (item.sourceChannel === '1431551820509089842') {
-            f.appendChild(div);
-          } else if (item.sourceChannel === '1433444235851468980') {
+          } else if (item.sourceChannel === '1433444235851468980') { // vetrina
             v.appendChild(div);
           }
         });
@@ -172,7 +203,7 @@ window.onload = () => {
         applicaFiltri();
       })
       .catch(err => {
-        ['contenutoSinistra','contenutoPerte','contenutoFiltrati','contenutoVetrina']
+        ['contenutoPerte','contenutoVetrina']
           .forEach(id => { document.getElementById(id).innerHTML = `<p style="color:red;">❌ ${err.message}</p>`; });
       });
   }
@@ -219,16 +250,19 @@ window.onload = () => {
   document.getElementById('salvaParole').addEventListener('click', ()=>{ localStorage.setItem('paroleNascondi', textarea.value.trim()); filtroInput.value = textarea.value.trim(); applicaFiltri(); modale.style.display='none'; });
   document.getElementById('cancellaParole').addEventListener('click', ()=>{ localStorage.removeItem('paroleNascondi'); filtroInput.value=''; applicaFiltri(); modale.style.display='none'; });
 
-  /* === SOLO MIGLIORI === */
-  const btnSoloMigliori = document.getElementById('btnSoloMigliori');
-  let soloMigliori = false;
-  btnSoloMigliori.addEventListener('click', ()=>{
-    soloMigliori = !soloMigliori;
-    document.getElementById('canaleSinistra').style.display = soloMigliori ? 'none' : 'block';
-    btnSoloMigliori.innerHTML = soloMigliori
-      ? '🤢 Mostra <b>TUTTi</b> gli oggetti 🤮'
-      : '🤩 Mostra solo i <b>Migliori</b> oggetti ⭐';
+  /* === CLICK ASIN (delegato) === */
+  document.addEventListener('click', async (e)=>{
+    const btn = e.target.closest('.btn-asin');
+    if (!btn) return;
+    const asin = btn.getAttribute('data-asin');
+    if (!asin) return;
+    const ok = await copyToClipboard(asin);
+    const old = btn.textContent;
+    btn.textContent = ok ? 'Copiato!' : 'Errore';
+    setTimeout(()=> btn.textContent = old, 900); // feedback breve
   });
+
+  /* RIMOSSO: bottone SoloMigliori e relativa logica */
 };
 </script>
 </body>
