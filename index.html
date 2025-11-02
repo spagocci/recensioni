@@ -1,268 +1,171 @@
-<!-- /index.html -->
+<!-- =========================================================================
+file: public/index.html — Spagocci 1.6.0 (riordino + salvataggio con API autodetect)
+Uso:
+- Locale HTTP: apri questo file con un server statico (o file://) → chiama http://localhost:3000
+- HTTPS (GitHub Pages, ecc.): passa ?api=https://localhost:3443 e avvia il bot con HTTPS
+============================================================================= -->
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<link rel="icon" href="https://github.com/spagocci/recensioni/blob/main/icona.png" type="image/png">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Spagocci 1.5.3</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Usato Recensioni Davide Spagocci</title>
+<link rel="icon" href="https://github.com/spagocci/recensioni/blob/main/icona.png" type="image/png" />
 <style>
-body {font-family:sans-serif;padding:20px;background:#f9f9f9;}
-button {margin-bottom:10px;padding:8px 12px;font-size:1em;cursor:pointer;}
-
-/* === INPUT NASCONDI & CERCA === */
-#filtroParole {width:100%;max-width:400px;padding:8px 10px;margin:10px 0;font-size:1em;border:2px solid #b30000;border-radius:10px;box-sizing:border-box;}
-#mostraBox {position:relative;width:100%;max-width:400px;margin:10px 0;}
-#mostraParole {width:100%;padding:8px 10px;font-size:1em;border:2px solid #b30000;border-radius:10px;box-sizing:border-box;}
-#clearMostra {position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#b30000;color:white;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-weight:bold;display:none;line-height:18px;z-index:1;}
-#clearMostra:hover{background:darkred;}
-
-#statusBar {display:flex;align-items:center;gap:15px;margin-bottom:15px;}
-#conteggioNascosti {font-weight:bold;color:#b30000;}
-
-/* === LAYOUT === */
-.row {display:flex;flex-wrap:wrap;gap:10px;height:auto;}
-.column {flex:1 1 300px;background:linear-gradient(to bottom,#fff,#f0f0f0);padding:20px;border-radius:20px;border:none;box-shadow:inset 0 0 10px rgba(0,0,0,0.05),0 4px 10px rgba(0,0,0,0.1);overflow-y:auto;}
-
-/* === OGGETTI === */
-.contenuto {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:0 4px;box-sizing:border-box;}
-.item {background:none;border:none;box-shadow:none;padding:5px;display:flex;flex-direction:column;align-items:center;position:relative;}
-.item-content {text-align:center;}
-.item-content img {width:100%;max-width:200px;aspect-ratio:1/1;object-fit:contain;}
-.price-big {font-weight:bold;color:#009900;font-size:1em;}
-.column a {color:#000;text-decoration:none;font-weight:bold;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;line-height:1.2em;}
-.column a:hover{text-decoration:underline;}
-small{color:#666;font-size:0.8em;}
-
-/* === PULSANTE ASIN (micro) === */
-.btn-asin{
-  position:absolute; right:6px; top:6px;
-  border:1px solid #b30000; background:#fff; color:#b30000;
-  font-size:10px; line-height:1; padding:3px 5px; border-radius:6px; cursor:pointer;
-}
-.btn-asin:active{transform:scale(0.98);}
-
-/* === PERFORMANCE === */
-img[loading="lazy"] {content-visibility:auto;}
-
-/* === RESPONSIVE MOBILE === */
-@media(max-width:768px){
-  body{padding:10px;}
-  .row{flex-direction:column;}
-  .column{flex:1 1 100%;max-width:100%;padding:10px;}
-  .contenuto{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .item-content img{max-width:110px;}
-  .column a{-webkit-line-clamp:4;font-size:0.8em;line-height:1.1em;}
-  .price-big{font-size:0.9em;}
-  small{font-size:0.7em;}
-  h2{font-size:0.9em;margin-bottom:5px;}
-}
-
-/* === MODALE === */
-#modaleParole{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000;}
-#modaleContenuto{background:#fff;padding:20px;border-radius:15px;width:90%;max-width:500px;box-shadow:0 0 15px rgba(0,0,0,0.3);}
-#modaleContenuto textarea{width:100%;height:120px;font-size:1em;padding:8px;border-radius:8px;border:2px solid #b30000;resize:none;}
-#modaleContenuto button{margin-top:10px;margin-right:10px;}
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding:20px; background:#f9f9f9; }
+  button { margin:5px; padding:8px 12px; font-size:1em; cursor:pointer; }
+  .contenuto { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
+  .item { background:#fff; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.1); padding:10px; position:relative; text-align:center; }
+  .item img { width:100%; max-width:180px; object-fit:contain; }
+  .controls { display:flex; align-items:center; justify-content:center; gap:5px; margin-top:5px; }
+  .controls button { font-size:14px; padding:4px 6px; }
+  .controls input { width:56px; text-align:center; }
+  #salvaOrdine { background:#007a00; color:#fff; border:none; border-radius:10px; padding:10px 18px; font-weight:bold; }
+  #salvaOrdine[disabled] { opacity:.6; cursor:not-allowed; }
+  #salvaOrdine:hover:not([disabled]) { background:#005a00; }
+  #statusMsg { margin:10px 0; font-weight:600; white-space:pre-wrap; }
+  .btn-asin { position:absolute; right:6px; top:6px; border:1px solid #b30000; background:#fff; color:#b30000; font-size:10px; padding:3px 5px; border-radius:6px; cursor:pointer; }
+  .muted { color:#666; font-weight:400; }
 </style>
 </head>
 <body>
-<p class="link-bar">
-  <b><a href="https://discord.gg/zE25rQfg">🤖DiSCORD</a> -
-  <a href="https://whatsapp.com/channel/0029Vb6FyJ88qIzyi9nRtV2O">WHATSAPP📦</a> -
-  <a href="https://www.ebay.it/sch/i.html?_dkr=1&_ssn=davidespagocci">🛍️EBAY</a></b>
-</p>
+  <h2>🛍️ Spagocci Vetrina (1.6.0)</h2>
+  <div class="muted" id="apiInfo"></div>
+  <button id="salvaOrdine">💾 Salva ordine su GitHub</button>
+  <div id="statusMsg"></div>
+  <div class="contenuto" id="contenutoVetrina"></div>
 
-<div id="mostraBox">
-  <input id="mostraParole" type="text" placeholder="Cerca Parole (es: Cane, Per Lamborghini)🔍">
-  <button id="clearMostra">❌</button>
-</div>
-<input id="filtroParole" type="text" placeholder="Nascondi Parole (es: Custodia, per finestre)🚫">
-<button id="btnGestisciParole">✏️Nascoste🫣</button>
-<button id="toggleAudio">📢Notifiche</button>
-<!-- RIMOSSO: <button id="btnSoloMigliori">...</button> -->
-
-<div id="statusBar">
-  <span id="conteggioNascosti">🔕 Oggetti nascosti: 0</span>
-</div>
-
-<!-- === MODALE === -->
-<div id="modaleParole">
-  <div id="modaleContenuto">
-    <h3>✏️ Parole Nascoste</h3>
-    <p>Inserisci parole o frasi separate da virgole o punti e virgola:</p>
-    <textarea id="modaleTextarea"></textarea><br>
-    <button id="salvaParole">💾 Salva</button>
-    <button id="cancellaParole">🗑️ Cancella Tutto</button>
-    <button id="chiudiModale">❌ Chiudi</button>
-  </div>
-</div>
-
-<!-- === AUDIO (essenziali) === -->
-<audio id="audioGenerale" src="https://raw.githubusercontent.com/spagocci/recensioni/main/tutti.mp3" preload="auto"></audio>
-<audio id="audioPochiSecondi" src="https://raw.githubusercontent.com/spagocci/recensioni/main/perte.mp3" preload="auto"></audio>
-<audio id="audioAttivate" src="https://raw.githubusercontent.com/spagocci/recensioni/main/attivate.mp3" preload="auto"></audio>
-<audio id="audioDisattivate" src="https://raw.githubusercontent.com/spagocci/recensioni/main/disattivate.mp3" preload="auto"></audio>
-
-<!-- === COLONNE (solo Vetrina + Perte) === -->
-<div class="row">
-  <div class="column" id="canaleVetrina"><h2>🫱🏻‍🫲🏻Usato Recensioni Spagocci☀️</h2><div class="contenuto" id="contenutoVetrina"></div></div>
-  <div class="column" id="canalePerte"><h2>🚨Allarme (ignora questa sezione serve a me)🦜🏴‍☠️</h2><div class="contenuto" id="contenutoPerte"></div></div>
-</div>
-
-<!-- === SCRIPT PRINCIPALE === -->
 <script>
-window.onload = () => {
-  /* === AUDIO NOTIFICHE === */
-  let audioAttivo = localStorage.getItem('audioAttivo') === 'true';
-  const toggleAudioBtn = document.getElementById('toggleAudio');
-  const audioAttivate = document.getElementById('audioAttivate');
-  const audioDisattivate = document.getElementById('audioDisattivate');
-  function aggiornaBottoneAudio(){ toggleAudioBtn.textContent = audioAttivo ? "🔊Audio" : "🔇Audio"; }
-  aggiornaBottoneAudio();
-  toggleAudioBtn.addEventListener('click', async () => {
-    audioAttivo = !audioAttivo; localStorage.setItem('audioAttivo', audioAttivo); aggiornaBottoneAudio();
-    try { if (audioAttivo) await audioAttivate.play(); else await audioDisattivate.play(); } catch(e){}
-  });
+const qs = new URLSearchParams(location.search);
+const API_BASE = (() => {
+  const manual = qs.get('api');
+  if (manual) return manual.replace(/\/+$/, '');
+  const isHTTPS = location.protocol === 'https:';
+  return isHTTPS ? 'https://localhost:' + (qs.get('tls') || '3443')
+                 : 'http://localhost:' + (qs.get('port') || '3000');
+})();
+document.getElementById('apiInfo').textContent = `API: ${API_BASE}`;
 
-  /* === CARICAMENTO OGGETTI === */
-  const conteggioNascosti = document.getElementById('conteggioNascosti');
-  let messaggiVisualizzati = new Set(JSON.parse(localStorage.getItem('messaggiVisualizzati') || '[]'));
+const STATUS = document.getElementById('statusMsg');
+const BTN_SAVE = document.getElementById('salvaOrdine');
+function setStatus(msg) { STATUS.textContent = msg; }
+function setBusy(b) { BTN_SAVE.disabled = b; }
 
-  // canali che vanno nella colonna "perte"
-  const PERTE_CHANNELS = new Set(['1430829927175032954','1430131174197690479']);
-
-  // Estrae/parsa ASIN
-  function extractASIN(item){
-    if (item.asin && /^[A-Z0-9]{10}$/.test(item.asin)) return item.asin.toUpperCase();
-    const src = item.link || item.text || '';
-    if (!src) return null;
-    try{
-      const u = new URL(src);
-      const path = u.pathname;
-      const qpAsin = u.searchParams.get('asin');
-      if (qpAsin && /^[A-Z0-9]{10}$/i.test(qpAsin)) return qpAsin.toUpperCase();
-      const m1 = path.match(/\/(?:dp|gp\/product|product)\/([A-Z0-9]{10})(?:[\/?]|$)/i);
-      if (m1) return m1[1].toUpperCase();
-    }catch(e){/* non-URL, continua */}
-    const m2 = String(src).match(/\b([A-Z0-9]{10})\b/i);
-    return m2 ? m2[1].toUpperCase() : null;
-  }
-
-  async function copyToClipboard(text){
-    try{
-      await navigator.clipboard.writeText(text);
-      return true;
-    }catch(e){
-      const ta = document.createElement('textarea');
-      ta.value = text; document.body.appendChild(ta); ta.select();
-      const ok = document.execCommand('copy'); document.body.removeChild(ta);
-      return ok;
-    }
-  }
-
-  function caricaCatalogo(){
-    const t = Date.now();
-    return fetch(`https://spagocci.github.io/recensioni/data.json?t=${t}`)
-      .then(r => r.ok ? r.json() : Promise.reject(new Error("Errore nel caricamento")))
-      .then(data => {
-        data.sort((a,b)=> new Date(b.timestamp) - new Date(a.timestamp));
-        const p = document.getElementById('contenutoPerte');
-        const v = document.getElementById('contenutoVetrina');
-        p.innerHTML = v.innerHTML = '';
-
-        data.forEach(item => {
-          if (!messaggiVisualizzati.has(item.id)) {
-            messaggiVisualizzati.add(item.id);
-          }
-          const asin = extractASIN(item);
-          const div = document.createElement('div');
-          div.className = 'item';
-          div.innerHTML = `
-            <div class="item-content">
-              ${
-                item.image && item.link
-                  ? `<a href="${item.link}" target="_blank" rel="noopener"><img src="${item.image}" alt="" loading="lazy"></a>`
-                  : item.image
-                    ? `<img src="${item.image}" alt="" loading="lazy">`
-                    : ''
-              }
-              ${item.price ? `<div class="price-big">${item.price}</div>` : ''}
-              <p>${item.link ? `<a href="${item.link}" target="_blank" rel="noopener">${item.text}</a>` : item.text}</p>
-            </div>
-            ${asin ? `<button class="btn-asin" data-asin="${asin}" title="Copia ASIN">ASIN</button>` : ''}`;
-
-          if (PERTE_CHANNELS.has(item.sourceChannel)) {
-            p.appendChild(div);
-          } else if (item.sourceChannel === '1433444235851468980') { // vetrina
-            v.appendChild(div);
-          }
-        });
-
-        localStorage.setItem('messaggiVisualizzati', JSON.stringify([...messaggiVisualizzati]));
-        applicaFiltri();
-      })
-      .catch(err => {
-        ['contenutoPerte','contenutoVetrina']
-          .forEach(id => { document.getElementById(id).innerHTML = `<p style="color:red;">❌ ${err.message}</p>`; });
-      });
-  }
-
-  // aggiornamento periodico fisso
-  (async function aggiornaCatalogoLoop(){
-    while(true){
-      await caricaCatalogo();
-      await new Promise(r => setTimeout(r, 25000));
-    }
-  })();
-
-  /* === FILTRI === */
-  const filtroInput = document.getElementById('filtroParole');
-  const mostraInput = document.getElementById('mostraParole');
-  const clearMostra = document.getElementById('clearMostra');
-  filtroInput.value = localStorage.getItem('paroleNascondi') || '';
-  mostraInput.value = localStorage.getItem('mostraParole') || '';
-  if (mostraInput.value.trim()) clearMostra.style.display='inline-block';
-  filtroInput.addEventListener('input', ()=>{ localStorage.setItem('paroleNascondi', filtroInput.value.trim()); applicaFiltri(); });
-  mostraInput.addEventListener('input', ()=>{ localStorage.setItem('mostraParole', mostraInput.value.trim()); clearMostra.style.display = mostraInput.value.trim()? 'inline-block':'none'; applicaFiltri(); });
-  clearMostra.addEventListener('click', ()=>{ mostraInput.value=''; localStorage.removeItem('mostraParole'); clearMostra.style.display='none'; applicaFiltri(); });
-
-  function applicaFiltri(){
-    const nascondi = filtroInput.value.toLowerCase().split(/[;,]+/).map(x=>x.trim()).filter(Boolean);
-    const mostra   = mostraInput.value.toLowerCase().split(/[;,]+/).map(x=>x.trim()).filter(Boolean);
-    let nascosti=0;
-    document.querySelectorAll('.item').forEach(el=>{
-      const testo = (el.innerText||'').toLowerCase();
-      const hide = nascondi.some(w=>testo.includes(w));
-      const show = (mostra.length===0) || mostra.some(w=>testo.includes(w));
-      el.style.display = (!hide && show) ? '' : 'none';
-      if (hide || !show) nascosti++;
+async function getJSON(url) {
+  const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 12000);
+  try {
+    const res = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+    return await res.json();
+  } finally { clearTimeout(t); }
+}
+async function postJSON(url, body) {
+  const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 15000);
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors',
+      body: JSON.stringify(body),
+      signal: ctrl.signal,
     });
-    conteggioNascosti.textContent = `🔕 Oggetti nascosti: ${nascosti}`;
+    const text = await res.text();
+    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} — ${text.slice(0,300)}`);
+    try { return JSON.parse(text); } catch { return { ok:false, error:'JSON parse error', raw:text }; }
+  } catch (err) {
+    const isMixed = location.protocol === 'https:' && API_BASE.startsWith('http://');
+    const hints = [
+      isMixed ? 'Mixed content: usa HTTPS per l’API o apri la pagina in HTTP.' : null,
+      'Server spento/porta errata?',
+      'CORS disabilitato sul server?',
+      err.name === 'AbortError' ? 'Timeout richiesta.' : null,
+    ].filter(Boolean).join(' ');
+    throw new Error(`${err.message}${hints ? ` | Hint: ${hints}` : ''}`);
+  } finally { clearTimeout(t); }
+}
+
+async function caricaCatalogo(){
+  try {
+    const data = await getJSON('https://spagocci.github.io/recensioni/data.json?t=' + Date.now());
+    data.sort((a,b)=>(a.position??9999)-(b.position??9999)||new Date(b.timestamp)-new Date(a.timestamp));
+    const contenuto = document.getElementById('contenutoVetrina');
+    contenuto.innerHTML='';
+    data.forEach((item,idx)=>{
+      const div=document.createElement('div');
+      div.className='item';
+      div.dataset.asin=item.asin||'';
+      div.dataset.position=item.position || (idx+1);
+      div.innerHTML=`
+        ${item.image?`<img src="${item.image}" alt="">`:''}
+        <p>${item.text||''}</p>
+        <div>${item.price||''}</div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="${item.position||idx+1}" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div>
+        ${item.asin?`<button class="btn-asin" data-asin="${item.asin}">ASIN</button>`:''}
+      `;
+      contenuto.appendChild(div);
+    });
+  } catch (e) {
+    setStatus(`❌ Errore caricamento catalogo: ${e.message}`);
   }
+}
 
-  /* === MODALE PAROLE === */
-  const modale = document.getElementById('modaleParole');
-  const textarea = document.getElementById('modaleTextarea');
-  const btnGestisci = document.getElementById('btnGestisciParole');
-  btnGestisci.addEventListener('click', ()=>{ textarea.value = localStorage.getItem('paroleNascondi') || ''; modale.style.display='flex'; });
-  document.getElementById('chiudiModale').addEventListener('click', ()=> modale.style.display='none');
-  document.getElementById('salvaParole').addEventListener('click', ()=>{ localStorage.setItem('paroleNascondi', textarea.value.trim()); filtroInput.value = textarea.value.trim(); applicaFiltri(); modale.style.display='none'; });
-  document.getElementById('cancellaParole').addEventListener('click', ()=>{ localStorage.removeItem('paroleNascondi'); filtroInput.value=''; applicaFiltri(); modale.style.display='none'; });
+document.addEventListener('click',e=>{
+  const btn=e.target.closest('button'); if(!btn) return;
+  const item=btn.closest('.item'); const parent=item?.parentNode; if(!item||!parent) return;
+  if(btn.classList.contains('move-up') && item.previousElementSibling){
+    parent.insertBefore(item,item.previousElementSibling);
+  } else if(btn.classList.contains('move-down') && item.nextElementSibling){
+    parent.insertBefore(item.nextElementSibling,item);
+  } else if(btn.classList.contains('btn-asin')){
+    navigator.clipboard.writeText(btn.dataset.asin);
+    btn.textContent='📋 Copiato'; setTimeout(()=>btn.textContent='ASIN',1000);
+  }
+  aggiornaPosizioni();
+});
 
-  /* === CLICK ASIN (delegato) === */
-  document.addEventListener('click', async (e)=>{
-    const btn = e.target.closest('.btn-asin');
-    if (!btn) return;
-    const asin = btn.getAttribute('data-asin');
-    if (!asin) return;
-    const ok = await copyToClipboard(asin);
-    const old = btn.textContent;
-    btn.textContent = ok ? 'Copiato!' : 'Errore';
-    setTimeout(()=> btn.textContent = old, 900); // feedback breve
+document.addEventListener('input',e=>{
+  if(e.target.classList.contains('order-input')){
+    const item=e.target.closest('.item');
+    const pos=parseInt(e.target.value,10);
+    if(!isNaN(pos)){ item.dataset.position=pos; riordinaPerNumero(); }
+  }
+});
+
+function aggiornaPosizioni(){
+  document.querySelectorAll('.item').forEach((el,i)=>{
+    el.dataset.position=i+1;
+    el.querySelector('.order-input').value=i+1;
   });
+}
+function riordinaPerNumero(){
+  const container=document.getElementById('contenutoVetrina');
+  const items=[...container.children];
+  items.sort((a,b)=>parseInt(a.dataset.position)-parseInt(b.dataset.position));
+  items.forEach(it=>container.appendChild(it));
+}
 
-  /* RIMOSSO: bottone SoloMigliori e relativa logica */
-};
+document.getElementById('salvaOrdine').addEventListener('click',async()=>{
+  const ordine=[...document.querySelectorAll('.item')]
+    .map(el=>({asin:el.dataset.asin,position:parseInt(el.dataset.position)}))
+    .filter(o=>o.asin && !isNaN(o.position));
+  try{
+    setBusy(true);
+    setStatus("⏳ Invio ordine al bot…");
+    const js = await postJSON(`${API_BASE}/saveorder`, ordine);
+    if(js.ok) setStatus(`✅ Ordine salvato su GitHub (${js.modificati} prodotti aggiornati).`);
+    else setStatus(`⚠️ Errore dal server: ${js.error || 'upload fallito'}`);
+  }catch(e){
+    setStatus(`❌ Errore invio ordine: ${e.message}`);
+  }finally{
+    setBusy(false);
+  }
+});
+
+caricaCatalogo();
 </script>
 </body>
 </html>
