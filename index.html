@@ -44,7 +44,7 @@
   .reorder-on .item-content a { pointer-events:none; }
 
   .drag-enabled .item { touch-action: pan-y; }
-  .reorder-dragging .item { touch-action: none; } /* solo mentre trascini *
+  .reorder-dragging .item { touch-action: none; } /* solo mentre trascini */
   .ghost-drag { position:fixed; z-index:10000; pointer-events:none; transform:translate(-50%,-50%) scale(1.02); box-shadow:0 10px 25px rgba(0,0,0,.2); border-radius:12px; background:#fff; }
   .placeholder { border:2px dashed #b30000; border-radius:12px; background:rgba(179,0,0,0.04); }
 
@@ -346,14 +346,6 @@ function onPD(e){
   if (!item || item.parentElement !== container) return;
 
   // qui NON chiamiamo preventDefault: lo faremo solo quando parte davvero il drag
-  ps.down = true;
-  ps.dragging = false;
-  ps.origin = item;
-  ps.startX = e.clientX;
-  ps.startY = e.clientY;
-}
-
-  // NON preveniamo qui: lasciamo scorrere la pagina
   ps.down = true;
   ps.dragging = false;
   ps.origin = item;
