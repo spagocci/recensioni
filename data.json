@@ -49,7 +49,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 8
+    "position": 6
   },
   {
     "id": "1434182093579096085",
@@ -62,7 +62,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 7
+    "position": 8
   },
   {
     "id": "1434181872870752387",
@@ -270,6 +270,6 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 6
+    "position": 7
   }
 ]
