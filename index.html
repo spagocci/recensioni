@@ -74,6 +74,24 @@
   #secretInput { flex:1; max-width:320px; padding:8px 10px; border:2px solid #ccc; border-radius:10px; }
   #secretInput.error { animation: shake .25s linear 2; border-color:#c00; }
   @keyframes shake { 0%{transform:translateX(0)} 25%{transform:translateX(-4px)} 50%{transform:translateX(4px)} 75%{transform:translateX(-4px)} 100%{transform:translateX(0)} }
+
+.drag-handle{
+  display:none;                 /* visibile solo in riordino */
+  position:absolute; left:6px; top:6px;
+  width:28px; height:28px; line-height:28px; text-align:center;
+  border-radius:6px; border:1px solid #bbb; background:#fff;
+  font-weight:bold; font-size:16px; cursor:grab;
+  box-shadow:0 1px 3px rgba(0,0,0,.08);
+  user-select:none; -webkit-user-select:none;
+  touch-action:none;            /* sulla maniglia: niente scroll, serve al drag */
+}
+.drag-handle:active{ cursor:grabbing; }
+.reorder-on .drag-handle{ display:block; }    /* mostra solo quando riordino attivo */
+
+/* IMPORTANTISSIMO: fuori dalla maniglia si deve poter scorrere */
+.drag-enabled .item { touch-action: pan-y; }    /* la card scrolla verticalmente */
+.reorder-dragging .item { touch-action: none; } /* solo mentre trascini */
+
 </style>
 </head>
 <body>
@@ -244,7 +262,7 @@ async function caricaCatalogo(){
           }
           ${item.price ? `<div class="price-big">${item.price}</div>` : ''}
           <p>${ link ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${item.text || ''}</a>` : (item.text || '') }</p>
-          ${withControls ? `<button class="btn-asin" data-asin="${asin}">ASIN</button>` : ''}
+              ${withControls ? `<div class="drag-handle" title="Trascina">≡</div>` : ''} 
         </div>
         <div class="controls">
           <button class="move-up">⬆️</button>
@@ -315,9 +333,25 @@ function enablePointerSort(container, enable){
 
 function onPD(e){
   if (!ps.enabled) return;
-  const item = e.target.closest('.item');
+
+  // ✅ consenti drag SOLO se si parte dalla maniglia
+  const handle = e.target.closest('.drag-handle');
+  if (!handle) {
+    // non è la maniglia: lascia scorrere la pagina
+    return;
+  }
+
+  const item = handle.closest('.item');
   const container = document.getElementById('contenutoVetrina');
   if (!item || item.parentElement !== container) return;
+
+  // qui NON chiamiamo preventDefault: lo faremo solo quando parte davvero il drag
+  ps.down = true;
+  ps.dragging = false;
+  ps.origin = item;
+  ps.startX = e.clientX;
+  ps.startY = e.clientY;
+}
 
   // NON preveniamo qui: lasciamo scorrere la pagina
   ps.down = true;
