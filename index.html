@@ -43,8 +43,8 @@
   .reorder-on { user-select:none; }
   .reorder-on .item-content a { pointer-events:none; }
 
-  .drag-enabled .item { cursor:grab; }
-  .drag-enabled .item:active { cursor:grabbing; }
+  .drag-enabled .item { touch-action: pan-y; }
+  .reorder-dragging .item { touch-action: none; } /* solo mentre trascini *
   .ghost-drag { position:fixed; z-index:10000; pointer-events:none; transform:translate(-50%,-50%) scale(1.02); box-shadow:0 10px 25px rgba(0,0,0,.2); border-radius:12px; background:#fff; }
   .placeholder { border:2px dashed #b30000; border-radius:12px; background:rgba(179,0,0,0.04); }
 
@@ -278,21 +278,39 @@ async function caricaCatalogo(){
   }
 }
 
-/* ===== Pointer-based Sort con RAF + soglia ===== */
-let ps = { enabled:false, down:false, origin:null, ghost:null, placeholder:null, oy:0, gx:0, gy:0, raf:false, nx:0, ny:0 };
+/* ✅ Sostituisci TUTTA la tua sezione "Pointer-based Sort" con questa versione */
+const DRAG_THRESHOLD_PX = 12;
+
+let ps = {
+  enabled: false,
+  dragging: false,
+  down: false,
+  origin: null,
+  placeholder: null,
+  ghost: null,
+  startX: 0,
+  startY: 0,
+  nx: 0,
+  ny: 0,
+  raf: false
+};
 
 function enablePointerSort(container, enable){
+  // cleanup
   container.removeEventListener('pointerdown', onPD);
   window.removeEventListener('pointermove', onPM);
   window.removeEventListener('pointerup', onPU);
-  [...container.querySelectorAll('.item')].forEach(i => i.style.touchAction = enable ? 'none' : '');
 
-  ps = { enabled: !!enable, down:false, origin:null, ghost:null, placeholder:null, oy:0, gx:0, gy:0, raf:false, nx:0, ny:0 };
-  if (!enable) return;
+  ps = { ...ps, enabled: !!enable, dragging: false, down: false, origin: null, placeholder: null, ghost: null };
 
-  container.addEventListener('pointerdown', onPD);
-  window.addEventListener('pointermove', onPM);
-  window.addEventListener('pointerup', onPU);
+  if (!enable) {
+    document.body.classList.remove('reorder-dragging');
+    return;
+  }
+
+  container.addEventListener('pointerdown', onPD, { passive: true });
+  window.addEventListener('pointermove', onPM, { passive: false }); // serve per poter prevenire quando parte il drag
+  window.addEventListener('pointerup', onPU, { passive: true });
 }
 
 function onPD(e){
@@ -301,44 +319,71 @@ function onPD(e){
   const container = document.getElementById('contenutoVetrina');
   if (!item || item.parentElement !== container) return;
 
-  e.preventDefault();
-  e.currentTarget?.setPointerCapture?.(e.pointerId);
-
+  // NON preveniamo qui: lasciamo scorrere la pagina
   ps.down = true;
+  ps.dragging = false;
   ps.origin = item;
+  ps.startX = e.clientX;
+  ps.startY = e.clientY;
+}
 
+function startDrag(e){
+  if (ps.dragging || !ps.origin) return;
+  const item = ps.origin;
   const r = item.getBoundingClientRect();
 
+  // placeholder altezza fissa
   const ph = document.createElement('div');
   ph.className = 'placeholder';
   ph.style.width  = r.width + 'px';
   ph.style.height = r.height + 'px';
 
+  // ghost
   const g = item.cloneNode(true);
   g.className = 'ghost-drag';
   g.style.width = r.width + 'px';
   g.style.height = r.height + 'px';
-  ps.gx = e.clientX; ps.gy = e.clientY;
-  g.style.left = ps.gx + 'px';
-  g.style.top  = ps.gy + 'px';
+  g.style.left = e.clientX + 'px';
+  g.style.top  = e.clientY + 'px';
+
+  item.parentElement.insertBefore(ph, item);
+  item.style.visibility = 'hidden';
+  document.body.appendChild(g);
 
   ps.placeholder = ph;
   ps.ghost = g;
-  ps.oy = e.clientY - r.top;
+  ps.dragging = true;
+  document.body.classList.add('reorder-dragging');
 
-  item.parentElement.insertBefore(ph, item);
-  item.style.display = 'none';
-  document.body.appendChild(g);
+  // ora sì: impediamo lo scroll della pagina mentre DRAG è attivo
+  e.preventDefault();
 }
 
 function onPM(e){
-  if (!ps.enabled || !ps.down || !ps.ghost) return;
-  ps.nx = e.clientX; ps.ny = e.clientY;
+  if (!ps.enabled || !ps.down) return;
+
+  // Se non abbiamo ancora iniziato a trascinare, verifica soglia
+  if (!ps.dragging) {
+    const dx = e.clientX - ps.startX;
+    const dy = e.clientY - ps.startY;
+    if (Math.abs(dy) > DRAG_THRESHOLD_PX && Math.abs(dy) > Math.abs(dx)) {
+      startDrag(e); // avvia drag solo oltre soglia e prevalenza verticale
+    } else {
+      return; // lascia scorrere la pagina
+    }
+  }
+
+  // DRAG attivo
+  ps.nx = e.clientX;
+  ps.ny = e.clientY;
   if (!ps.raf) { ps.raf = true; requestAnimationFrame(tickMove); }
+  // impedisci scroll mentre trascini
+  e.preventDefault();
 }
+
 function tickMove(){
   ps.raf = false;
-  if (!ps.down || !ps.ghost) return;
+  if (!ps.dragging || !ps.ghost) return;
 
   ps.ghost.style.left = ps.nx + 'px';
   ps.ghost.style.top  = ps.ny + 'px';
@@ -352,10 +397,9 @@ function tickMove(){
   let beforeNode = null;
   for (const it of items){
     const r = it.getBoundingClientRect();
-    const mid = r.top + r.height * 0.4;
+    const mid = r.top + r.height * 0.4; // soglia 40%
     if (y < mid) { beforeNode = it; break; }
   }
-
   if (beforeNode) container.insertBefore(ps.placeholder, beforeNode);
   else container.appendChild(ps.placeholder);
 }
@@ -365,18 +409,27 @@ function onPU(){
   ps.down = false;
 
   const container = document.getElementById('contenutoVetrina');
-  if (ps.placeholder && ps.placeholder.parentElement === container && ps.origin){
-    container.insertBefore(ps.origin, ps.placeholder);
-    ps.origin.style.display = '';
+
+  if (ps.dragging) {
+    if (ps.placeholder && ps.origin && ps.placeholder.parentElement === container) {
+      container.insertBefore(ps.origin, ps.placeholder);
+      ps.origin.style.visibility = '';
+    }
+    if (ps.placeholder?.parentElement) ps.placeholder.remove();
+    if (ps.ghost?.parentElement) ps.ghost.remove();
+
+    // aggiorna posizioni + persistenza
+    aggiornaPosizioniVetrina();
+    writeLocalOrderMapFromDOM();
   }
 
-  if (ps.placeholder?.parentElement) ps.placeholder.remove();
-  if (ps.ghost?.parentElement) ps.ghost.remove();
+  document.body.classList.remove('reorder-dragging');
 
-  aggiornaPosizioniVetrina();
-  writeLocalOrderMapFromDOM();
-
-  ps.origin = null; ps.placeholder = null; ps.ghost = null;
+  // reset
+  ps.dragging = false;
+  ps.origin = null;
+  ps.placeholder = null;
+  ps.ghost = null;
 }
 
 /* ===== Posizioni ===== */
