@@ -238,41 +238,5 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null
-  },
-  {
-    "id": "1434479711253168239",
-    "timestamp": "2025-11-02T09:50:14.507Z",
-    "text": "OUTJUT Scaldamani Elettrici 2 Pezzi, Scaldamani Ricaricabili da 12000 mAh con Riscaldamento Magnetico su Entrambi i Lati, Display Digitale della Temperatura e Dell'alimentazione (Nero)",
-    "link": "https://amazon.it/dp/B0FL2CPQKR",
-    "image": "https://m.media-amazon.com/images/I/51vRc4kOyhL._SS210_.jpg",
-    "price": null,
-    "asin": "B0FL2CPQKR",
-    "sourceChannel": "1430829927175032954",
-    "priceAttempts": 0,
-    "lastPriceError": null
-  },
-  {
-    "id": "1434467845466751037",
-    "timestamp": "2025-11-02T09:03:05.483Z",
-    "text": "OUTJUT Scaldamani Elettrici 2 Pezzi, Scaldamani Ricaricabili da 12000 mAh con Riscaldamento Magnetico su Entrambi i Lati, Display Digitale della Temperatura e Dell'alimentazione (Nero)",
-    "link": "https://amazon.it/dp/B0FL2CPQKR",
-    "image": "https://m.media-amazon.com/images/I/51vRc4kOyhL._SS210_.jpg",
-    "price": null,
-    "asin": "B0FL2CPQKR",
-    "sourceChannel": "1430829927175032954",
-    "priceAttempts": 0,
-    "lastPriceError": null
-  },
-  {
-    "id": "1434417377063473165",
-    "timestamp": "2025-11-02T05:42:32.878Z",
-    "text": "DEWEL Sedia Doccia Pieghevole, con Scanalatura, con Schienale e Braccioli, Non è Necessario Installare Strumenti, Regolabile in Altezza, Peso 150Kg, Sedia per Doccia Anziani Pieghevole",
-    "link": "https://amazon.it/dp/B0FM7H43NW",
-    "image": "https://m.media-amazon.com/images/I/41BeawELmCL._SS210_.jpg",
-    "price": null,
-    "asin": "B0FM7H43NW",
-    "sourceChannel": "1430829927175032954",
-    "priceAttempts": 0,
-    "lastPriceError": null
   }
 ]
