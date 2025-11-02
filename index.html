@@ -1,8 +1,5 @@
 <!-- =========================================================================
-file: public/index.html — Spagocci 1.6.0 (riordino + salvataggio con API autodetect)
-Uso:
-- Locale HTTP: apri questo file con un server statico (o file://) → chiama http://localhost:3000
-- HTTPS (GitHub Pages, ecc.): passa ?api=https://localhost:3443 e avvia il bot con HTTPS
+file: public/index.html — Spagocci 1.6.2 (persistenza ordine + refresh post-salvataggio)
 ============================================================================= -->
 <!DOCTYPE html>
 <html lang="it">
@@ -12,7 +9,7 @@ Uso:
 <title>Spagocci 1.0.0</title>
 <link rel="icon" href="https://github.com/spagocci/recensioni/blob/main/icona.png" type="image/png" />
 <style>
-  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding:20px; background:#f9f9f9; }
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding:20px; background:#f9f9f9; padding-bottom:96px; }
   button { margin:5px; padding:8px 12px; font-size:1em; cursor:pointer; }
   .contenuto { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
   .item { background:#fff; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,.1); padding:10px; position:relative; text-align:center; }
@@ -20,20 +17,26 @@ Uso:
   .controls { display:flex; align-items:center; justify-content:center; gap:5px; margin-top:5px; }
   .controls button { font-size:14px; padding:4px 6px; }
   .controls input { width:56px; text-align:center; }
+  .footer-save { position: fixed; left: 0; right: 0; bottom: 0; background: #ffffff; box-shadow: 0 -2px 10px rgba(0,0,0,.08); padding: 12px 16px; display: flex; align-items: center; gap: 12px; justify-content: center; z-index: 1000; }
   #salvaOrdine { background:#007a00; color:#fff; border:none; border-radius:10px; padding:10px 18px; font-weight:bold; }
   #salvaOrdine[disabled] { opacity:.6; cursor:not-allowed; }
   #salvaOrdine:hover:not([disabled]) { background:#005a00; }
-  #statusMsg { margin:10px 0; font-weight:600; white-space:pre-wrap; }
+  #statusMsg { margin:0; font-weight:600; white-space:pre-wrap; }
   .btn-asin { position:absolute; right:6px; top:6px; border:1px solid #b30000; background:#fff; color:#b30000; font-size:10px; padding:3px 5px; border-radius:6px; cursor:pointer; }
   .muted { color:#666; font-weight:400; }
+  #apiInfo { display: none; } /* nasconde “API: …” */
 </style>
 </head>
 <body>
   <h2>Usato Recensioni Davide Spagocci</h2>
   <div class="muted" id="apiInfo"></div>
-  <button id="salvaOrdine">💾 Salva ordine su GitHub</button>
-  <div id="statusMsg"></div>
+
   <div class="contenuto" id="contenutoVetrina"></div>
+
+  <div class="footer-save" role="region" aria-label="Azioni salvataggio">
+    <button id="salvaOrdine">💾 Salva ordine su GitHub</button>
+    <div id="statusMsg"></div>
+  </div>
 
 <script>
 const qs = new URLSearchParams(location.search);
@@ -48,9 +51,42 @@ document.getElementById('apiInfo').textContent = `API: ${API_BASE}`;
 
 const STATUS = document.getElementById('statusMsg');
 const BTN_SAVE = document.getElementById('salvaOrdine');
+const STORAGE_KEY = 'spagocci_order';
+
 function setStatus(msg) { STATUS.textContent = msg; }
 function setBusy(b) { BTN_SAVE.disabled = b; }
 
+/* Persistenza locale dell’ordine (per UX immediata) */
+function readLocalOrder() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  catch { return []; }
+}
+function writeLocalOrder(order) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(order)); }
+  catch { /* quota piena o disabled */ }
+}
+function clearLocalOrder() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch {}
+}
+function currentDomOrder() {
+  return [...document.querySelectorAll('.item')]
+    .map((el, i) => ({ asin: el.dataset.asin || '', position: i + 1 }))
+    .filter(o => o.asin);
+}
+function applyLocalOrderIfAny() {
+  const local = readLocalOrder();
+  if (!local.length) return;
+  const byAsin = new Map(local.map(o => [o.asin, o.position]));
+  document.querySelectorAll('.item').forEach(el => {
+    const asin = el.dataset.asin || '';
+    const pos = byAsin.get(asin);
+    if (pos) el.dataset.position = String(pos);
+  });
+  riordinaPerNumero();
+  aggiornaPosizioni();
+}
+
+/* HTTP utils */
 async function getJSON(url) {
   const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 12000);
   try {
@@ -84,6 +120,7 @@ async function postJSON(url, body) {
   } finally { clearTimeout(t); }
 }
 
+/* Catalogo */
 async function caricaCatalogo(){
   try {
     const data = await getJSON('https://spagocci.github.io/recensioni/data.json?t=' + Date.now());
@@ -108,37 +145,50 @@ async function caricaCatalogo(){
       `;
       contenuto.appendChild(div);
     });
+    /* Applica l’ordine locale subito, così la Vetrina “rimane” ordinata senza ricarichi */
+    applyLocalOrderIfAny();
   } catch (e) {
     setStatus(`❌ Errore caricamento catalogo: ${e.message}`);
   }
 }
 
+/* Interazioni */
 document.addEventListener('click',e=>{
   const btn=e.target.closest('button'); if(!btn) return;
-  const item=btn.closest('.item'); const parent=item?.parentNode; if(!item||!parent) return;
-  if(btn.classList.contains('move-up') && item.previousElementSibling){
+  const item=btn.closest('.item'); const parent=item?.parentNode;
+  if(btn.classList.contains('move-up') && item && parent && item.previousElementSibling){
     parent.insertBefore(item,item.previousElementSibling);
-  } else if(btn.classList.contains('move-down') && item.nextElementSibling){
+  } else if(btn.classList.contains('move-down') && item && parent && item.nextElementSibling){
     parent.insertBefore(item.nextElementSibling,item);
   } else if(btn.classList.contains('btn-asin')){
     navigator.clipboard.writeText(btn.dataset.asin);
     btn.textContent='📋 Copiato'; setTimeout(()=>btn.textContent='ASIN',1000);
   }
-  aggiornaPosizioni();
+  if(item){
+    aggiornaPosizioni();
+    writeLocalOrder(currentDomOrder()); /* evita perdere l’ordine se navighi/richiami la pagina */
+  }
 });
 
 document.addEventListener('input',e=>{
   if(e.target.classList.contains('order-input')){
     const item=e.target.closest('.item');
     const pos=parseInt(e.target.value,10);
-    if(!isNaN(pos)){ item.dataset.position=pos; riordinaPerNumero(); }
+    if(!isNaN(pos)){
+      item.dataset.position=pos;
+      riordinaPerNumero();
+      aggiornaPosizioni();
+      writeLocalOrder(currentDomOrder());
+    }
   }
 });
 
+/* Ordinamento DOM */
 function aggiornaPosizioni(){
   document.querySelectorAll('.item').forEach((el,i)=>{
     el.dataset.position=i+1;
-    el.querySelector('.order-input').value=i+1;
+    const input = el.querySelector('.order-input');
+    if (input) input.value=i+1;
   });
 }
 function riordinaPerNumero(){
@@ -148,6 +198,7 @@ function riordinaPerNumero(){
   items.forEach(it=>container.appendChild(it));
 }
 
+/* Salvataggio */
 document.getElementById('salvaOrdine').addEventListener('click',async()=>{
   const ordine=[...document.querySelectorAll('.item')]
     .map(el=>({asin:el.dataset.asin,position:parseInt(el.dataset.position)}))
@@ -156,8 +207,13 @@ document.getElementById('salvaOrdine').addEventListener('click',async()=>{
     setBusy(true);
     setStatus("⏳ Invio ordine al bot…");
     const js = await postJSON(`${API_BASE}/saveorder`, ordine);
-    if(js.ok) setStatus(`✅ Ordine salvato su GitHub (${js.modificati} prodotti aggiornati).`);
-    else setStatus(`⚠️ Errore dal server: ${js.error || 'upload fallito'}`);
+    if(js.ok){
+      setStatus(`✅ Ordine salvato su GitHub (${js.modificati} prodotti aggiornati).`);
+      clearLocalOrder();              /* evita conflitti tra locale e remoto */
+      await caricaCatalogo();         /* ricarica dal JSON remoto con cache-busting */
+    } else {
+      setStatus(`⚠️ Errore dal server: ${js.error || 'upload fallito'}`);
+    }
   }catch(e){
     setStatus(`❌ Errore invio ordine: ${e.message}`);
   }finally{
@@ -165,8 +221,8 @@ document.getElementById('salvaOrdine').addEventListener('click',async()=>{
   }
 });
 
+/* Init */
 caricaCatalogo();
 </script>
 </body>
 </html>
-
