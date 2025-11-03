@@ -6,6 +6,8 @@
 <title>Spagocci 2.0</title>
 <link rel="icon" href="https://www.github.com/spagocci/recensioni/raw/main/icona.png" type="image/png" />
 <style>
+  :root{ --line-clamp:4; }
+
   body {font-family:sans-serif;padding:20px;background:#f9f9f9;}
   button {margin-bottom:10px;padding:8px 12px;font-size:1em;cursor:pointer;}
 
@@ -16,7 +18,7 @@
   #clearMostra:hover{background:darkred;}
 
   #statusBar {display:flex;align-items:center;gap:10px;margin-bottom:15px;flex-wrap:wrap;}
-  #apiInfo { display: none; } 
+  #apiInfo { display: none; }
   #statusMsg {margin:5px 0;font-weight:600;white-space:pre-wrap;}
 
   .row {display:flex;flex-wrap:wrap;gap:10px;height:auto;}
@@ -28,8 +30,16 @@
   .item {background:#fff;border:1px solid #eee;border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;}
   .item-content {text-align:center;position:relative;}
   .item-content a.img-link { display:block; }
-  .item-content img {width:100%;max-width:200px;aspect-ratio:1/1;object-fit:contain;}
-  .price-big {font-weight:bold;color:#009900;font-size:1em;margin-top:6px;cursor:pointer;}
+  /* >>> Immagini a tutta larghezza della scheda <<< */
+  .item-content img {
+    display:block;
+    width:100%;
+    height:auto;        /* mantiene il rapporto */
+    max-width:none;     /* nessun cap */
+    object-fit:contain; /* più tollerante per immagini particolari */
+  }
+
+  .price-big {font-weight:bold;font-size:1em;margin-top:6px;cursor:pointer;}
   .column a {color:#000;text-decoration:none;font-weight:bold;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;line-height:1.2em;}
   .column a:hover{text-decoration:underline;}
   small{color:#666;font-size:0.8em;}
@@ -50,28 +60,25 @@
 
   img[loading="lazy"] {content-visibility:auto;}
 
-@media(max-width:768px){
-  body{padding:10px;}
-  .row{flex-direction:column;}
-  .column{
-    flex:1 1 100%;
-    max-width:100%;
-    padding:10px;
-  }
-  /* 👇 prima avevi repeat(2,1fr) → causa “colonna destra mezza” */
-  .contenuto{
-    grid-template-columns: 1fr;
-    gap:10px;              /* opzionale */
-  }
-  .reorder-on .contenuto{grid-template-columns:1fr;}
-  .item-content img{max-width:110px;}
-  .column a{font-size:0.8em;line-height:1.1em;}
-  .price-big{font-size:0.9em;}
-  small{font-size:0.7em;}
-  h2{font-size:0.9em;margin-bottom:5px;}
-}
+  /* ✏️/💶/🗑️: nascosti finché non sblocchi */
+  .btn-edit-text, .btn-edit-price, .btn-delete { display:none !important; }
+  body.edit-unlocked .btn-edit-text,
+  body.edit-unlocked .btn-edit-price,
+  body.edit-unlocked .btn-delete { display:inline-block !important; }
 
-  /* Console segreta */
+  @media(max-width:768px){
+    body{padding:10px;}
+    .row{flex-direction:column;}
+    .column{flex:1 1 100%;max-width:100%;padding:10px;}
+    .contenuto{grid-template-columns:1fr;gap:10px;} /* 1 colonna su mobile */
+    .reorder-on .contenuto{grid-template-columns:1fr;}
+    .column a{font-size:0.9em;line-height:1.2em;}
+    .price-big{font-size:0.95em;}
+    small{font-size:0.75em;}
+    h2{font-size:1em;margin-bottom:6px;}
+  }
+
+  /* console */
   #secretConsole { margin-top:20px; padding:12px; border-top:1px dashed #bbb; }
   #secretForm { display:flex; gap:8px; align-items:center; }
   #secretPrompt { font-weight:600; color:#666; }
@@ -97,26 +104,26 @@
     font-size:12px; padding:3px 6px; border-radius:6px; cursor:pointer; z-index:2;
     opacity:.9;
   }
-  .btn-edit-text:hover{ opacity:1; }
-
-  /* nuovo: bottone Prezzo (solo quando manca il prezzo) */
   .btn-edit-price{
     position:absolute; left:6px; bottom:6px;
     border:1px solid #888; background:#fff; color:#333;
     font-size:12px; padding:3px 6px; border-radius:6px; cursor:pointer; z-index:2;
     opacity:.9;
   }
-  .btn-edit-price:hover{ opacity:1; }
+  .btn-delete{
+    position:absolute; left:6px; top:6px;
+    border:1px solid #d33; background:#fff; color:#d33;
+    font-size:12px; padding:3px 6px; border-radius:6px; cursor:pointer; z-index:2;
+    opacity:.95;
+  }
+  .btn-edit-text:hover,.btn-edit-price:hover,.btn-delete:hover{ opacity:1; }
 
-  /* clamp per testi/descrizioni */
-  .column a,
-  .item-content p.desc{
+  .column a, .item-content p.desc{
     display:-webkit-box; -webkit-box-orient:vertical;
     overflow:hidden; line-height:1.2em;
     -webkit-line-clamp: var(--line-clamp, 4);
   }
 
-  /* Bottone SALVA unico */
   #salvaTutto { background:#0a7; color:#fff; border:none; border-radius:10px; padding:10px 18px; font-weight:bold; display:none; }
   #salvaTutto[disabled] { opacity:.6; cursor:not-allowed; }
   #salvaTutto:hover:not([disabled]) { background:#086; }
@@ -176,7 +183,7 @@ let BTN_SAVE = document.getElementById('salvaTutto');
 function setStatus(msg) { STATUS.textContent = msg; }
 function setBusy(b) { if (BTN_SAVE) BTN_SAVE.disabled = b; }
 
-/* ===== Line clamp (righe visibili) ===== */
+/* ===== Line clamp ===== */
 const clampRange = document.getElementById('clampRange');
 const clampVal   = document.getElementById('clampVal');
 function applyLineClamp(n){
@@ -204,7 +211,7 @@ let DATA = [];
 const PERTE_CHANNELS = new Set(['1430829927175032954','1430131174197690479']);
 const VETRINA_CHANNEL = '1433444235851468980';
 
-/* ===== Persistenza ordine (cache locale) ===== */
+/* ===== Persistenza ordine ===== */
 const KEY_VETRINA_ORDER = 'vetrinaOrder';
 function readLocalOrderMap(){
   try { return JSON.parse(localStorage.getItem(KEY_VETRINA_ORDER) || '{}') || {}; }
@@ -227,7 +234,7 @@ function applyOrderMapToData(data, orderMap){
   });
 }
 
-/* ===== HTTP helpers ===== */
+/* ===== HTTP ===== */
 async function getJSON(url, timeout=12000) {
   const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), timeout);
   try {
@@ -261,7 +268,7 @@ async function putJSON(url, body, timeout=15000) {
   } finally { clearTimeout(t); }
 }
 
-/* ===== Dati: preferisci locale → fallback GitHub ===== */
+/* ===== Dati ===== */
 async function fetchPreferLocal(){
   try {
     const local = await getJSON(`${API_BASE}/data`, 6000);
@@ -299,7 +306,7 @@ function applicaFiltri(){
   });
 }
 
-/* ===== Helper prezzi (Valore rosso) ===== */
+/* ===== Prezzi (Valore rosso) ===== */
 function normEuro(input){
   const s = String(input||'').trim().replace(/\s*€$/,'').replace(/\s+/g,'').replace(/,/g,'.');
   if (!/^\d+(\.\d+)?$/.test(s)) throw new Error('Valore non valido');
@@ -365,6 +372,7 @@ async function caricaCatalogo(){
       const pos = item.position || '';
       const link = item.link || '';
       div.dataset.asin = asin;
+      div.dataset.id   = item.id || '';     /* serve per delete mirato */
       if (withControls) div.dataset.position = pos || '';
 
       div.innerHTML = `
@@ -382,6 +390,7 @@ async function caricaCatalogo(){
           </p>
           ${!item.price ? `<button class="btn-edit-price" title="Aggiungi prezzo">💶 Prezzo</button>` : ''}
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
           ${withControls ? `<div class="drag-handle" title="Trascina">≡</div>` : ''} 
         </div>
         <div class="controls">
@@ -512,10 +521,11 @@ function setDirty(v){
   else localStorage.removeItem('__CATALOGO_EDIT');
 }
 
-/* ===== Edit testo card (✏️) ===== */
+/* ===== Edit testo ===== */
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.btn-edit-text');
   if (!btn) return;
+  if (!document.body.classList.contains('edit-unlocked')) return;
 
   const card = btn.closest('.item');
   const asin = card?.dataset?.asin || '';
@@ -539,10 +549,51 @@ document.addEventListener('click', (e) => {
   }
 });
 
-/* ===== Aggiungi prezzo via bottone 💶 (quando manca) ===== */
+/* ===== 🗑️ Elimina (Discord + JSON, o solo JSON) ===== */
+let __deleting = false;
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.btn-delete');
+  if (!btn) return;
+  if (!document.body.classList.contains('edit-unlocked')) return;
+  if (__deleting) return;
+  __deleting = true;
+
+  const card = btn.closest('.item');
+  const asin = card?.dataset?.asin || '';
+  const id   = card?.dataset?.id || '';
+  if (!asin && !id) { __deleting = false; return; }
+
+  const okGo = confirm(`Eliminare il prodotto ${asin || id}?\n• Se esiste su Discord: verrà rimosso anche lì.\n• Altrimenti sarà rimosso solo da questa pagina/JSON.`);
+  if (!okGo) { __deleting = false; return; }
+
+  try {
+    setStatus('🗑️ Eliminazione in corso…');
+    btn.disabled = true;
+    const payload = {};
+    if (asin) payload.asin = asin;
+    if (id)   payload.id   = id;
+    const r = await postJSON(`${API_BASE}/delete`, payload);
+    if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
+
+    if (asin) DATA = (DATA || []).filter(p => (p.asin||'').toUpperCase() !== asin.toUpperCase());
+    else if (id) DATA = (DATA || []).filter(p => String(p.id || '') !== String(id));
+
+    card.remove();
+    setStatus(`✅ Eliminato. Discord: ${r.data.deletedDiscord}, JSON: ${r.data.removedJson}`);
+  } catch (err) {
+    alert('❌ Errore eliminazione: ' + (err.message || err));
+    setStatus('❌ Eliminazione fallita');
+  } finally {
+    btn.disabled = false;
+    __deleting = false;
+  }
+});
+
+/* ===== Aggiungi prezzo ===== */
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.btn-edit-price');
   if (!btn) return;
+  if (!document.body.classList.contains('edit-unlocked')) return;
 
   const card = btn.closest('.item');
   const asin = card?.dataset?.asin || '';
@@ -580,18 +631,18 @@ document.addEventListener('click', (e) => {
   setStatus('💶 Prezzo aggiunto in bozza. Clicca SALVA.');
 });
 
-/* ===== Click sul box prezzo per modifiche rapide ===== */
+/* ===== Click rapido prezzo ===== */
 document.addEventListener('click', async (e)=>{
   const priceBox = e.target.closest('.price-big');
   if (!priceBox) return;
+  if (!document.body.classList.contains('edit-unlocked')) return;
 
-  const card = priceBox.closest('.item'); 
+  const card = priceBox.closest('.item');
   const asin = card?.dataset?.asin || '';
   if (!asin) return;
 
   const current = parsePriceHTML(priceBox.innerHTML);
 
-  // rileva parte cliccata
   let side = e.target.closest('[data-part]')?.getAttribute('data-part');
   if (!side) {
     side = prompt('Scrivi "mio" o "valore":','mio');
@@ -616,7 +667,7 @@ document.addEventListener('click', async (e)=>{
   }
 });
 
-/* ===== SALVATAGGIO UNICO ===== */
+/* ===== Salvataggio ===== */
 async function salvaTutto(){
   try{
     setBusy(true);
@@ -653,7 +704,7 @@ async function salvaTutto(){
 }
 document.getElementById('salvaTutto').addEventListener('click', salvaTutto);
 
-/* ===== Bottoni interni scheda (frecce su/giù) ===== */
+/* ===== Bottoni interni scheda ===== */
 document.addEventListener('click',e=>{
   const btn=e.target.closest('button'); if(!btn) return;
 
@@ -706,8 +757,8 @@ window.onload = async () => {
     statusBar.parentNode.insertBefore(controls, statusBar.nextSibling);
 
     document.getElementById('toggleReorder').addEventListener('click', () => {
-      reorderMode = !reorderMode;
-      (window.setStatus || (()=>{}))(reorderMode ? '✏️ Riordino attivo' : '');
+      window.reorderMode = !window.reorderMode;
+      (window.setStatus || (()=>{}))(window.reorderMode ? '✏️ Riordino attivo' : '');
       (window.caricaCatalogo || (()=>{}))();
     });
   }
@@ -718,6 +769,7 @@ window.onload = async () => {
     if (!form || !input) return;
 
     if (localStorage.getItem(UNLOCK_KEY) === '1') {
+      document.body.classList.add('edit-unlocked');
       ensureReorderButtons();
     }
 
@@ -734,6 +786,7 @@ window.onload = async () => {
         const data = await resp.json().catch(()=>({}));
         if (resp.ok && data?.ok) {
           localStorage.setItem(UNLOCK_KEY, '1');
+          document.body.classList.add('edit-unlocked');
           ensureReorderButtons();
           if (window.setStatus) window.setStatus('🔓 Modalità riordino sbloccata');
         } else {
