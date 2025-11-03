@@ -15,7 +15,7 @@
   #clearMostra {position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#b30000;color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-weight:bold;display:none;line-height:18px;z-index:1;}
   #clearMostra:hover{background:darkred;}
 
-  #statusBar {display:flex;align-items:center;gap:15px;margin-bottom:15px;flex-wrap:wrap;}
+  #statusBar {display:flex;align-items:center;gap:10px;margin-bottom:15px;flex-wrap:wrap;}
   #apiInfo { display: none; } 
   #statusMsg {margin:5px 0;font-weight:600;white-space:pre-wrap;}
 
@@ -29,8 +29,8 @@
   .item-content {text-align:center;position:relative;}
   .item-content a.img-link { display:block; }
   .item-content img {width:100%;max-width:200px;aspect-ratio:1/1;object-fit:contain;}
-  .price-big {font-weight:bold;color:#009900;font-size:1em;margin-top:6px;}
-  .column a {color:#000;text-decoration:none;font-weight:bold;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;line-height:1.2em;}
+  .price-big {font-weight:bold;color:#009900;font-size:1em;margin-top:6px;cursor:pointer;}
+  .column a {color:#000;text-decoration:none;font-weight:bold;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;line-height:1.2em;}
   .column a:hover{text-decoration:underline;}
   small{color:#666;font-size:0.8em;}
 
@@ -44,8 +44,8 @@
   .reorder-on .item-content a { pointer-events:none; }
 
   .drag-enabled .item { touch-action: pan-y; }
-  .reorder-dragging .item { touch-action: none; } /* solo mentre trascini */
-  .ghost-drag { position:fixed; z-index:10000; pointer-events:none; transform:translate(-50%,-50%) scale(1.02); box-shadow:0 10px 25px rgba(0,0,0,.2); border-radius:12px; background:#fff; }
+  .reorder-dragging .item { touch-action: none; }
+  .ghost-drag { position:fixed; z-index:10000; pointer-events:none; transform:translate(-50%,-50%) scale(1.02); box-shadow:0 10px 25px rgba(0,0,0,0.2); border-radius:12px; background:#fff; }
   .placeholder { border:2px dashed #b30000; border-radius:12px; background:rgba(179,0,0,0.04); }
 
   img[loading="lazy"] {content-visibility:auto;}
@@ -57,15 +57,11 @@
     .contenuto{grid-template-columns:repeat(2,1fr);}
     .reorder-on .contenuto{grid-template-columns:1fr;}
     .item-content img{max-width:110px;}
-    .column a{-webkit-line-clamp:4;font-size:0.8em;line-height:1.1em;}
+    .column a{font-size:0.8em;line-height:1.1em;}
     .price-big{font-size:0.9em;}
     small{font-size:0.7em;}
     h2{font-size:0.9em;margin-bottom:5px;}
   }
-
-  #salvaOrdine { background:#0a7; color:#fff; border:none; border-radius:10px; padding:10px 18px; font-weight:bold; display:none; }
-  #salvaOrdine[disabled] { opacity:.6; cursor:not-allowed; }
-  #salvaOrdine:hover:not([disabled]) { background:#086; }
 
   /* Console segreta */
   #secretConsole { margin-top:20px; padding:12px; border-top:1px dashed #bbb; }
@@ -75,23 +71,47 @@
   #secretInput.error { animation: shake .25s linear 2; border-color:#c00; }
   @keyframes shake { 0%{transform:translateX(0)} 25%{transform:translateX(-4px)} 50%{transform:translateX(4px)} 75%{transform:translateX(-4px)} 100%{transform:translateX(0)} }
 
-.drag-handle{
-  display:none;                 /* visibile solo in riordino */
-  position:absolute; left:6px; top:6px;
-  width:28px; height:28px; line-height:28px; text-align:center;
-  border-radius:6px; border:1px solid #bbb; background:#fff;
-  font-weight:bold; font-size:16px; cursor:grab;
-  box-shadow:0 1px 3px rgba(0,0,0,.08);
-  user-select:none; -webkit-user-select:none;
-  touch-action:none;            /* sulla maniglia: niente scroll, serve al drag */
-}
-.drag-handle:active{ cursor:grabbing; }
-.reorder-on .drag-handle{ display:block; }    /* mostra solo quando riordino attivo */
+  .drag-handle{
+    display:none; position:absolute; left:6px; top:6px;
+    width:28px; height:28px; line-height:28px; text-align:center;
+    border-radius:6px; border:1px solid #bbb; background:#fff;
+    font-weight:bold; font-size:16px; cursor:grab;
+    box-shadow:0 1px 3px rgba(0,0,0,0.08);
+    user-select:none; -webkit-user-select:none;
+    touch-action:none;
+  }
+  .drag-handle:active{ cursor:grabbing; }
+  .reorder-on .drag-handle{ display:block; }
 
-/* IMPORTANTISSIMO: fuori dalla maniglia si deve poter scorrere */
-.drag-enabled .item { touch-action: pan-y; }    /* la card scrolla verticalmente */
-.reorder-dragging .item { touch-action: none; } /* solo mentre trascini */
+  .btn-edit-text{
+    position:absolute; right:6px; bottom:6px;
+    border:1px solid #888; background:#fff; color:#333;
+    font-size:12px; padding:3px 6px; border-radius:6px; cursor:pointer; z-index:2;
+    opacity:.9;
+  }
+  .btn-edit-text:hover{ opacity:1; }
 
+  /* nuovo: bottone Prezzo (solo quando manca il prezzo) */
+  .btn-edit-price{
+    position:absolute; left:6px; bottom:6px;
+    border:1px solid #888; background:#fff; color:#333;
+    font-size:12px; padding:3px 6px; border-radius:6px; cursor:pointer; z-index:2;
+    opacity:.9;
+  }
+  .btn-edit-price:hover{ opacity:1; }
+
+  /* clamp per testi/descrizioni */
+  .column a,
+  .item-content p.desc{
+    display:-webkit-box; -webkit-box-orient:vertical;
+    overflow:hidden; line-height:1.2em;
+    -webkit-line-clamp: var(--line-clamp, 4);
+  }
+
+  /* Bottone SALVA unico */
+  #salvaTutto { background:#0a7; color:#fff; border:none; border-radius:10px; padding:10px 18px; font-weight:bold; display:none; }
+  #salvaTutto[disabled] { opacity:.6; cursor:not-allowed; }
+  #salvaTutto:hover:not([disabled]) { background:#086; }
 </style>
 </head>
 <body>
@@ -111,6 +131,12 @@
 
 <div id="statusBar">
   <span id="apiInfo"></span>
+  <button id="salvaTutto" title="Salva locale + pubblica su GitHub">💾 SALVA</button>
+  <label style="display:flex;align-items:center;gap:6px;">
+    Righe:
+    <input id="clampRange" type="range" min="1" max="8" step="1" value="4">
+    <span id="clampVal">4</span>
+  </label>
 </div>
 <div id="statusMsg"></div>
 
@@ -120,7 +146,7 @@
 <audio id="audioDisattivate" src="https://raw.githubusercontent.com/spagocci/recensioni/main/disattivate.mp3" preload="auto"></audio>
 
 <div class="row">
-  <div class="column" id="canaleVetrina"><h2>Usato Spagocci Oggetti che NON mi servono più</h2><div class="contenuto" id="contenutoVetrina"></div></div>
+  <div class="column" id="canaleVetrina"><h2>🌈Usato 🫱🏻‍🫲🏻 Spagocci⭐</h2><div class="contenuto" id="contenutoVetrina"></div></div>
   <div class="column" id="canalePerte"><h2>🧐</h2><div class="contenuto" id="contenutoPerte"></div></div>
 </div>
 
@@ -138,43 +164,39 @@ document.getElementById('apiInfo').textContent = `API: ${API_BASE}`;
 
 /* ===== UI/Status ===== */
 const STATUS = document.getElementById('statusMsg');
-let BTN_SAVE = null;            // riferimento dinamico quando appare
+let BTN_SAVE = document.getElementById('salvaTutto');
 function setStatus(msg) { STATUS.textContent = msg; }
 function setBusy(b) { if (BTN_SAVE) BTN_SAVE.disabled = b; }
 
-/* ===== HTTP ===== */
-async function getJSON(url) {
-  const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 12000);
-  try {
-    const res = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-    return await res.json();
-  } finally { clearTimeout(t); }
+/* ===== Line clamp (righe visibili) ===== */
+const clampRange = document.getElementById('clampRange');
+const clampVal   = document.getElementById('clampVal');
+function applyLineClamp(n){
+  const v = Math.max(1, Math.min(12, Number(n)||4));
+  document.documentElement.style.setProperty('--line-clamp', String(v));
+  if (clampVal) clampVal.textContent = String(v);
+  localStorage.setItem('lineClamp', String(v));
 }
-async function postJSON(url, body) {
-  const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 15000);
-  try {
-    const res = await fetch(url, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, mode: 'cors',
-      body: JSON.stringify(body), signal: ctrl.signal,
-    });
-    const text = await res.text();
-    try { return { ok: res.ok, status: res.status, data: JSON.parse(text) }; }
-    catch { return { ok: res.ok, status: res.status, data: { raw:text } }; }
-  } finally { clearTimeout(t); }
-}
-
-/* ===== Canali ===== */
-const PERTE_CHANNELS = new Set(['1430829927175032954','1430131174197690479']);
-const VETRINA_CHANNEL = '1433444235851468980';
+(function initClamp(){
+  const saved = Number(localStorage.getItem('lineClamp') || 4);
+  if (clampRange) clampRange.value = String(saved || 4);
+  applyLineClamp(saved || 4);
+  if (clampRange) clampRange.addEventListener('input', e => applyLineClamp(e.target.value));
+})();
 
 /* ===== Stato app ===== */
 let audioAttivo = localStorage.getItem('audioAttivo') === 'true';
 let messaggiVisualizzati = new Set(JSON.parse(localStorage.getItem('messaggiVisualizzati') || '[]'));
 let reorderMode = false;
+let DIRTY = false;           // ← blocca auto-refresh se true
 window.__CATALOGO_ORIG = [];
+let DATA = [];
 
-/* ===== Persistenza ordine ===== */
+/* ===== Canali ===== */
+const PERTE_CHANNELS = new Set(['1430829927175032954','1430131174197690479']);
+const VETRINA_CHANNEL = '1433444235851468980';
+
+/* ===== Persistenza ordine (cache locale) ===== */
 const KEY_VETRINA_ORDER = 'vetrinaOrder';
 function readLocalOrderMap(){
   try { return JSON.parse(localStorage.getItem(KEY_VETRINA_ORDER) || '{}') || {}; }
@@ -195,6 +217,49 @@ function applyOrderMapToData(data, orderMap){
     }
     return it;
   });
+}
+
+/* ===== HTTP helpers ===== */
+async function getJSON(url, timeout=12000) {
+  const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), timeout);
+  try {
+    const res = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+    return await res.json();
+  } finally { clearTimeout(t); }
+}
+async function postJSON(url, body, timeout=15000) {
+  const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), timeout);
+  try {
+    const res = await fetch(url, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, mode: 'cors',
+      body: JSON.stringify(body), signal: ctrl.signal,
+    });
+    const text = await res.text();
+    try { return { ok: res.ok, status: res.status, data: JSON.parse(text) }; }
+    catch { return { ok: res.ok, status: res.status, data: { raw:text } }; }
+  } finally { clearTimeout(t); }
+}
+async function putJSON(url, body, timeout=15000) {
+  const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), timeout);
+  try {
+    const res = await fetch(url, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' }, mode: 'cors',
+      body: JSON.stringify(body), signal: ctrl.signal,
+    });
+    const text = await res.text();
+    try { return { ok: res.ok, status: res.status, data: JSON.parse(text) }; }
+    catch { return { ok: res.ok, status: res.status, data: { raw:text } }; }
+  } finally { clearTimeout(t); }
+}
+
+/* ===== Dati: preferisci locale → fallback GitHub ===== */
+async function fetchPreferLocal(){
+  try {
+    const local = await getJSON(`${API_BASE}/data`, 6000);
+    if (Array.isArray(local) && local.length >= 0) return local;
+  } catch {}
+  return await getJSON(`https://spagocci.github.io/recensioni/data.json?t=${Date.now()}`);
 }
 
 /* ===== UI base ===== */
@@ -226,11 +291,34 @@ function applicaFiltri(){
   });
 }
 
+/* ===== Helper prezzi ===== */
+function normEuro(input){
+  const s = String(input||'').trim().replace(/\s*€$/,'').replace(/\s+/g,'').replace(/,/g,'.');
+  if (!/^\d+(\.\d+)?$/.test(s)) throw new Error('Valore non valido');
+  const n = Number(s); if (!isFinite(n) || n <= 0) throw new Error('Valore non valido');
+  return (Number.isInteger(n)? String(n) : n.toFixed(2)).replace('.', ',') + '€';
+}
+function buildPriceHTML(my, am){
+  return `<span style="color:green;font-weight:bold;font-size:1.5em;">Mio: ${my}</span><br><span style="color:red;font-weight:bold;">Valore: ${am}</span>`;
+}
+function parsePriceHTML(html){
+  const tmp = document.createElement('div'); tmp.innerHTML = html || '';
+  const text = tmp.textContent || '';
+  const m1 = text.match(/mio\s*:\s*([\d.,]+)\s*€?/i);
+  const m2 = text.match(/\b(am|amazon)\s*:\s*([\d.,]+)\s*€?/i);
+  return {
+    my: m1 ? normEuro(m1[1]) : '0€',
+    Valore: m2 ? normEuro(m2[2]) : '0€'
+  };
+}
+
 /* ===== Render ===== */
 async function caricaCatalogo(){
   try{
-    const raw = await getJSON(`https://spagocci.github.io/recensioni/data.json?t=${Date.now()}`);
-    window.__CATALOGO_ORIG = Array.isArray(raw) ? raw : [];
+    const raw = await fetchPreferLocal();
+    DATA = Array.isArray(raw) ? raw : [];
+    window.__CATALOGO_ORIG = DATA.slice();
+
     const localMap = readLocalOrderMap();
     const data = applyOrderMapToData(window.__CATALOGO_ORIG, localMap);
 
@@ -252,6 +340,9 @@ async function caricaCatalogo(){
       const asin = item.asin || '';
       const pos = item.position || '';
       const link = item.link || '';
+      div.dataset.asin = asin;
+      if (withControls) div.dataset.position = pos || '';
+
       div.innerHTML = `
         <div class="item-content">
           ${
@@ -261,15 +352,19 @@ async function caricaCatalogo(){
               : ''
           }
           ${item.price ? `<div class="price-big">${item.price}</div>` : ''}
-          <p>${ link ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${item.text || ''}</a>` : (item.text || '') }</p>
-              ${withControls ? `<div class="drag-handle" title="Trascina">≡</div>` : ''} 
+          <p class="desc">
+            ${ link ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${item.text || ''}</a>`
+                    : (item.text || '') }
+          </p>
+          ${!item.price ? `<button class="btn-edit-price" title="Aggiungi prezzo">💶 Prezzo</button>` : ''}
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          ${withControls ? `<div class="drag-handle" title="Trascina">≡</div>` : ''} 
         </div>
         <div class="controls">
           <button class="move-up">⬆️</button>
           <input type="number" min="1" value="${pos || ''}" placeholder="#" class="order-input">
           <button class="move-down">⬇️</button>
         </div>`;
-      if (withControls){ div.dataset.asin = asin; div.dataset.position = pos || ''; }
       return div;
     }
 
@@ -296,166 +391,67 @@ async function caricaCatalogo(){
   }
 }
 
-/* ✅ Sostituisci TUTTA la tua sezione "Pointer-based Sort" con questa versione */
+/* ===== Pointer-based Sort ===== */
 const DRAG_THRESHOLD_PX = 12;
-
-let ps = {
-  enabled: false,
-  dragging: false,
-  down: false,
-  origin: null,
-  placeholder: null,
-  ghost: null,
-  startX: 0,
-  startY: 0,
-  nx: 0,
-  ny: 0,
-  raf: false
-};
-
+let ps = { enabled:false, dragging:false, down:false, origin:null, placeholder:null, ghost:null, startX:0, startY:0, nx:0, ny:0, raf:false };
 function enablePointerSort(container, enable){
-  // cleanup
   container.removeEventListener('pointerdown', onPD);
   window.removeEventListener('pointermove', onPM);
   window.removeEventListener('pointerup', onPU);
-
   ps = { ...ps, enabled: !!enable, dragging: false, down: false, origin: null, placeholder: null, ghost: null };
-
-  if (!enable) {
-    document.body.classList.remove('reorder-dragging');
-    return;
-  }
-
+  if (!enable) { document.body.classList.remove('reorder-dragging'); return; }
   container.addEventListener('pointerdown', onPD, { passive: true });
-  window.addEventListener('pointermove', onPM, { passive: false }); // serve per poter prevenire quando parte il drag
+  window.addEventListener('pointermove', onPM, { passive: false });
   window.addEventListener('pointerup', onPU, { passive: true });
 }
-
 function onPD(e){
   if (!ps.enabled) return;
-
-  // ✅ consenti drag SOLO se si parte dalla maniglia
-  const handle = e.target.closest('.drag-handle');
-  if (!handle) {
-    // non è la maniglia: lascia scorrere la pagina
-    return;
-  }
-
+  const handle = e.target.closest('.drag-handle'); if (!handle) return;
   const item = handle.closest('.item');
   const container = document.getElementById('contenutoVetrina');
   if (!item || item.parentElement !== container) return;
-
-  // qui NON chiamiamo preventDefault: lo faremo solo quando parte davvero il drag
-  ps.down = true;
-  ps.dragging = false;
-  ps.origin = item;
-  ps.startX = e.clientX;
-  ps.startY = e.clientY;
+  ps.down = true; ps.dragging = false; ps.origin = item; ps.startX = e.clientX; ps.startY = e.clientY;
 }
-
 function startDrag(e){
   if (ps.dragging || !ps.origin) return;
-  const item = ps.origin;
-  const r = item.getBoundingClientRect();
-
-  // placeholder altezza fissa
-  const ph = document.createElement('div');
-  ph.className = 'placeholder';
-  ph.style.width  = r.width + 'px';
-  ph.style.height = r.height + 'px';
-
-  // ghost
-  const g = item.cloneNode(true);
-  g.className = 'ghost-drag';
-  g.style.width = r.width + 'px';
-  g.style.height = r.height + 'px';
-  g.style.left = e.clientX + 'px';
-  g.style.top  = e.clientY + 'px';
-
-  item.parentElement.insertBefore(ph, item);
-  item.style.visibility = 'hidden';
-  document.body.appendChild(g);
-
-  ps.placeholder = ph;
-  ps.ghost = g;
-  ps.dragging = true;
-  document.body.classList.add('reorder-dragging');
-
-  // ora sì: impediamo lo scroll della pagina mentre DRAG è attivo
-  e.preventDefault();
+  const item = ps.origin; const r = item.getBoundingClientRect();
+  const ph = document.createElement('div'); ph.className = 'placeholder'; ph.style.width  = r.width + 'px'; ph.style.height = r.height + 'px';
+  const g = item.cloneNode(true); g.className = 'ghost-drag'; g.style.width = r.width + 'px'; g.style.height = r.height + 'px'; g.style.left = e.clientX + 'px'; g.style.top  = e.clientY + 'px';
+  item.parentElement.insertBefore(ph, item); item.style.visibility = 'hidden'; document.body.appendChild(g);
+  ps.placeholder = ph; ps.ghost = g; ps.dragging = true; document.body.classList.add('reorder-dragging'); e.preventDefault();
 }
-
 function onPM(e){
   if (!ps.enabled || !ps.down) return;
-
-  // Se non abbiamo ancora iniziato a trascinare, verifica soglia
   if (!ps.dragging) {
-    const dx = e.clientX - ps.startX;
-    const dy = e.clientY - ps.startY;
-    if (Math.abs(dy) > DRAG_THRESHOLD_PX && Math.abs(dy) > Math.abs(dx)) {
-      startDrag(e); // avvia drag solo oltre soglia e prevalenza verticale
-    } else {
-      return; // lascia scorrere la pagina
-    }
+    const dx = e.clientX - ps.startX; const dy = e.clientY - ps.startY;
+    if (Math.abs(dy) > DRAG_THRESHOLD_PX && Math.abs(dy) > Math.abs(dx)) startDrag(e); else return;
   }
-
-  // DRAG attivo
-  ps.nx = e.clientX;
-  ps.ny = e.clientY;
+  ps.nx = e.clientX; ps.ny = e.clientY;
   if (!ps.raf) { ps.raf = true; requestAnimationFrame(tickMove); }
-  // impedisci scroll mentre trascini
   e.preventDefault();
 }
-
 function tickMove(){
-  ps.raf = false;
-  if (!ps.dragging || !ps.ghost) return;
-
-  ps.ghost.style.left = ps.nx + 'px';
-  ps.ghost.style.top  = ps.ny + 'px';
-
+  ps.raf = false; if (!ps.dragging || !ps.ghost) return;
+  ps.ghost.style.left = ps.nx + 'px'; ps.ghost.style.top  = ps.ny + 'px';
   const container = document.getElementById('contenutoVetrina');
   const items = [...container.querySelectorAll('.item')].filter(n => n !== ps.origin && n.style.display !== 'none');
-
   if (!items.length) return;
-
-  const y = ps.ny;
-  let beforeNode = null;
-  for (const it of items){
-    const r = it.getBoundingClientRect();
-    const mid = r.top + r.height * 0.4; // soglia 40%
-    if (y < mid) { beforeNode = it; break; }
-  }
-  if (beforeNode) container.insertBefore(ps.placeholder, beforeNode);
-  else container.appendChild(ps.placeholder);
+  const y = ps.ny; let beforeNode = null;
+  for (const it of items){ const r = it.getBoundingClientRect(); const mid = r.top + r.height * 0.4; if (y < mid) { beforeNode = it; break; } }
+  if (beforeNode) container.insertBefore(ps.placeholder, beforeNode); else container.appendChild(ps.placeholder);
 }
-
 function onPU(){
-  if (!ps.enabled || !ps.down) return;
-  ps.down = false;
-
+  if (!ps.enabled || !ps.down) return; ps.down = false;
   const container = document.getElementById('contenutoVetrina');
-
   if (ps.dragging) {
-    if (ps.placeholder && ps.origin && ps.placeholder.parentElement === container) {
-      container.insertBefore(ps.origin, ps.placeholder);
-      ps.origin.style.visibility = '';
-    }
+    if (ps.placeholder && ps.origin && ps.placeholder.parentElement === container) { container.insertBefore(ps.origin, ps.placeholder); ps.origin.style.visibility = ''; }
     if (ps.placeholder?.parentElement) ps.placeholder.remove();
     if (ps.ghost?.parentElement) ps.ghost.remove();
-
-    // aggiorna posizioni + persistenza
     aggiornaPosizioniVetrina();
     writeLocalOrderMapFromDOM();
   }
-
   document.body.classList.remove('reorder-dragging');
-
-  // reset
-  ps.dragging = false;
-  ps.origin = null;
-  ps.placeholder = null;
-  ps.ghost = null;
+  ps.dragging = false; ps.origin = null; ps.placeholder = null; ps.ghost = null;
 }
 
 /* ===== Posizioni ===== */
@@ -463,24 +459,177 @@ function aggiornaPosizioniVetrina(){
   const container=document.getElementById('contenutoVetrina');
   const items=[...container.children].filter(n=>n.classList?.contains('item'));
   items.forEach((el,i)=>{ el.dataset.position=i+1; const inp=el.querySelector('.order-input'); if(inp) inp.value=i+1; });
+  setDirty(true);
+  setStatus('✏️ Riordino in bozza. Clicca SALVA per pubblicare.');
 }
 function riordinaPerNumeroVetrina(){
   const container=document.getElementById('contenutoVetrina');
   const items=[...container.children].filter(n=>n.classList?.contains('item'))
     .sort((a,b)=>(parseInt(a.dataset.position)||999999)-(parseInt(b.dataset.position)||999999));
   items.forEach(it=>container.appendChild(it));
+  setDirty(true);
+  setStatus('✏️ Riordino in bozza. Clicca SALVA per pubblicare.');
 }
 
-/* ===== Auto-refresh (pausa in riordino) ===== */
+/* ===== Auto-refresh ===== */
 let loopOn = true;
 (async function aggiornaCatalogoLoop(){
   while(loopOn){
-    if (!reorderMode) await caricaCatalogo();
+    if (!reorderMode && !DIRTY) await caricaCatalogo();
     await new Promise(r => setTimeout(r, 25000));
   }
 })();
 
-/* ===== Bottoni interni scheda ===== */
+/* ===== Dirty state ===== */
+function setDirty(v){
+  DIRTY = !!v;
+  document.getElementById('salvaTutto').style.display = DIRTY ? 'inline-block' : 'none';
+  if (DIRTY) localStorage.setItem('__CATALOGO_EDIT', JSON.stringify(DATA));
+  else localStorage.removeItem('__CATALOGO_EDIT');
+}
+
+/* ===== Edit testo card (✏️) ===== */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-edit-text');
+  if (!btn) return;
+
+  const card = btn.closest('.item');
+  const asin = card?.dataset?.asin || '';
+  if (!asin) return;
+
+  const linkEl = card.querySelector('.desc a');
+  const pEl    = linkEl ? null : card.querySelector('.desc');
+
+  const currentText = linkEl ? (linkEl.textContent || '') : (pEl?.textContent || '');
+  const nuovo = prompt(`Nuovo testo per ${asin}`, currentText || '');
+  if (nuovo === null) return;
+
+  if (linkEl) linkEl.textContent = nuovo;
+  else if (pEl) pEl.textContent = nuovo;
+
+  const rec = DATA.find(x => (x.asin||'').toUpperCase() === asin.toUpperCase());
+  if (rec) {
+    rec.text = nuovo;
+    setDirty(true);
+    setStatus('✏️ Testo aggiornato in bozza. Clicca SALVA.');
+  }
+});
+
+/* ===== Aggiungi prezzo via bottone 💶 (quando manca) ===== */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-edit-price');
+  if (!btn) return;
+
+  const card = btn.closest('.item');
+  const asin = card?.dataset?.asin || '';
+  if (!asin) return;
+
+  let mio = prompt(`Inserisci "Mio" per ${asin} (es. 33 o 33,99)`, '');
+  if (mio === null) return;
+  let am  = prompt(`Inserisci "AM" per ${asin} (es. 65 o 65,99)`, '');
+  if (am === null) return;
+
+  try {
+    mio = normEuro(mio);
+    am  = normEuro(am);
+  } catch (err) {
+    alert(err?.message || err);
+    return;
+  }
+
+  const rec = DATA.find(x => (x.asin||'').toUpperCase() === asin.toUpperCase());
+  if (!rec) return;
+  rec.price = buildPriceHTML(mio, am);
+
+  const content = card.querySelector('.item-content');
+  let priceBox = content.querySelector('.price-big');
+  if (!priceBox) {
+    priceBox = document.createElement('div');
+    priceBox.className = 'price-big';
+    const desc = content.querySelector('.desc');
+    content.insertBefore(priceBox, desc);
+  }
+  priceBox.innerHTML = rec.price;
+  btn.remove();
+
+  setDirty(true);
+  setStatus('💶 Prezzo aggiunto in bozza. Clicca SALVA.');
+});
+
+/* ===== Click sul box prezzo per modifiche rapide ===== */
+document.addEventListener('click', async (e)=>{
+  const priceBox = e.target.closest('.price-big');
+  if (!priceBox) return;
+  const card = priceBox.closest('.item'); const asin = card?.dataset?.asin || '';
+  if (!asin) return;
+
+  const current = parsePriceHTML(priceBox.innerHTML);
+  const txt = (e.target.textContent||'').toLowerCase();
+
+  try{
+    if (/mio/.test(txt)){
+      const v = prompt(`Nuovo "Mio" per ${asin}`, current.my.replace('€','')); if(v===null) return;
+      current.my = normEuro(v);
+    } else if (/\bam\b|\bamazon\b/.test(txt)){
+      const v = prompt(`Nuovo "AM" per ${asin}`, current.am.replace('€','')); if(v===null) return;
+      current.am = normEuro(v);
+    } else {
+      const side = prompt('Scrivi "mio" o "am":','mio'); if(side===null) return;
+      const v = prompt(`Nuovo "${side}" per ${asin}`, (side==='mio'?current.my:current.am).replace('€','')); if(v===null) return;
+      if (side==='mio') current.my = normEuro(v); else current.am = normEuro(v);
+    }
+  }catch(err){ alert(err?.message||err); return; }
+
+  const rec = DATA.find(x => (x.asin||'').toUpperCase() === asin.toUpperCase());
+  if (rec){
+    rec.price = buildPriceHTML(current.my, current.am);
+    priceBox.innerHTML = rec.price;
+    setDirty(true);
+    setStatus('✏️ Prezzo aggiornato in bozza. Clicca SALVA.');
+  }
+});
+
+/* ===== SALVATAGGIO UNICO: locale + GitHub ===== */
+async function salvaTutto(){
+  try{
+    setBusy(true);
+    setStatus('⏳ Salvataggio in corso…');
+
+    // 1) sincronizza l’ordine dal DOM → DATA.position (solo vetrina)
+    const ordine = [...document.querySelectorAll('#contenutoVetrina .item')]
+      .map((el,i)=>({ asin: el.dataset.asin, position: Number(el.dataset.position)|| (i+1) }))
+      .filter(o => o.asin);
+
+    if (ordine.length){
+      const posMap = Object.fromEntries(ordine.map(o => [o.asin.toUpperCase(), o.position]));
+      DATA = DATA.map(it => {
+        if (String(it.sourceChannel) === VETRINA_CHANNEL && it.asin && posMap[it.asin.toUpperCase()] != null){
+          return { ...it, position: posMap[it.asin.toUpperCase()] };
+        }
+        return it;
+      });
+      writeLocalOrderMapFromDOM(); // aggiorna cache locale
+    }
+
+    // 2) salva localmente
+    let r = await putJSON(`${API_BASE}/data`, DATA);
+    if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
+
+    // 3) pubblica su GitHub
+    r = await postJSON(`${API_BASE}/uploadjson`, {});
+    if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
+
+    setDirty(false);
+    setStatus('✅ Salvato e pubblicato su GitHub.');
+  }catch(e){
+    setStatus('❌ Errore salvataggio: ' + (e.message||e));
+  }finally{
+    setBusy(false);
+  }
+}
+document.getElementById('salvaTutto').addEventListener('click', salvaTutto);
+
+/* ===== Bottoni interni scheda (frecce su/giù) ===== */
 document.addEventListener('click',e=>{
   const btn=e.target.closest('button'); if(!btn) return;
 
@@ -506,10 +655,16 @@ document.addEventListener('input',e=>{
 });
 
 /* ===== Avvio ===== */
-window.onload = () => { caricaCatalogo(); };
+window.onload = async () => {
+  const draft = localStorage.getItem('__CATALOGO_EDIT');
+  if (draft) {
+    try { DATA = JSON.parse(draft); window.__CATALOGO_ORIG = DATA.slice(); DIRTY = true; } catch {}
+  }
+  await caricaCatalogo();
+};
 </script>
 
-<!-- Console segreta (sblocca i bottoni riordino/salva) -->
+<!-- Console segreta (solo toggle riordino) -->
 <div id="secretConsole">
   <form id="secretForm" autocomplete="off">
     <span id="secretPrompt">Console:</span>
@@ -524,47 +679,15 @@ window.onload = () => { caricaCatalogo(); };
     const controls = document.createElement('div');
     controls.innerHTML = `
       <button id="toggleReorder">🎛️ Riordina Vetrina</button>
-      <button id="salvaOrdine" style="display:none;">💾 Salva (GitHub + data.json)</button>
     `;
     const statusBar = document.getElementById('statusBar') || document.body;
     statusBar.parentNode.insertBefore(controls, statusBar.nextSibling);
 
-    BTN_SAVE = document.getElementById('salvaOrdine');
-
-document.getElementById('toggleReorder').addEventListener('click', () => {
-  reorderMode = !reorderMode; // <-- questa è la correzione
-  document.getElementById('salvaOrdine').style.display = reorderMode ? 'inline-block' : 'none';
-  (window.setStatus || (()=>{}))(reorderMode ? '✏️ Riordino attivo' : '');
-  (window.caricaCatalogo || (()=>{}))();
-});
-    const salva = document.getElementById('salvaOrdine');
-    if (salva && typeof window.postJSON === 'function') {
-      salva.addEventListener('click', async () => {
-        const ordine = [...document.querySelectorAll('#contenutoVetrina .item')]
-          .map(el => ({ asin: el.dataset.asin, position: parseInt(el.dataset.position, 10) }))
-          .filter(o => o.asin && !isNaN(o.position));
-
-        if (!ordine.length) { (window.setStatus || console.log)('⚠️ Nessun elemento da salvare.'); return; }
-
-        localStorage.setItem('vetrinaOrder',
-          JSON.stringify(Object.fromEntries(ordine.map(o => [o.asin, o.position]))));
-
-        setBusy(true);
-        try {
-          (window.setStatus || console.log)('⏳ Salvo ordine…');
-          const resp = await postJSON(`${API_BASE}/saveorder`, ordine);
-          if (resp.ok && resp.data?.ok) {
-            (window.setStatus || console.log)(`✅ Ordine salvato: ${resp.data.modificati} aggiornati.`);
-          } else {
-            (window.setStatus || console.log)(`❌ Errore ${resp.status}: ${resp.data?.error || resp.data?.raw || 'unknown'}`);
-          }
-        } catch (e) {
-          (window.setStatus || console.log)(`❌ Errore salvataggio: ${String(e?.message || e)}`);
-        } finally {
-          setBusy(false);
-        }
-      });
-    }
+    document.getElementById('toggleReorder').addEventListener('click', () => {
+      reorderMode = !reorderMode;
+      (window.setStatus || (()=>{}))(reorderMode ? '✏️ Riordino attivo' : '');
+      (window.caricaCatalogo || (()=>{}))();
+    });
   }
 
   (function initSecretConsole(){
@@ -583,8 +706,11 @@ document.getElementById('toggleReorder').addEventListener('click', () => {
       if (!pass) return;
 
       try {
-        const resp = await postJSON(`${API_BASE}/unlock`, { pass });
-        if (resp.ok && resp.data?.ok) {
+        const resp = await fetch(`${location.origin.includes('https')?'https':'http'}://${location.hostname}:${(new URLSearchParams(location.search).get('port')||'3000')}/unlock`, {
+          method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({pass})
+        });
+        const data = await resp.json().catch(()=>({}));
+        if (resp.ok && data?.ok) {
           localStorage.setItem(UNLOCK_KEY, '1');
           ensureReorderButtons();
           if (window.setStatus) window.setStatus('🔓 Modalità riordino sbloccata');
