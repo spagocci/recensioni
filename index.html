@@ -50,18 +50,26 @@
 
   img[loading="lazy"] {content-visibility:auto;}
 
-  @media(max-width:768px){
-    body{padding:10px;}
-    .row{flex-direction:column;}
-    .column{flex:1 1 100%;max-width:100%;padding:10px;}
-    .contenuto{grid-template-columns:repeat(2,1fr);}
-    .reorder-on .contenuto{grid-template-columns:1fr;}
-    .item-content img{max-width:110px;}
-    .column a{font-size:0.8em;line-height:1.1em;}
-    .price-big{font-size:0.9em;}
-    small{font-size:0.7em;}
-    h2{font-size:0.9em;margin-bottom:5px;}
+@media(max-width:768px){
+  body{padding:10px;}
+  .row{flex-direction:column;}
+  .column{
+    flex:1 1 100%;
+    max-width:100%;
+    padding:10px;
   }
+  /* 👇 prima avevi repeat(2,1fr) → causa “colonna destra mezza” */
+  .contenuto{
+    grid-template-columns: 1fr;
+    gap:10px;              /* opzionale */
+  }
+  .reorder-on .contenuto{grid-template-columns:1fr;}
+  .item-content img{max-width:110px;}
+  .column a{font-size:0.8em;line-height:1.1em;}
+  .price-big{font-size:0.9em;}
+  small{font-size:0.7em;}
+  h2{font-size:0.9em;margin-bottom:5px;}
+}
 
   /* Console segreta */
   #secretConsole { margin-top:20px; padding:12px; border-top:1px dashed #bbb; }
@@ -188,7 +196,7 @@ function applyLineClamp(n){
 let audioAttivo = localStorage.getItem('audioAttivo') === 'true';
 let messaggiVisualizzati = new Set(JSON.parse(localStorage.getItem('messaggiVisualizzati') || '[]'));
 let reorderMode = false;
-let DIRTY = false;           // ← blocca auto-refresh se true
+let DIRTY = false;
 window.__CATALOGO_ORIG = [];
 let DATA = [];
 
@@ -291,24 +299,40 @@ function applicaFiltri(){
   });
 }
 
-/* ===== Helper prezzi ===== */
+/* ===== Helper prezzi (Valore rosso) ===== */
 function normEuro(input){
   const s = String(input||'').trim().replace(/\s*€$/,'').replace(/\s+/g,'').replace(/,/g,'.');
   if (!/^\d+(\.\d+)?$/.test(s)) throw new Error('Valore non valido');
   const n = Number(s); if (!isFinite(n) || n <= 0) throw new Error('Valore non valido');
   return (Number.isInteger(n)? String(n) : n.toFixed(2)).replace('.', ',') + '€';
 }
-function buildPriceHTML(my, am){
-  return `<span style="color:green;font-weight:bold;font-size:1.5em;">Mio: ${my}</span><br><span style="color:red;font-weight:bold;">Valore: ${am}</span>`;
+function buildPriceHTML(my, valore){
+  return [
+    `<span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: ${my}</span>`,
+    `<br>`,
+    `<span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: ${valore}</span>`
+  ].join('');
 }
 function parsePriceHTML(html){
   const tmp = document.createElement('div'); tmp.innerHTML = html || '';
+  const spMio = tmp.querySelector('[data-part="mio"]');
+  const spVal = tmp.querySelector('[data-part="valore"]');
+  if (spMio || spVal){
+    const getNum = (t)=> {
+      const m = String(t||'').match(/([\d.,]+)\s*€?/);
+      return m ? normEuro(m[1]) : '0€';
+    };
+    return {
+      my:     spMio ? getNum(spMio.textContent) : '0€',
+      valore: spVal ? getNum(spVal.textContent) : '0€'
+    };
+  }
   const text = tmp.textContent || '';
   const m1 = text.match(/mio\s*:\s*([\d.,]+)\s*€?/i);
-  const m2 = text.match(/\b(am|amazon)\s*:\s*([\d.,]+)\s*€?/i);
+  const m2 = text.match(/\b(valore|am|amazon|va\s*lore)\s*:\s*([\d.,]+)\s*€?/i);
   return {
-    my: m1 ? normEuro(m1[1]) : '0€',
-    Valore: m2 ? normEuro(m2[2]) : '0€'
+    my:      m1 ? normEuro(m1[1]) : '0€',
+    valore:  m2 ? normEuro(m2[2]) : '0€'
   };
 }
 
@@ -526,12 +550,12 @@ document.addEventListener('click', (e) => {
 
   let mio = prompt(`Inserisci "Mio" per ${asin} (es. 33 o 33,99)`, '');
   if (mio === null) return;
-  let am  = prompt(`Inserisci "AM" per ${asin} (es. 65 o 65,99)`, '');
-  if (am === null) return;
+  let valore  = prompt(`Inserisci "Valore" per ${asin} (es. 65 o 65,99)`, '');
+  if (valore === null) return;
 
   try {
-    mio = normEuro(mio);
-    am  = normEuro(am);
+    mio    = normEuro(mio);
+    valore = normEuro(valore);
   } catch (err) {
     alert(err?.message || err);
     return;
@@ -539,7 +563,7 @@ document.addEventListener('click', (e) => {
 
   const rec = DATA.find(x => (x.asin||'').toUpperCase() === asin.toUpperCase());
   if (!rec) return;
-  rec.price = buildPriceHTML(mio, am);
+  rec.price = buildPriceHTML(mio, valore);
 
   const content = card.querySelector('.item-content');
   let priceBox = content.querySelector('.price-big');
@@ -560,42 +584,44 @@ document.addEventListener('click', (e) => {
 document.addEventListener('click', async (e)=>{
   const priceBox = e.target.closest('.price-big');
   if (!priceBox) return;
-  const card = priceBox.closest('.item'); const asin = card?.dataset?.asin || '';
+
+  const card = priceBox.closest('.item'); 
+  const asin = card?.dataset?.asin || '';
   if (!asin) return;
 
   const current = parsePriceHTML(priceBox.innerHTML);
-  const txt = (e.target.textContent||'').toLowerCase();
+
+  // rileva parte cliccata
+  let side = e.target.closest('[data-part]')?.getAttribute('data-part');
+  if (!side) {
+    side = prompt('Scrivi "mio" o "valore":','mio');
+    if (side === null) return;
+    side = (String(side).trim().toLowerCase()==='valore') ? 'valore' : 'mio';
+  }
 
   try{
-    if (/mio/.test(txt)){
-      const v = prompt(`Nuovo "Mio" per ${asin}`, current.my.replace('€','')); if(v===null) return;
-      current.my = normEuro(v);
-    } else if (/\bam\b|\bamazon\b/.test(txt)){
-      const v = prompt(`Nuovo "AM" per ${asin}`, current.am.replace('€','')); if(v===null) return;
-      current.am = normEuro(v);
-    } else {
-      const side = prompt('Scrivi "mio" o "am":','mio'); if(side===null) return;
-      const v = prompt(`Nuovo "${side}" per ${asin}`, (side==='mio'?current.my:current.am).replace('€','')); if(v===null) return;
-      if (side==='mio') current.my = normEuro(v); else current.am = normEuro(v);
-    }
+    const start = side==='mio' ? current.my : current.valore;
+    const v = prompt(`Nuovo "${side}" per ${asin}`, start.replace('€',''));
+    if (v === null) return;
+    const euro = normEuro(v);
+    if (side==='mio') current.my = euro; else current.valore = euro;
   }catch(err){ alert(err?.message||err); return; }
 
   const rec = DATA.find(x => (x.asin||'').toUpperCase() === asin.toUpperCase());
   if (rec){
-    rec.price = buildPriceHTML(current.my, current.am);
+    rec.price = buildPriceHTML(current.my, current.valore);
     priceBox.innerHTML = rec.price;
     setDirty(true);
     setStatus('✏️ Prezzo aggiornato in bozza. Clicca SALVA.');
   }
 });
 
-/* ===== SALVATAGGIO UNICO: locale + GitHub ===== */
+/* ===== SALVATAGGIO UNICO ===== */
 async function salvaTutto(){
   try{
     setBusy(true);
     setStatus('⏳ Salvataggio in corso…');
 
-    // 1) sincronizza l’ordine dal DOM → DATA.position (solo vetrina)
     const ordine = [...document.querySelectorAll('#contenutoVetrina .item')]
       .map((el,i)=>({ asin: el.dataset.asin, position: Number(el.dataset.position)|| (i+1) }))
       .filter(o => o.asin);
@@ -608,14 +634,12 @@ async function salvaTutto(){
         }
         return it;
       });
-      writeLocalOrderMapFromDOM(); // aggiorna cache locale
+      writeLocalOrderMapFromDOM();
     }
 
-    // 2) salva localmente
     let r = await putJSON(`${API_BASE}/data`, DATA);
     if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
 
-    // 3) pubblica su GitHub
     r = await postJSON(`${API_BASE}/uploadjson`, {});
     if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
 
@@ -664,7 +688,7 @@ window.onload = async () => {
 };
 </script>
 
-<!-- Console segreta (solo toggle riordino) -->
+<!-- Console segreta -->
 <div id="secretConsole">
   <form id="secretForm" autocomplete="off">
     <span id="secretPrompt">Console:</span>
@@ -677,9 +701,7 @@ window.onload = async () => {
   function ensureReorderButtons() {
     if (document.getElementById('toggleReorder')) return;
     const controls = document.createElement('div');
-    controls.innerHTML = `
-      <button id="toggleReorder">🎛️ Riordina Vetrina</button>
-    `;
+    controls.innerHTML = `<button id="toggleReorder">🎛️ Riordina Vetrina</button>`;
     const statusBar = document.getElementById('statusBar') || document.body;
     statusBar.parentNode.insertBefore(controls, statusBar.nextSibling);
 
