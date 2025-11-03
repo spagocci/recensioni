@@ -1,47 +1,15 @@
 [
   {
-    "id": "1434861590330474646",
-    "timestamp": "2025-11-03T11:07:41.574Z",
-    "text": "Chiavetta USB 512gb per Phone, 4 in 1, Memoria Esterna iPhone, Pen Drive USB C 3.0, Photo Stick, USB Stick per iOS/Smartphone/iPad/Android/PC argento in alluminio",
-    "link": "https://amazon.it/dp/B0FXMQQF7S",
-    "image": "https://m.media-amazon.com/images/I/41j6QhtSwiL._SL500_.jpg",
-    "price": null,
-    "asin": "B0FXMQQF7S",
-    "sourceChannel": "1433444235851468980",
-    "position": 7
-  },
-  {
-    "id": "1434856923739590698",
-    "timestamp": "2025-11-03T10:49:08.972Z",
-    "text": "EPOMAKER X AULA F108 PRO Tastiera da Gioco Wireless con Schermo, Ba...",
-    "link": "https://www.amazon.it/dp/B0F1FJD1YV",
-    "image": "https://m.media-amazon.com/images/I/61rzGb-KtjL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNTc8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
-    "price": null,
-    "asin": "B0F1FJD1YV",
-    "sourceChannel": "1433444235851468980",
-    "position": 5
-  },
-  {
-    "id": "1434848290817572955",
-    "timestamp": "2025-11-03T10:14:50.723Z",
-    "text": "Cudy 793784 Router Poe Wi-Fi 6 Mesh AX3000 2.5G, WR3000P Bianco",
-    "link": "https://amazon.it/dp/B0FG3D2SDY",
-    "image": "https://m.media-amazon.com/images/I/31ynFac0x5L._SL500_.jpg",
-    "price": null,
-    "asin": "B0FG3D2SDY",
-    "sourceChannel": "1433444235851468980",
-    "position": 9
-  },
-  {
     "id": "1434839947143155803",
     "timestamp": "2025-11-03T09:41:41.436Z",
     "text": "Marley House of Get Together Duo 2 Altoparlanti Attivi da Scaffale - 2x10W, 1 Portatile + 1 Fisso, Casse per Giradischi, Accoppiamento Bluetooth Stereo, Ingresso RCA/AUX, Design Sostenibile, Bambù",
     "link": "https://amazon.it/dp/B0FMF67WJS",
     "image": "https://m.media-amazon.com/images/I/41J94B08UeL._SL500_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 100€</span><br><span style=\"color:red;font-weight:bold;\">AM: 200€</span>",
     "asin": "B0FMF67WJS",
     "sourceChannel": "1433444235851468980",
-    "position": 2
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830791426310264",
@@ -49,10 +17,11 @@
     "text": "ORIGINE Casco Jet Moto Casco Aperto Scooter Omologato ECE con Visiera",
     "link": "https://www.amazon.it/dp/B0DBHHWSW8?th=1&linkCode=sl1&tag=ita36000-21&linkId=130e0014c9bd0de434ad58373697efbc&language=it_IT&ref_=as_li_ss_tl",
     "image": "https://m.media-amazon.com/images/I/61179zvDaVL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID42MzU8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 33€</span><br><span style=\"color:red;font-weight:bold;\">AM: 65€</span>",
     "asin": "B0DBHHWSW8",
     "sourceChannel": "1433444235851468980",
-    "position": 14
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830553789763616",
@@ -60,10 +29,11 @@
     "text": "HNBTX Scarpiera da Appendere Alla Porta,Organizer Scarpe con 8 Gran...",
     "link": "https://www.amazon.it/dp/B0FMDZKXNB",
     "image": "https://m.media-amazon.com/images/I/61ev48oaxbL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID43PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 22€</span><br><span style=\"color:red;font-weight:bold;\">AM: 43€</span>",
     "asin": "B0FMDZKXNB",
     "sourceChannel": "1433444235851468980",
-    "position": 23
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830520507695184",
@@ -71,10 +41,11 @@
     "text": "o-day Calze Uomo Lunghe Caldo Cotone (Confezione da 2) – Morbide ...",
     "link": "https://www.amazon.it/dp/B0FS7DLCB3",
     "image": "https://m.media-amazon.com/images/I/71AIoGUyP4L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 6€</span><br><span style=\"color:red;font-weight:bold;\">AM: 12€</span>",
     "asin": "B0FS7DLCB3",
     "sourceChannel": "1433444235851468980",
-    "position": 36
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830438626754600",
@@ -82,10 +53,11 @@
     "text": "Bonsenkitchen Macchina per sottovuoto con taglierina e contenitore ...",
     "link": "https://www.amazon.it/dp/B0F23VL9JJ",
     "image": "https://m.media-amazon.com/images/I/71PVL7wZ6mL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 40€</span><br><span style=\"color:red;font-weight:bold;\">AM: 80€</span>",
     "asin": "B0F23VL9JJ",
     "sourceChannel": "1433444235851468980",
-    "position": 10
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830357357658213",
@@ -93,10 +65,11 @@
     "text": "Rowenta Clean It, Smacchiatore, Pulitore per Tappeti Compatto e Ver...",
     "link": "https://www.amazon.it/dp/B0FLQ71X9L",
     "image": "https://m.media-amazon.com/images/I/71p5IKWpzqL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 75€</span><br><span style=\"color:red;font-weight:bold;\">AM: 150€</span>",
     "asin": "B0FLQ71X9L",
     "sourceChannel": "1433444235851468980",
-    "position": 4
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830322687672422",
@@ -104,10 +77,11 @@
     "text": "Set di 16 palline di Natale, decorazioni natalizie, palline di Nata...",
     "link": "https://www.amazon.it/dp/B0FL6JWNZ7",
     "image": "https://m.media-amazon.com/images/I/81tALZmDIuL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID44PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 7€</span><br><span style=\"color:red;font-weight:bold;\">AM: 14€</span>",
     "asin": "B0FL6JWNZ7",
     "sourceChannel": "1433444235851468980",
-    "position": 30
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830278676975618",
@@ -115,10 +89,11 @@
     "text": "UGREEN HiTune S3 Pro Cuffie Senza Fili Bluetooth6.0 con Clip Apertu...",
     "link": "https://www.amazon.it/dp/B0F94D64P3",
     "image": "https://m.media-amazon.com/images/I/617l6Q0Y7sL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4zNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 100€</span><br><span style=\"color:red;font-weight:bold;\">AM: 199€</span>",
     "asin": "B0F94D64P3",
     "sourceChannel": "1433444235851468980",
-    "position": 11
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830211429695530",
@@ -126,10 +101,11 @@
     "text": "E104 Inchiostro Flaconi di Inchiostro E104 Multipack Compatibile pe...",
     "link": "https://www.amazon.it/dp/B0FSZ9LJFL",
     "image": "https://m.media-amazon.com/images/I/71DRIVh0jvL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 11€</span><br><span style=\"color:red;font-weight:bold;\">AM: 22€</span>",
     "asin": "B0FSZ9LJFL",
     "sourceChannel": "1433444235851468980",
-    "position": 31
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830185424752783",
@@ -137,10 +113,11 @@
     "text": "Blukar Torcia LED Ricaricabile 2 Temperatura Colore,Super Luminoso ...",
     "link": "https://www.amazon.it/dp/B0FG2V4F5D",
     "image": "https://m.media-amazon.com/images/I/71TDJUi2RiL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 7€</span><br><span style=\"color:red;font-weight:bold;\">AM: 14€</span>",
     "asin": "B0FG2V4F5D",
     "sourceChannel": "1433444235851468980",
-    "position": 29
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830159072198697",
@@ -148,10 +125,11 @@
     "text": "BLOGLOER Riscaldamento elettrico, ventilatore Riscaldamento elettrico",
     "link": "https://www.amazon.it/dp/B0FQVDSSBV",
     "image": "https://m.media-amazon.com/images/I/61RzncTmPlL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 12€</span><br><span style=\"color:red;font-weight:bold;\">AM: 23€</span>",
     "asin": "B0FQVDSSBV",
     "sourceChannel": "1433444235851468980",
-    "position": 32
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830099953225838",
@@ -159,10 +137,11 @@
     "text": "SternSinn Alimentatore Universale Notebook, Caricatore Universale P...",
     "link": "https://www.amazon.it/dp/B0FPF2XPLR",
     "image": "https://m.media-amazon.com/images/I/71S2edTZm2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 12€</span><br><span style=\"color:red;font-weight:bold;\">AM: 24€</span>",
     "asin": "B0FPF2XPLR",
     "sourceChannel": "1433444235851468980",
-    "position": 35
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434830056974319706",
@@ -170,10 +149,11 @@
     "text": "VGECEE Giocattolo di Natale per Cani, Gioco Interattivo per Cani Gi...",
     "link": "https://www.amazon.it/dp/B0FNR98H39",
     "image": "https://m.media-amazon.com/images/I/71YLf2XbQAL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 6€</span><br><span style=\"color:red;font-weight:bold;\">AM: 12€</span>",
     "asin": "B0FNR98H39",
     "sourceChannel": "1433444235851468980",
-    "position": 33
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434829781270265919",
@@ -181,10 +161,11 @@
     "text": "SukModen 2 Paia Calzini da Sci in Lana di Merino Per Signore e Sign...",
     "link": "https://www.amazon.it/dp/B0FLXKXHSD?th=1&psc=1&linkCode=sl1&tag=ita36000-21&linkId=45be4b7a0739a65e52fb14095a0debfa&language=it_IT&ref_=as_li_ss_tl",
     "image": "https://m.media-amazon.com/images/I/712uiK7SmuL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 10€</span><br><span style=\"color:red;font-weight:bold;\">AM: 19€</span>",
     "asin": "B0FLXKXHSD",
     "sourceChannel": "1433444235851468980",
-    "position": 34
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434499395973414994",
@@ -192,10 +173,11 @@
     "text": "House of Marley Rise Up Giradischi Bluetooth con Casse Integrate - ...",
     "link": "https://www.amazon.it/dp/B0FP49DDM5",
     "image": "https://m.media-amazon.com/images/I/71MOl+NZcKL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
-    "price": null,
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 100€</span><br><span style=\"color:red;font-weight:bold;\">AM: 200€</span>",
     "asin": "B0FP49DDM5",
     "sourceChannel": "1433444235851468980",
-    "position": 1
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434210359161389086",
@@ -206,7 +188,8 @@
     "price": null,
     "asin": "B0FL7ZDPP2",
     "sourceChannel": "1433444235851468980",
-    "position": 12
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434182093579096085",
@@ -217,7 +200,8 @@
     "price": null,
     "asin": "B0FMY5KBJ1",
     "sourceChannel": "1433444235851468980",
-    "position": 16
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434181872870752387",
@@ -228,7 +212,8 @@
     "price": null,
     "asin": "B0FH41HC9F",
     "sourceChannel": "1433444235851468980",
-    "position": 18
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434181852695892141",
@@ -239,7 +224,8 @@
     "price": null,
     "asin": "B0FLFCL8JX",
     "sourceChannel": "1433444235851468980",
-    "position": 20
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434181832169226310",
@@ -250,7 +236,8 @@
     "price": null,
     "asin": "B0FLFCBR4K",
     "sourceChannel": "1433444235851468980",
-    "position": 21
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434181808852832267",
@@ -261,7 +248,8 @@
     "price": null,
     "asin": "B0FK3H7CPJ",
     "sourceChannel": "1433444235851468980",
-    "position": 22
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434181758928162826",
@@ -272,7 +260,8 @@
     "price": null,
     "asin": "B0FK9BS619",
     "sourceChannel": "1433444235851468980",
-    "position": 8
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434181733615407216",
@@ -283,7 +272,8 @@
     "price": null,
     "asin": "B0FCSG242T",
     "sourceChannel": "1433444235851468980",
-    "position": 24
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434181703143919728",
@@ -294,7 +284,8 @@
     "price": null,
     "asin": "B0DB5SQT71",
     "sourceChannel": "1433444235851468980",
-    "position": 13
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434181661909717184",
@@ -305,7 +296,8 @@
     "price": null,
     "asin": "B0FH6P2S4Y",
     "sourceChannel": "1433444235851468980",
-    "position": 25
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434181625511678133",
@@ -316,7 +308,8 @@
     "price": null,
     "asin": "B0FN7RB11H",
     "sourceChannel": "1433444235851468980",
-    "position": 27
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434181592452042813",
@@ -327,7 +320,8 @@
     "price": null,
     "asin": "B0FHP7DKK1",
     "sourceChannel": "1433444235851468980",
-    "position": 17
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434173955513520168",
@@ -338,7 +332,8 @@
     "price": null,
     "asin": "B0FGHZNCMX",
     "sourceChannel": "1433444235851468980",
-    "position": 3
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434173748155781171",
@@ -349,7 +344,8 @@
     "price": null,
     "asin": "B0FJRSKNJW",
     "sourceChannel": "1433444235851468980",
-    "position": 6
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434170819218505860",
@@ -360,7 +356,8 @@
     "price": null,
     "asin": "B0FMDTRP4F",
     "sourceChannel": "1433444235851468980",
-    "position": 15
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434170793901817948",
@@ -371,7 +368,8 @@
     "price": null,
     "asin": "B0FRM7W3QF",
     "sourceChannel": "1433444235851468980",
-    "position": 26
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434170792282689536",
@@ -382,7 +380,8 @@
     "price": null,
     "asin": "B0DNFBXJ7J",
     "sourceChannel": "1433444235851468980",
-    "position": 28
+    "priceAttempts": 0,
+    "lastPriceError": null
   },
   {
     "id": "1434170722950840421",
@@ -393,6 +392,37 @@
     "price": null,
     "asin": "B0FS2CLF1Q",
     "sourceChannel": "1433444235851468980",
-    "position": 19
+    "priceAttempts": 0,
+    "lastPriceError": null
+  },
+  {
+    "id": "1434861590330474646",
+    "timestamp": "2025-11-03T11:07:41.574Z",
+    "text": "Chiavetta USB 512gb per Phone, 4 in 1, Memoria Esterna iPhone, Pen Drive USB C 3.0, Photo Stick, USB Stick per iOS/Smartphone/iPad/Android/PC argento in alluminio",
+    "link": "https://amazon.it/dp/B0FXMQQF7S",
+    "image": "https://m.media-amazon.com/images/I/41j6QhtSwiL._SL500_.jpg",
+    "price": null,
+    "asin": "B0FXMQQF7S",
+    "sourceChannel": "1433444235851468980"
+  },
+  {
+    "id": "1434856923739590698",
+    "timestamp": "2025-11-03T10:49:08.972Z",
+    "text": "EPOMAKER X AULA F108 PRO Tastiera da Gioco Wireless con Schermo, Ba...",
+    "link": "https://www.amazon.it/dp/B0F1FJD1YV",
+    "image": "https://m.media-amazon.com/images/I/61rzGb-KtjL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNTc8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
+    "price": null,
+    "asin": "B0F1FJD1YV",
+    "sourceChannel": "1433444235851468980"
+  },
+  {
+    "id": "1434848290817572955",
+    "timestamp": "2025-11-03T10:14:50.723Z",
+    "text": "Cudy 793784 Router Poe Wi-Fi 6 Mesh AX3000 2.5G, WR3000P Bianco",
+    "link": "https://amazon.it/dp/B0FG3D2SDY",
+    "image": "https://m.media-amazon.com/images/I/31ynFac0x5L._SL500_.jpg",
+    "price": null,
+    "asin": "B0FG3D2SDY",
+    "sourceChannel": "1433444235851468980"
   }
 ]
