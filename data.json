@@ -2044,5 +2044,41 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null
+  },
+  {
+    "id": "1434830520507695184",
+    "timestamp": "2025-11-03T09:04:13.951Z",
+    "text": "o-day Calze Uomo Lunghe Caldo Cotone (Confezione da 2) – Morbide ...",
+    "link": "https://www.amazon.it/dp/B0FS7DLCB3",
+    "image": "https://m.media-amazon.com/images/I/71AIoGUyP4L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 6€</span><br><span style=\"color:red;font-weight:bold;\">AM: 12€</span>",
+    "asin": "B0FS7DLCB3",
+    "sourceChannel": "1433444235851468980",
+    "priceAttempts": 0,
+    "lastPriceError": null
+  },
+  {
+    "id": "1434830438626754600",
+    "timestamp": "2025-11-03T09:03:54.429Z",
+    "text": "Bonsenkitchen Macchina per sottovuoto con taglierina e contenitore ...",
+    "link": "https://www.amazon.it/dp/B0F23VL9JJ",
+    "image": "https://m.media-amazon.com/images/I/71PVL7wZ6mL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 17€</span><br><span style=\"color:red;font-weight:bold;\">AM: 34€</span>",
+    "asin": "B0F23VL9JJ",
+    "sourceChannel": "1433444235851468980",
+    "priceAttempts": 0,
+    "lastPriceError": null
+  },
+  {
+    "id": "1434830357357658213",
+    "timestamp": "2025-11-03T09:03:35.053Z",
+    "text": "Rowenta Clean It, Smacchiatore, Pulitore per Tappeti Compatto e Ver...",
+    "link": "https://www.amazon.it/dp/B0FLQ71X9L",
+    "image": "https://m.media-amazon.com/images/I/71p5IKWpzqL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 75€</span><br><span style=\"color:red;font-weight:bold;\">AM: 150€</span>",
+    "asin": "B0FLQ71X9L",
+    "sourceChannel": "1433444235851468980",
+    "priceAttempts": 0,
+    "lastPriceError": null
   }
 ]
