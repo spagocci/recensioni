@@ -2080,5 +2080,17 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null
+  },
+  {
+    "id": "1434830791426310264",
+    "timestamp": "2025-11-03T09:05:18.543Z",
+    "text": "ORIGINE Casco Jet Moto Casco Aperto Scooter Omologato ECE con Visiera",
+    "link": "https://www.amazon.it/dp/B0DBHHWSW8?th=1&linkCode=sl1&tag=ita36000-21&linkId=130e0014c9bd0de434ad58373697efbc&language=it_IT&ref_=as_li_ss_tl",
+    "image": "https://m.media-amazon.com/images/I/61179zvDaVL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID42MzU8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
+    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 33€</span><br><span style=\"color:red;font-weight:bold;\">AM: 65€</span>",
+    "asin": "B0DBHHWSW8",
+    "sourceChannel": "1433444235851468980",
+    "priceAttempts": 0,
+    "lastPriceError": null
   }
 ]
