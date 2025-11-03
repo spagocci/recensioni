@@ -1713,7 +1713,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 6
+    "position": 7
   },
   {
     "id": "1434182093579096085",
@@ -1726,7 +1726,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 7
+    "position": 8
   },
   {
     "id": "1434181872870752387",
@@ -1739,7 +1739,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 9
+    "position": 10
   },
   {
     "id": "1434181852695892141",
@@ -1752,7 +1752,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 11
+    "position": 12
   },
   {
     "id": "1434181832169226310",
@@ -1765,7 +1765,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 12
+    "position": 13
   },
   {
     "id": "1434181808852832267",
@@ -1778,7 +1778,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 13
+    "position": 14
   },
   {
     "id": "1434181781313163456",
@@ -1791,7 +1791,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 15
+    "position": 16
   },
   {
     "id": "1434181758928162826",
@@ -1804,7 +1804,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 5
+    "position": 4
   },
   {
     "id": "1434181733615407216",
@@ -1817,7 +1817,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 16
+    "position": 17
   },
   {
     "id": "1434181703143919728",
@@ -1830,7 +1830,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 4
+    "position": 5
   },
   {
     "id": "1434181661909717184",
@@ -1843,7 +1843,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 17
+    "position": 18
   },
   {
     "id": "1434181625511678133",
@@ -1856,7 +1856,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 19
+    "position": 20
   },
   {
     "id": "1434181592452042813",
@@ -1869,7 +1869,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 8
+    "position": 9
   },
   {
     "id": "1434173955513520168",
@@ -1908,7 +1908,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 14
+    "position": 15
   },
   {
     "id": "1434170793901817948",
@@ -1921,7 +1921,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 18
+    "position": 19
   },
   {
     "id": "1434170792282689536",
@@ -1934,7 +1934,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 20
+    "position": 21
   },
   {
     "id": "1434170722950840421",
@@ -1947,7 +1947,7 @@
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
     "lastPriceError": null,
-    "position": 10
+    "position": 11
   },
   {
     "id": "1434829781270265919",
@@ -1959,7 +1959,8 @@
     "asin": "B0FLXKXHSD",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 32
   },
   {
     "id": "1434830322687672422",
@@ -1971,7 +1972,8 @@
     "asin": "B0FL6JWNZ7",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 25
   },
   {
     "id": "1434830278676975618",
@@ -1983,7 +1985,8 @@
     "asin": "B0F94D64P3",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 26
   },
   {
     "id": "1434830211429695530",
@@ -1995,7 +1998,8 @@
     "asin": "B0FSZ9LJFL",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 27
   },
   {
     "id": "1434830185424752783",
@@ -2007,7 +2011,8 @@
     "asin": "B0FG2V4F5D",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 28
   },
   {
     "id": "1434830159072198697",
@@ -2019,7 +2024,8 @@
     "asin": "B0FQVDSSBV",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 29
   },
   {
     "id": "1434830099953225838",
@@ -2031,7 +2037,8 @@
     "asin": "B0FPF2XPLR",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 30
   },
   {
     "id": "1434830056974319706",
@@ -2043,7 +2050,8 @@
     "asin": "B0FNR98H39",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 31
   },
   {
     "id": "1434830520507695184",
@@ -2055,7 +2063,8 @@
     "asin": "B0FS7DLCB3",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 22
   },
   {
     "id": "1434830438626754600",
@@ -2067,7 +2076,8 @@
     "asin": "B0F23VL9JJ",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 23
   },
   {
     "id": "1434830357357658213",
@@ -2079,7 +2089,8 @@
     "asin": "B0FLQ71X9L",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 24
   },
   {
     "id": "1434830791426310264",
@@ -2091,6 +2102,7 @@
     "asin": "B0DBHHWSW8",
     "sourceChannel": "1433444235851468980",
     "priceAttempts": 0,
-    "lastPriceError": null
+    "lastPriceError": null,
+    "position": 6
   }
 ]
