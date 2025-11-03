@@ -7,7 +7,8 @@
     "image": "https://m.media-amazon.com/images/I/41J94B08UeL._SL500_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 100€</span><br><span style=\"color:red;font-weight:bold;\">AM: 200€</span>",
     "asin": "B0FMF67WJS",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 2
   },
   {
     "id": "1434830791426310264",
@@ -17,7 +18,8 @@
     "image": "https://m.media-amazon.com/images/I/61179zvDaVL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID42MzU8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 33€</span><br><span style=\"color:red;font-weight:bold;\">AM: 65€</span>",
     "asin": "B0DBHHWSW8",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 7
   },
   {
     "id": "1434830553789763616",
@@ -27,7 +29,8 @@
     "image": "https://m.media-amazon.com/images/I/61ev48oaxbL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID43PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 22€</span><br><span style=\"color:red;font-weight:bold;\">AM: 43€</span>",
     "asin": "B0FMDZKXNB",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 17
   },
   {
     "id": "1434830520507695184",
@@ -37,7 +40,8 @@
     "image": "https://m.media-amazon.com/images/I/71AIoGUyP4L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 6€</span><br><span style=\"color:red;font-weight:bold;\">AM: 12€</span>",
     "asin": "B0FS7DLCB3",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 23
   },
   {
     "id": "1434830438626754600",
@@ -47,7 +51,8 @@
     "image": "https://m.media-amazon.com/images/I/71PVL7wZ6mL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 40€</span><br><span style=\"color:red;font-weight:bold;\">AM: 80€</span>",
     "asin": "B0F23VL9JJ",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 24
   },
   {
     "id": "1434830357357658213",
@@ -57,7 +62,8 @@
     "image": "https://m.media-amazon.com/images/I/71p5IKWpzqL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 75€</span><br><span style=\"color:red;font-weight:bold;\">AM: 150€</span>",
     "asin": "B0FLQ71X9L",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 25
   },
   {
     "id": "1434830322687672422",
@@ -67,7 +73,8 @@
     "image": "https://m.media-amazon.com/images/I/81tALZmDIuL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID44PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 7€</span><br><span style=\"color:red;font-weight:bold;\">AM: 14€</span>",
     "asin": "B0FL6JWNZ7",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 26
   },
   {
     "id": "1434830278676975618",
@@ -77,7 +84,8 @@
     "image": "https://m.media-amazon.com/images/I/617l6Q0Y7sL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4zNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 100€</span><br><span style=\"color:red;font-weight:bold;\">AM: 199€</span>",
     "asin": "B0F94D64P3",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 27
   },
   {
     "id": "1434830211429695530",
@@ -87,7 +95,8 @@
     "image": "https://m.media-amazon.com/images/I/71DRIVh0jvL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 11€</span><br><span style=\"color:red;font-weight:bold;\">AM: 22€</span>",
     "asin": "B0FSZ9LJFL",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 28
   },
   {
     "id": "1434830185424752783",
@@ -97,7 +106,8 @@
     "image": "https://m.media-amazon.com/images/I/71TDJUi2RiL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 7€</span><br><span style=\"color:red;font-weight:bold;\">AM: 14€</span>",
     "asin": "B0FG2V4F5D",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 29
   },
   {
     "id": "1434830159072198697",
@@ -107,7 +117,8 @@
     "image": "https://m.media-amazon.com/images/I/61RzncTmPlL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 12€</span><br><span style=\"color:red;font-weight:bold;\">AM: 23€</span>",
     "asin": "B0FQVDSSBV",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 30
   },
   {
     "id": "1434830099953225838",
@@ -117,7 +128,8 @@
     "image": "https://m.media-amazon.com/images/I/71S2edTZm2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 12€</span><br><span style=\"color:red;font-weight:bold;\">AM: 24€</span>",
     "asin": "B0FPF2XPLR",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 31
   },
   {
     "id": "1434830056974319706",
@@ -127,7 +139,8 @@
     "image": "https://m.media-amazon.com/images/I/71YLf2XbQAL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 6€</span><br><span style=\"color:red;font-weight:bold;\">AM: 12€</span>",
     "asin": "B0FNR98H39",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 32
   },
   {
     "id": "1434829781270265919",
@@ -137,7 +150,8 @@
     "image": "https://m.media-amazon.com/images/I/712uiK7SmuL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 10€</span><br><span style=\"color:red;font-weight:bold;\">AM: 19€</span>",
     "asin": "B0FLXKXHSD",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 33
   },
   {
     "id": "1434499395973414994",
@@ -147,7 +161,8 @@
     "image": "https://m.media-amazon.com/images/I/71MOl+NZcKL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 100€</span><br><span style=\"color:red;font-weight:bold;\">AM: 200€</span>",
     "asin": "B0FP49DDM5",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 1
   },
   {
     "id": "1434210359161389086",
@@ -157,7 +172,8 @@
     "image": "https://m.media-amazon.com/images/I/61QfnKYOIxL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 50€</span><br><span style=\"color:red;font-weight:bold;\">AM: 99€</span>",
     "asin": "B0FL7ZDPP2",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 8
   },
   {
     "id": "1434182093579096085",
@@ -167,7 +183,8 @@
     "image": "https://m.media-amazon.com/images/I/61eJznn-ByL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 11€</span><br><span style=\"color:red;font-weight:bold;\">AM: 22€</span>",
     "asin": "B0FMY5KBJ1",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 9
   },
   {
     "id": "1434181872870752387",
@@ -177,7 +194,8 @@
     "image": "https://m.media-amazon.com/images/I/71cmIeyp3vL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 10€</span><br><span style=\"color:red;font-weight:bold;\">AM: 20€</span>",
     "asin": "B0FH41HC9F",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 11
   },
   {
     "id": "1434181852695892141",
@@ -187,7 +205,8 @@
     "image": "https://m.media-amazon.com/images/I/61wWMMAdpoL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 9€</span><br><span style=\"color:red;font-weight:bold;\">AM: 17€</span>",
     "asin": "B0FLFCL8JX",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 13
   },
   {
     "id": "1434181832169226310",
@@ -197,7 +216,8 @@
     "image": "https://m.media-amazon.com/images/I/51YnsNMpkxL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 6€</span><br><span style=\"color:red;font-weight:bold;\">AM: 11€</span>",
     "asin": "B0FLFCBR4K",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 14
   },
   {
     "id": "1434181808852832267",
@@ -207,7 +227,8 @@
     "image": "https://m.media-amazon.com/images/I/71dxYdN49fL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMDM8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 16€</span><br><span style=\"color:red;font-weight:bold;\">AM: 31€</span>",
     "asin": "B0FK3H7CPJ",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 15
   },
   {
     "id": "1434181758928162826",
@@ -217,7 +238,8 @@
     "image": "https://m.media-amazon.com/images/I/61sjzYewwTL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID40MTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 15€</span><br><span style=\"color:red;font-weight:bold;\">AM: 30€</span>",
     "asin": "B0FK9BS619",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 5
   },
   {
     "id": "1434181733615407216",
@@ -227,7 +249,8 @@
     "image": "https://m.media-amazon.com/images/I/61nc0RcIo2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNjwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 20€</span><br><span style=\"color:red;font-weight:bold;\">AM: 40€</span>",
     "asin": "B0FCSG242T",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 18
   },
   {
     "id": "1434181703143919728",
@@ -237,7 +260,8 @@
     "image": "https://m.media-amazon.com/images/I/71evcgFmqCL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4zMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 35€</span><br><span style=\"color:red;font-weight:bold;\">AM: 70€</span>",
     "asin": "B0DB5SQT71",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 6
   },
   {
     "id": "1434181661909717184",
@@ -247,7 +271,8 @@
     "image": "https://m.media-amazon.com/images/I/71nueHps4CL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 13€</span><br><span style=\"color:red;font-weight:bold;\">AM: 25€</span>",
     "asin": "B0FH6P2S4Y",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 19
   },
   {
     "id": "1434181625511678133",
@@ -257,7 +282,8 @@
     "image": "https://m.media-amazon.com/images/I/615GLUpSZ3L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 6€</span><br><span style=\"color:red;font-weight:bold;\">AM: 11€</span>",
     "asin": "B0FN7RB11H",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 21
   },
   {
     "id": "1434181592452042813",
@@ -267,7 +293,8 @@
     "image": "https://m.media-amazon.com/images/I/71-3iWBpuRL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID40Mzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 20€</span><br><span style=\"color:red;font-weight:bold;\">AM: 40€</span>",
     "asin": "B0FHP7DKK1",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 10
   },
   {
     "id": "1434173955513520168",
@@ -277,7 +304,8 @@
     "image": "https://m.media-amazon.com/images/I/81tyoFY9qRL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 400€</span><br><span style=\"color:red;font-weight:bold;\">AM: 800€</span>",
     "asin": "B0FGHZNCMX",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 3
   },
   {
     "id": "1434173748155781171",
@@ -287,7 +315,8 @@
     "image": "https://m.media-amazon.com/images/I/517dAXZYWkL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 162€</span><br><span style=\"color:red;font-weight:bold;\">AM: 323€</span>",
     "asin": "B0FJRSKNJW",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 4
   },
   {
     "id": "1434170819218505860",
@@ -297,7 +326,8 @@
     "image": "https://m.media-amazon.com/images/I/71qql18V28L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID45PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 8€</span><br><span style=\"color:red;font-weight:bold;\">AM: 16€</span>",
     "asin": "B0FMDTRP4F",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 16
   },
   {
     "id": "1434170793901817948",
@@ -307,7 +337,8 @@
     "image": "https://m.media-amazon.com/images/I/61-NF8vCTML.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 12€</span><br><span style=\"color:red;font-weight:bold;\">AM: 24€</span>",
     "asin": "B0FRM7W3QF",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 20
   },
   {
     "id": "1434170792282689536",
@@ -317,7 +348,8 @@
     "image": "https://m.media-amazon.com/images/I/41s9Cs6FO9L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 12€</span><br><span style=\"color:red;font-weight:bold;\">AM: 23€</span>",
     "asin": "B0DNFBXJ7J",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 22
   },
   {
     "id": "1434170722950840421",
@@ -327,7 +359,8 @@
     "image": "https://m.media-amazon.com/images/I/81hiyFrQAIL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 9€</span><br><span style=\"color:red;font-weight:bold;\">AM: 18€</span>",
     "asin": "B0FS2CLF1Q",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 12
   },
   {
     "id": "1434848290817572955",
@@ -337,6 +370,7 @@
     "image": "https://m.media-amazon.com/images/I/31ynFac0x5L._SL500_.jpg",
     "price": null,
     "asin": "B0FG3D2SDY",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 34
   }
 ]
