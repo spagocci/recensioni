@@ -359,16 +359,7 @@
     "image": "https://m.media-amazon.com/images/I/31qahVsnvQL._SL500_.jpg",
     "price": "",
     "asin": "B0FX4XRT44",
-    "sourceChannel": "1433444235851468980"
-  },
-  {
-    "id": "1434830099953225838",
-    "timestamp": "2025-11-03T09:02:33.683Z",
-    "text": "SternSinn Alimentatore Universale Notebook, Caricatore Universale P...",
-    "link": "https://www.amazon.it/dp/B0FPF2XPLR",
-    "image": "https://m.media-amazon.com/images/I/71S2edTZm2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": "",
-    "asin": "B0FPF2XPLR",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 33
   }
 ]
