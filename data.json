@@ -41,7 +41,7 @@
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 6€</span><br><span style=\"color:red;font-weight:bold;\">AM: 12€</span>",
     "asin": "B0FS7DLCB3",
     "sourceChannel": "1433444235851468980",
-    "position": 31
+    "position": 30
   },
   {
     "id": "1434830438626754600",
@@ -97,17 +97,6 @@
     "asin": "B0FQVDSSBV",
     "sourceChannel": "1433444235851468980",
     "position": 28
-  },
-  {
-    "id": "1434830099953225838",
-    "timestamp": "2025-11-03T09:02:33.683Z",
-    "text": "SternSinn Alimentatore Universale Notebook, Caricatore Universale P...",
-    "link": "https://www.amazon.it/dp/B0FPF2XPLR",
-    "image": "https://m.media-amazon.com/images/I/71S2edTZm2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 24€</span>",
-    "asin": "B0FPF2XPLR",
-    "sourceChannel": "1433444235851468980",
-    "position": 30
   },
   {
     "id": "1434829781270265919",
@@ -349,7 +338,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 10€</span>",
     "asin": "B0FB8T4Y9X",
     "sourceChannel": "1433444235851468980",
-    "position": 32
+    "position": 31
   },
   {
     "id": "1435339411947520170",
@@ -360,7 +349,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 6€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 16€</span>",
     "asin": "B0FG64FGLV",
     "sourceChannel": "1433444235851468980",
-    "position": 33
+    "position": 32
   },
   {
     "id": "1435275498102980668",
@@ -370,6 +359,7 @@
     "image": "https://m.media-amazon.com/images/I/31qahVsnvQL._SL500_.jpg",
     "price": "",
     "asin": "B0FX4XRT44",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 33
   }
 ]
