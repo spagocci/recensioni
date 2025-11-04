@@ -101,7 +101,7 @@
   {
     "id": "1434830099953225838",
     "timestamp": "2025-11-03T09:02:33.683Z",
-    "text": "Alimentatore DC UniversaLe fino a 24Volts 120W con Potenziometro Vari Adattatori",
+    "text": "SternSinn Alimentatore Universale Notebook, Caricatore Universale P...",
     "link": "https://www.amazon.it/dp/B0FPF2XPLR",
     "image": "https://m.media-amazon.com/images/I/71S2edTZm2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 12€</span><br><span style=\"color:red;font-weight:bold;\">AM: 24€</span>",
@@ -390,9 +390,8 @@
     "text": "FANSHENG E104 Inchiostro compatibile con le cartucce E104 per ET-1810 ET-2870 ET-2720 ET-2715 ET-2721 ET-2712 ET-2810 ET-2820 ET-2821 ET-2825 ET-2826 ET-4700 ET-4800 (2 x nero)",
     "link": "https://amazon.it/dp/B0FB8T4Y9X",
     "image": "https://m.media-amazon.com/images/I/41dNjHXQvIL._SL500_.jpg",
-    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 11€</span>",
+    "price": "",
     "asin": "B0FB8T4Y9X",
-    "sourceChannel": "1433444235851468980",
-    "position": 37
+    "sourceChannel": "1433444235851468980"
   }
 ]
