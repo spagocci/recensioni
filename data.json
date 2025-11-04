@@ -41,7 +41,7 @@
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 6€</span><br><span style=\"color:red;font-weight:bold;\">AM: 12€</span>",
     "asin": "B0FS7DLCB3",
     "sourceChannel": "1433444235851468980",
-    "position": 35
+    "position": 34
   },
   {
     "id": "1434830438626754600",
@@ -63,7 +63,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 14€</span>",
     "asin": "B0FL6JWNZ7",
     "sourceChannel": "1433444235851468980",
-    "position": 30
+    "position": 29
   },
   {
     "id": "1434830278676975618",
@@ -85,7 +85,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 22€</span>",
     "asin": "B0FSZ9LJFL",
     "sourceChannel": "1433444235851468980",
-    "position": 31
+    "position": 30
   },
   {
     "id": "1434830159072198697",
@@ -96,7 +96,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 23€</span>",
     "asin": "B0FQVDSSBV",
     "sourceChannel": "1433444235851468980",
-    "position": 32
+    "position": 31
   },
   {
     "id": "1434830099953225838",
@@ -107,7 +107,7 @@
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 12€</span><br><span style=\"color:red;font-weight:bold;\">AM: 24€</span>",
     "asin": "B0FPF2XPLR",
     "sourceChannel": "1433444235851468980",
-    "position": 34
+    "position": 33
   },
   {
     "id": "1434830056974319706",
@@ -129,7 +129,7 @@
     "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 10€</span><br><span style=\"color:red;font-weight:bold;\">AM: 19€</span>",
     "asin": "B0FLXKXHSD",
     "sourceChannel": "1433444235851468980",
-    "position": 33
+    "position": 32
   },
   {
     "id": "1434499395973414994",
@@ -381,6 +381,7 @@
     "image": "https://m.media-amazon.com/images/I/41kgolatx8L._SL500_.jpg",
     "price": "",
     "asin": "B0DPG2NZW2",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 35
   }
 ]
