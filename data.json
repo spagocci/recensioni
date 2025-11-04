@@ -277,7 +277,7 @@
   {
     "id": "1434173955513520168",
     "timestamp": "2025-11-01T13:35:16.658Z",
-    "text": "TCL PlayCube Proiettore DLP 1080P FHD, Proiettore Portatile GTV Cer...",
+    "text": "TCL PlayCube Proiettore Portatile con Batteria 3Ore  GoogLe PLay Store 1080P Autofocus immediato Ricarica USB-C 100W super veloce",
     "link": "https://www.amazon.it/dp/B0FGHZNCMX?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1",
     "image": "https://m.media-amazon.com/images/I/81tyoFY9qRL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 300€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 600€</span>",
@@ -403,6 +403,7 @@
     "image": "https://m.media-amazon.com/images/I/31qahVsnvQL._SL500_.jpg",
     "price": "",
     "asin": "B0FX4XRT44",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 37
   }
 ]
