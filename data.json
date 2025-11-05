@@ -370,7 +370,8 @@
     "image": "https://m.media-amazon.com/images/I/71K83H5ET+L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMTE8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
     "price": "",
     "asin": "B0FGBQFL84",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 39
   },
   {
     "id": "1435575422195732593",
@@ -380,7 +381,8 @@
     "image": "https://m.media-amazon.com/images/I/71Zu8EvkkYL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMjk8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
     "price": "",
     "asin": "B0FFZ8VXS7",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 38
   },
   {
     "id": "1435575571747700736",
@@ -388,9 +390,10 @@
     "text": "JAGUAR Set Regalo Premium, Portafoglio in Pelle, Cintura uomo 125 c...",
     "link": "https://www.amazon.it/dp/B0FR8LKZ4S",
     "image": "https://m.media-amazon.com/images/I/61BoCBD3kiL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 20€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 60€</span>",
     "asin": "B0FR8LKZ4S",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 37
   },
   {
     "id": "1435575896529436754",
@@ -400,7 +403,8 @@
     "image": "https://m.media-amazon.com/images/I/61z9d67hR7L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xODU8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
     "price": "",
     "asin": "B0DRHVQH3Q",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 36
   },
   {
     "id": "1435576455286489099",
@@ -410,7 +414,8 @@
     "image": "https://m.media-amazon.com/images/I/71PzwGg6WhL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID45MTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
     "price": "",
     "asin": "B0F2TGQFKW",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 35
   },
   {
     "id": "1435576901229084705",
@@ -420,6 +425,7 @@
     "image": "https://m.media-amazon.com/images/I/511S-rQ-k2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNjI8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
     "price": "",
     "asin": "B0BYDGCGG1",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 34
   }
 ]
