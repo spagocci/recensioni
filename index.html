@@ -15,14 +15,12 @@
   #clearMostra {position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#b30000;color:#fff;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-weight:bold;display:none;line-height:18px;z-index:1;}
   #clearMostra:hover{background:darkred;}
 
-  /* status bar centrata con bottone Modifica */
+  /* status bar centrata (il vecchio Modifica viene nascosto) */
   #statusBar{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:10px; margin-bottom:15px; }
   #apiInfo { display: none; }
   #statusMsg {margin:5px 0;font-weight:600;white-space:pre-wrap;}
 
-  #toggleReorder { margin-left:0; display:none; grid-column:2; justify-self:center; }
-  body.edit-unlocked #toggleReorder { display:inline-block; }
-  #toggleReorder.is-on { background:#333; color:#fff; }
+  #toggleReorder { display:none !important; } /* nascosto: ora c'è il 🔂 per-card */
 
   #salvaTutto { background:#0a7; color:#fff; border:none; border-radius:10px; padding:10px 18px; font-weight:bold; display:none; }
   #salvaTutto[disabled] { opacity:.6; cursor:not-allowed; }
@@ -67,9 +65,33 @@
 
   img[loading="lazy"] {content-visibility:auto;}
 
-  .btn-edit-text, .btn-edit-price, .btn-delete { display:none !important; }
-  body.edit-unlocked .btn-edit-text, body.edit-unlocked .btn-edit-price, body.edit-unlocked .btn-delete { display:inline-block !important; }
+  .btn-edit-text, .btn-edit-price, .btn-delete, .btn-reorder { display:none !important; }
+  body.edit-unlocked .btn-edit-text,
+  body.edit-unlocked .btn-edit-price,
+  body.edit-unlocked .btn-delete,
+  body.edit-unlocked .btn-reorder { display:inline-block !important; }
 
+  .btn-save-card {
+    display:none !important;
+    margin-left:4px;
+    border:1px solid #0a7;
+    background:#fff;
+    color:#0a7;
+    border-radius:8px;
+    padding:4px 6px;
+    font-size:14px;
+    cursor:pointer;
+  }
+  body.edit-unlocked.has-dirty .btn-save-card {
+    display:inline-flex !important;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+  }
+  .btn-save-card.is-busy { opacity:0.6; cursor:not-allowed; }
+  .reorder-on .btn-save-card { display:none !important; }
+
+  /* layout in modalità riordino */
   .reorder-on .item { padding:6px 8px; }
   .reorder-on .item-content { display:flex; align-items:flex-start; gap:10px; text-align:left; }
   .reorder-on .item-content .img-link { display:inline-block; width:120px; flex:0 0 120px; }
@@ -120,7 +142,7 @@
 
 <div id="statusBar">
   <span id="apiInfo">API: http://localhost:3000</span>
-  <button id="salvaTutto" title="Salva locale + pubblica su GitHub">💾 SALVA</button>
+  <button id="salvaTutto" title="Salva locale + pubblica su GitHub" style="display: none;">💾 SALVA</button>
   <button id="uploadIndex" title="Pubblica index.html su GitHub" disabled="">Pubblica</button>
   <button id="toggleReorder" type="button" title="Riordina vetrina" aria-pressed="false">✏️ Modifica</button>
 </div>
@@ -132,9 +154,10 @@
 <audio id="audioDisattivate" src="https://raw.githubusercontent.com/spagocci/recensioni/main/disattivate.mp3" preload="auto"></audio>
 
 <div class="row">
-  <div class="column" id="canaleVetrina"><h2>🌈Usato 🫱🏻‍🫲🏻 Spagocci⭐</h2><div class="contenuto" id="contenutoVetrina"><div class="item" data-asin="B0FGHZNCMX" data-id="1434173955513520168">
+  <div class="column reorder-on" id="canaleVetrina"><h2>🌈Usato 🫱🏻‍🫲🏻 Spagocci⭐</h2><div class="contenuto drag-enabled" id="contenutoVetrina"><div class="item" data-asin="B0FGHZNCMX" data-id="1434173955513520168" data-position="1">
         <div class="item-content">
           <a class="img-link" href="https://www.amazon.it/dp/B0FGHZNCMX?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/81tyoFY9qRL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FGHZNCMX" title="Copia ASIN">ASIN</button>
           <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 300€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 600€</span></div>
           <div class="meta" style="flex:1 1 auto;">
             <p class="desc"><a href="https://www.amazon.it/dp/B0FGHZNCMX?ref_=ppx_hzsearch_conn_dt_b_fed_asin_title_1" target="_blank" rel="noopener noreferrer">TCL PlayCube Proiettore Portatile con Batteria 3Ore  GoogLe PLay Store 1080P Autofocus immediato Ricarica USB-C 100W super veloce</a></p>
@@ -142,15 +165,17 @@
           
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
           <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
         <div class="controls">
           <button class="move-up">⬆️</button>
           <input type="number" min="1" value="1" placeholder="#" class="order-input">
           <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FJRSKNJW" data-id="1434173748155781171">
+        </div></div><div class="item" data-asin="B0FJRSKNJW" data-id="1434173748155781171" data-position="2">
         <div class="item-content">
           <a class="img-link" href="https://www.amazon.it/dp/B0FJRSKNJW" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/517dAXZYWkL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FJRSKNJW" title="Copia ASIN">ASIN</button>
           <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 120€</span><br><span style="color:red;font-weight:bold;">AM: 330€</span></div>
           <div class="meta" style="flex:1 1 auto;">
             <p class="desc"><a href="https://www.amazon.it/dp/B0FJRSKNJW" target="_blank" rel="noopener noreferrer">Rowenta IXEO Vision, Sistema All-in-One, Stiratura e Vaporizzazione...</a></p>
@@ -158,15 +183,17 @@
           
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
           <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
         <div class="controls">
           <button class="move-up">⬆️</button>
           <input type="number" min="1" value="2" placeholder="#" class="order-input">
           <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FP49DDM5" data-id="1434499395973414994">
+        </div></div><div class="item" data-asin="B0FP49DDM5" data-id="1434499395973414994" data-position="3">
         <div class="item-content">
           <a class="img-link" href="https://www.amazon.it/dp/B0FP49DDM5" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71MOl+NZcKL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FP49DDM5" title="Copia ASIN">ASIN</button>
           <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 100€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 200€</span></div>
           <div class="meta" style="flex:1 1 auto;">
             <p class="desc"><a href="https://www.amazon.it/dp/B0FP49DDM5" target="_blank" rel="noopener noreferrer">DaL FigLio di Bob Marley! House of Marley Rise Up Giradischi con Cassa integrata e Coperchio Bluetooth con Casse Integrate - Giradischi Vinili a 3 velocità, Streaming a 2 vie, Finitura in Bambù e Coperchio Antipolvere, Realizzato in Modo Sostenibile</a></p>
@@ -174,15 +201,17 @@
           
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
           <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
         <div class="controls">
           <button class="move-up">⬆️</button>
           <input type="number" min="1" value="3" placeholder="#" class="order-input">
           <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FMF67WJS" data-id="1434839947143155803">
+        </div></div><div class="item" data-asin="B0FMF67WJS" data-id="1434839947143155803" data-position="4">
         <div class="item-content">
           <a class="img-link" href="https://amazon.it/dp/B0FMF67WJS" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41J94B08UeL._SL500_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FMF67WJS" title="Copia ASIN">ASIN</button>
           <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 100€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 200€</span></div>
           <div class="meta" style="flex:1 1 auto;">
             <p class="desc"><a href="https://amazon.it/dp/B0FMF67WJS" target="_blank" rel="noopener noreferrer">Dal figlio di Bob Marley! Marley House of Get Together Duo 2 Altoparlanti Attivi da Scaffale - 2x10W, 1 Portatile + 1 Fisso, Casse per Giradischi, Accoppiamento Bluetooth Stereo, Ingresso RCA/AUX, Design Sostenibile, Bambù</a></p>
@@ -190,511 +219,35 @@
           
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
           <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
         <div class="controls">
           <button class="move-up">⬆️</button>
           <input type="number" min="1" value="4" placeholder="#" class="order-input">
           <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0DPG2NZW2" data-id="1435169886023319672">
+        </div></div><div class="item" data-asin="B0FRM953M5" data-id="1435609170102456380" data-position="5">
         <div class="item-content">
-          <a class="img-link" href="https://amazon.it/dp/B0DPG2NZW2" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41kgolatx8L._SL500_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 50€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 130€</span></div>
+          <a class="img-link" href="https://amazon.it/dp/B0FRM953M5" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41zpsMFjL6L._SL500_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FRM953M5" title="Copia ASIN">ASIN</button>
+          <div class="price-big" data-empty="1" style="display:none"></div>
           <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://amazon.it/dp/B0DPG2NZW2" target="_blank" rel="noopener noreferrer">Trasmettitore HDMI Wireless e 2 Ricevitori Lemorele 1080P, Supporto 1 TX fino a 4 RX, Streaming Video HD</a></p>
+            <p class="desc"><a href="https://amazon.it/dp/B0FRM953M5" target="_blank" rel="noopener noreferrer">MAONO Kit microfono dinamico wireless per PC, cancellazione del rumore one-tap, microfono con boom USB-C con RGB, disattivazione, controllo amplificazione, PD100WS nero</a></p>
           </div>
-          
+          <button class="btn-edit-price" title="Aggiungi prezzo">💶 Prezzo</button>
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
           <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
         <div class="controls">
           <button class="move-up">⬆️</button>
           <input type="number" min="1" value="5" placeholder="#" class="order-input">
           <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0F1FJD1YV" data-id="1434856923739590698">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0F1FJD1YV" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61rzGb-KtjL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNTc8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 60€</span><br><span style="color:red;font-weight:bold;">AM: 120€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0F1FJD1YV" target="_blank" rel="noopener noreferrer">EPOMAKER X AULA F108 PRO Tastiera da Gioco Wireless con Schermo, Ba...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="6" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FX2Y78LN" data-id="1435556020318507081">
-        <div class="item-content">
-          <a class="img-link" href="https://amazon.it/dp/B0FX2Y78LN" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/311XUPtPwFL._SL500_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 25€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://amazon.it/dp/B0FX2Y78LN" target="_blank" rel="noopener noreferrer">Curluriy Pantaloni da Uomo Velluto a Coste Casual Pantaloni con Coulisse Elastico in Vita Pantalone con Tasca Autunno Inverno</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="7" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FK9BS619" data-id="1434181758928162826">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FK9BS619" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61sjzYewwTL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID40MTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 5€</span><br><span style="color:red;font-weight:bold;">AM: 25€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FK9BS619" target="_blank" rel="noopener noreferrer">Power Bank Fino USB-C 5000Mah ELegante + Magnetico WireLess</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="8" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FG3D2SDY" data-id="1434848290817572955">
-        <div class="item-content">
-          <a class="img-link" href="https://amazon.it/dp/B0FG3D2SDY" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/31ynFac0x5L._SL500_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 35€</span><br><span style="color:red;font-weight:bold;">AM: 80€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://amazon.it/dp/B0FG3D2SDY" target="_blank" rel="noopener noreferrer">Cudy 793784 Router Poe Wi-Fi 6 Mesh AX3000 2.5G, WR3000P Bianco</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="9" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0F23VL9JJ" data-id="1434830438626754600">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0F23VL9JJ" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71PVL7wZ6mL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 40€</span><br><span style="color:red;font-weight:bold;">AM: 80€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0F23VL9JJ" target="_blank" rel="noopener noreferrer">Bonsenkitchen Macchina per sottovuoto con taglierina e contenitore ...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="10" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0F94D64P3" data-id="1434830278676975618">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0F94D64P3" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/617l6Q0Y7sL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4zNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 39€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0F94D64P3" target="_blank" rel="noopener noreferrer">UGREEN HiTune S3 Pro Cuffie Senza Fili Bluetooth6.0 con Clip Apertu...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="11" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FL7ZDPP2" data-id="1434210359161389086">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FL7ZDPP2" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61QfnKYOIxL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 40€</span><br><span style="color:red;font-weight:bold;">AM: 99€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FL7ZDPP2" target="_blank" rel="noopener noreferrer">Guermok 4K HDMI Capture Card with Touch LED, Dual HDMI In/Loop-Out,...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="12" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0DB5SQT71" data-id="1434181703143919728">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0DB5SQT71?th=1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71evcgFmqCL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4zMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 25€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 60€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0DB5SQT71?th=1" target="_blank" rel="noopener noreferrer">ORIGINE Casco Jet Moto Casco Aperto Scooter con Doppia Visiera Omol...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="13" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0DBHHWSW8" data-id="1434830791426310264">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0DBHHWSW8?th=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=130e0014c9bd0de434ad58373697efbc&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61179zvDaVL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID42MzU8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 25€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 60€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0DBHHWSW8?th=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=130e0014c9bd0de434ad58373697efbc&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer">ORIGINE Casco Jet Moto Casco Aperto Scooter Omologato ECE con Visiera</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="14" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FMDTRP4F" data-id="1434170819218505860">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FMDTRP4F" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71qql18V28L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID45PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 5€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FMDTRP4F" target="_blank" rel="noopener noreferrer">Scaldamani Ricaricabile USB, Scaldamani Elettrico 2 in 1, 4000 mAh,...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="15" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FHP7DKK1" data-id="1434181592452042813">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FHP7DKK1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71-3iWBpuRL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID40Mzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 39€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FHP7DKK1" target="_blank" rel="noopener noreferrer">Valano Tagliacapelli Uomo, Tagliabarba Uomini Ricarica USB Tagliana...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="16" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FH41HC9F" data-id="1434181872870752387">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FH41HC9F" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71cmIeyp3vL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FH41HC9F" target="_blank" rel="noopener noreferrer">Elitech Termometro IR -50 ~ 530 ℃, termometro a infrarossi per mo...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="17" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FLFCL8JX" data-id="1434181852695892141">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FLFCL8JX" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61wWMMAdpoL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 8€</span><br><span style="color:red;font-weight:bold;">AM: 14€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FLFCL8JX" target="_blank" rel="noopener noreferrer">Eucerin DermoPure Clinical Hydra Repair 40 ml, Crema idratante viso...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="18" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FLFCBR4K" data-id="1434181832169226310">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FLFCBR4K" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/51YnsNMpkxL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 8€</span><br><span style="color:red;font-weight:bold;">AM: 14€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FLFCBR4K" target="_blank" rel="noopener noreferrer">Eucerin DermoPure Clinical Crema Corpo Tripla Azione 200 ml, Crema ...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="19" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FK3H7CPJ" data-id="1434181808852832267">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FK3H7CPJ" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71dxYdN49fL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMDM8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 5€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FK3H7CPJ" target="_blank" rel="noopener noreferrer">Luce Selfie per Telefono,Luce per Foto Portatile Dimmerabile 3 moda...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="20" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FMDZKXNB" data-id="1434830553789763616">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FMDZKXNB" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61ev48oaxbL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID43PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 43€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FMDZKXNB" target="_blank" rel="noopener noreferrer">HNBTX Scarpiera da Appendere Alla Porta,Organizer Scarpe con 8 Gran...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="21" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FCSG242T" data-id="1434181733615407216">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FCSG242T?th=1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61nc0RcIo2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNjwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FCSG242T?th=1" target="_blank" rel="noopener noreferrer">Distanziometro laser Elitech 165ft, strumento di misura digitale co...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="22" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FH6P2S4Y" data-id="1434181661909717184">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FH6P2S4Y" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71nueHps4CL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FH6P2S4Y" target="_blank" rel="noopener noreferrer">3 Pz Organizer per Scarpe da Appendere con 2 Tasche Profond...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="23" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FRM7W3QF" data-id="1434170793901817948">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FRM7W3QF" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61-NF8vCTML.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FRM7W3QF" target="_blank" rel="noopener noreferrer">ECSiNG Pesa Valigia da Viaggio,Non Sono Necessarie Batterie-Digital...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="24" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FN7RB11H" data-id="1434181625511678133">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FN7RB11H" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/615GLUpSZ3L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 5€</span><br><span style="color:red;font-weight:bold;">AM: 15€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FN7RB11H" target="_blank" rel="noopener noreferrer">20 Rotol Carta per Stampante Termica 57mm x 25mm x 7m Carta Termica...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="25" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0DNFBXJ7J" data-id="1434170792282689536">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0DNFBXJ7J" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41s9Cs6FO9L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0DNFBXJ7J" target="_blank" rel="noopener noreferrer">Caricatore USB C tipo C da 67 W per MacBook Pro/Air 2020 ...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="26" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FL6JWNZ7" data-id="1434830322687672422">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FL6JWNZ7" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/81tALZmDIuL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID44PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 5€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 14€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FL6JWNZ7" target="_blank" rel="noopener noreferrer">15 palline di Natale con stella rossa decorate a mano con brillantini senza scatola</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="27" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FSZ9LJFL" data-id="1434830211429695530">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FSZ9LJFL" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71DRIVh0jvL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 22€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FSZ9LJFL" target="_blank" rel="noopener noreferrer">E104 Inchiostro Flaconi di Inchiostro E104 Multipack Compatibile pe...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="28" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FQVDSSBV" data-id="1434830159072198697">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FQVDSSBV" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61RzncTmPlL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 23€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FQVDSSBV" target="_blank" rel="noopener noreferrer">mini mini Riscaldatore elettrico</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="29" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FLXKXHSD" data-id="1434829781270265919">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FLXKXHSD?th=1&amp;psc=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=45be4b7a0739a65e52fb14095a0debfa&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/712uiK7SmuL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 19€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FLXKXHSD?th=1&amp;psc=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=45be4b7a0739a65e52fb14095a0debfa&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer">2 Paia Calzini da Sci in Lana di Merino Per Signore e Sign...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="30" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FS7DLCB3" data-id="1434830520507695184">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FS7DLCB3" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71AIoGUyP4L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 6€</span><br><span style="color:red;font-weight:bold;">AM: 12€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FS7DLCB3" target="_blank" rel="noopener noreferrer">o-day Calze Uomo Lunghe Caldo Cotone (Confezione da 2) – Morbide ...</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="31" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FB8T4Y9X" data-id="1435246025232089099">
-        <div class="item-content">
-          <a class="img-link" href="https://amazon.it/dp/B0FB8T4Y9X" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41dNjHXQvIL._SL500_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 5€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 10€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://amazon.it/dp/B0FB8T4Y9X" target="_blank" rel="noopener noreferrer">E104 Inchiostro compatibile con le cartucce E104 per ET-1810 ET-2870 ET-2720 ET-2715 ET-2721 ET-2712 ET-2810 ET-2820 ET-2821 ET-2825 ET-2826 ET-4700 ET-4800 (2 x nero)</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="32" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FG64FGLV" data-id="1435339411947520170">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FG64FGLV" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61HgtaJRBkL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 6€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 16€</span></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FG64FGLV" target="_blank" rel="noopener noreferrer">iFixit Mandible Wire Strippers Abisolierzange</a></p>
-          </div>
-          
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="33" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0BYDGCGG1" data-id="1435576901229084705">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0BYDGCGG1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/511S-rQ-k2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNjI8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big" data-empty="1" style="display:none"></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0BYDGCGG1" target="_blank" rel="noopener noreferrer">CHUANGDIAN Dispenser Sapone Muro Manuale 1000 ML, Dispenser Sapone ...</a></p>
-          </div>
-          <button class="btn-edit-price" title="Aggiungi prezzo">💶 Prezzo</button>
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0F2TGQFKW" data-id="1435576455286489099">
-        <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0F2TGQFKW" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71PzwGg6WhL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID45MTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big" data-empty="1" style="display:none"></div>
-          <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0F2TGQFKW" target="_blank" rel="noopener noreferrer">Razer Basilisk Mobile - Piccolo mouse ergonomico portatile da gioco...</a></p>
-          </div>
-          <button class="btn-edit-price" title="Aggiungi prezzo">💶 Prezzo</button>
-          <button class="btn-edit-text" title="Modifica testo">✏️</button>
-          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
-        <div class="controls">
-          <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="" placeholder="#" class="order-input">
-          <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0DRHVQH3Q" data-id="1435575896529436754">
+        </div></div><div class="item" data-asin="B0DRHVQH3Q" data-id="1435575896529436754" data-position="6">
         <div class="item-content">
           <a class="img-link" href="https://www.amazon.it/dp/B0DRHVQH3Q" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61z9d67hR7L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xODU8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0DRHVQH3Q" title="Copia ASIN">ASIN</button>
           <div class="price-big" data-empty="1" style="display:none"></div>
           <div class="meta" style="flex:1 1 auto;">
             <p class="desc"><a href="https://www.amazon.it/dp/B0DRHVQH3Q" target="_blank" rel="noopener noreferrer">WAVLINK Laptop Docking Station Triplo display (Single 8K@30Hz/4K@14...</a></p>
@@ -702,59 +255,606 @@
           <button class="btn-edit-price" title="Aggiungi prezzo">💶 Prezzo</button>
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
           <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
         <div class="controls">
           <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="" placeholder="#" class="order-input">
+          <input type="number" min="1" value="39" placeholder="#" class="order-input">
           <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FR8LKZ4S" data-id="1435575571747700736">
+        </div></div><div class="item" data-asin="B0FR8LKZ4S" data-id="1435575571747700736" data-position="7">
         <div class="item-content">
           <a class="img-link" href="https://www.amazon.it/dp/B0FR8LKZ4S" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61BoCBD3kiL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big" data-empty="1" style="display:none"></div>
+          <button type="button" class="btn-asin" data-asin="B0FR8LKZ4S" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 20€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 60€</span></div>
           <div class="meta" style="flex:1 1 auto;">
             <p class="desc"><a href="https://www.amazon.it/dp/B0FR8LKZ4S" target="_blank" rel="noopener noreferrer">JAGUAR Set Regalo Premium, Portafoglio in Pelle, Cintura uomo 125 c...</a></p>
           </div>
-          <button class="btn-edit-price" title="Aggiungi prezzo">💶 Prezzo</button>
+          
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
           <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
         <div class="controls">
           <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="" placeholder="#" class="order-input">
+          <input type="number" min="1" value="6" placeholder="#" class="order-input">
           <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FFZ8VXS7" data-id="1435575422195732593">
+        </div></div><div class="item" data-asin="B0FFZ8VXS7" data-id="1435575422195732593" data-position="8">
         <div class="item-content">
           <a class="img-link" href="https://www.amazon.it/dp/B0FFZ8VXS7" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71Zu8EvkkYL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMjk8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
-          <div class="price-big" data-empty="1" style="display:none"></div>
+          <button type="button" class="btn-asin" data-asin="B0FFZ8VXS7" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 30€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 99€</span></div>
           <div class="meta" style="flex:1 1 auto;">
             <p class="desc"><a href="https://www.amazon.it/dp/B0FFZ8VXS7" target="_blank" rel="noopener noreferrer">WINONS Taglia Polistirolo a Filo Caldo WFC0013,Taglerina Polistirol...</a></p>
           </div>
-          <button class="btn-edit-price" title="Aggiungi prezzo">💶 Prezzo</button>
+          
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
           <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
         <div class="controls">
           <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="" placeholder="#" class="order-input">
+          <input type="number" min="1" value="7" placeholder="#" class="order-input">
           <button class="move-down">⬇️</button>
-        </div></div><div class="item" data-asin="B0FGBQFL84" data-id="1435575175994282054">
+        </div></div><div class="item" data-asin="B0F2TGQFKW" data-id="1435576455286489099" data-position="9">
         <div class="item-content">
-          <a class="img-link" href="https://www.amazon.it/dp/B0FGBQFL84" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71K83H5ET+L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMTE8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <a class="img-link" href="https://www.amazon.it/dp/B0F2TGQFKW" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71PzwGg6WhL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID45MTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0F2TGQFKW" title="Copia ASIN">ASIN</button>
           <div class="price-big" data-empty="1" style="display:none"></div>
           <div class="meta" style="flex:1 1 auto;">
-            <p class="desc"><a href="https://www.amazon.it/dp/B0FGBQFL84" target="_blank" rel="noopener noreferrer">ITSHINY Coperta Riscaldante Elettrica 180x135 cm con Controllo Digi...</a></p>
+            <p class="desc"><a href="https://www.amazon.it/dp/B0F2TGQFKW" target="_blank" rel="noopener noreferrer">Razer Basilisk Mobile - Piccolo mouse ergonomico portatile da gioco...</a></p>
           </div>
           <button class="btn-edit-price" title="Aggiungi prezzo">💶 Prezzo</button>
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
           <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-           
-        </div>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
         <div class="controls">
           <button class="move-up">⬆️</button>
-          <input type="number" min="1" value="" placeholder="#" class="order-input">
+          <input type="number" min="1" value="8" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0DPG2NZW2" data-id="1435169886023319672" data-position="10">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0DPG2NZW2" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41kgolatx8L._SL500_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0DPG2NZW2" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 50€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 130€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0DPG2NZW2" target="_blank" rel="noopener noreferrer">Trasmettitore HDMI Wireless e 2 Ricevitori Lemorele 1080P, Supporto 1 TX fino a 4 RX, Streaming Video HD</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="9" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0F1FJD1YV" data-id="1434856923739590698" data-position="11">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0F1FJD1YV" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61rzGb-KtjL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNTc8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0F1FJD1YV" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 60€</span><br><span style="color:red;font-weight:bold;">AM: 120€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0F1FJD1YV" target="_blank" rel="noopener noreferrer">EPOMAKER X AULA F108 PRO Tastiera da Gioco Wireless con Schermo, Ba...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="10" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FX2Y78LN" data-id="1435556020318507081" data-position="12">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FX2Y78LN" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/311XUPtPwFL._SL500_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FX2Y78LN" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 25€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FX2Y78LN" target="_blank" rel="noopener noreferrer">Curluriy Pantaloni da Uomo Velluto a Coste Casual Pantaloni con Coulisse Elastico in Vita Pantalone con Tasca Autunno Inverno</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="11" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FK9BS619" data-id="1434181758928162826" data-position="13">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FK9BS619" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61sjzYewwTL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID40MTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FK9BS619" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 5€</span><br><span style="color:red;font-weight:bold;">AM: 25€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FK9BS619" target="_blank" rel="noopener noreferrer">Power Bank Fino USB-C 5000Mah ELegante + Magnetico WireLess</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="12" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FG3D2SDY" data-id="1434848290817572955" data-position="14">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FG3D2SDY" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/31ynFac0x5L._SL500_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FG3D2SDY" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 35€</span><br><span style="color:red;font-weight:bold;">AM: 80€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FG3D2SDY" target="_blank" rel="noopener noreferrer">Cudy 793784 Router Poe Wi-Fi 6 Mesh AX3000 2.5G, WR3000P Bianco</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="13" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0F23VL9JJ" data-id="1434830438626754600" data-position="15">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0F23VL9JJ" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71PVL7wZ6mL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0F23VL9JJ" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 40€</span><br><span style="color:red;font-weight:bold;">AM: 80€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0F23VL9JJ" target="_blank" rel="noopener noreferrer">Bonsenkitchen Macchina per sottovuoto con taglierina e contenitore ...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="14" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0F94D64P3" data-id="1434830278676975618" data-position="16">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0F94D64P3" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/617l6Q0Y7sL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4zNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0F94D64P3" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 39€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0F94D64P3" target="_blank" rel="noopener noreferrer">UGREEN HiTune S3 Pro Cuffie Senza Fili Bluetooth6.0 con Clip Apertu...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="15" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FL7ZDPP2" data-id="1434210359161389086" data-position="17">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FL7ZDPP2" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61QfnKYOIxL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FL7ZDPP2" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 40€</span><br><span style="color:red;font-weight:bold;">AM: 99€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FL7ZDPP2" target="_blank" rel="noopener noreferrer">Guermok 4K HDMI Capture Card with Touch LED, Dual HDMI In/Loop-Out,...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="16" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0DB5SQT71" data-id="1434181703143919728" data-position="18">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0DB5SQT71?th=1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71evcgFmqCL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4zMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0DB5SQT71" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 25€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 60€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0DB5SQT71?th=1" target="_blank" rel="noopener noreferrer">ORIGINE Casco Jet Moto Casco Aperto Scooter con Doppia Visiera Omol...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="17" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0DBHHWSW8" data-id="1434830791426310264" data-position="19">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0DBHHWSW8?th=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=130e0014c9bd0de434ad58373697efbc&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61179zvDaVL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID42MzU8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0DBHHWSW8" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 25€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 60€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0DBHHWSW8?th=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=130e0014c9bd0de434ad58373697efbc&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer">ORIGINE Casco Jet Moto Casco Aperto Scooter Omologato ECE con Visiera</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="18" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FMDTRP4F" data-id="1434170819218505860" data-position="20">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FMDTRP4F" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71qql18V28L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID45PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FMDTRP4F" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 5€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FMDTRP4F" target="_blank" rel="noopener noreferrer">Scaldamani Ricaricabile USB, Scaldamani Elettrico 2 in 1, 4000 mAh,...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="19" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FHP7DKK1" data-id="1434181592452042813" data-position="21">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FHP7DKK1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71-3iWBpuRL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID40Mzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FHP7DKK1" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 39€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FHP7DKK1" target="_blank" rel="noopener noreferrer">Valano Tagliacapelli Uomo, Tagliabarba Uomini Ricarica USB Tagliana...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="20" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FH41HC9F" data-id="1434181872870752387" data-position="22">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FH41HC9F" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71cmIeyp3vL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FH41HC9F" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FH41HC9F" target="_blank" rel="noopener noreferrer">Elitech Termometro IR -50 ~ 530 ℃, termometro a infrarossi per mo...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="21" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FLFCL8JX" data-id="1434181852695892141" data-position="23">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FLFCL8JX" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61wWMMAdpoL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FLFCL8JX" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 8€</span><br><span style="color:red;font-weight:bold;">AM: 14€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FLFCL8JX" target="_blank" rel="noopener noreferrer">Eucerin DermoPure Clinical Hydra Repair 40 ml, Crema idratante viso...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="22" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FLFCBR4K" data-id="1434181832169226310" data-position="24">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FLFCBR4K" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/51YnsNMpkxL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FLFCBR4K" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 8€</span><br><span style="color:red;font-weight:bold;">AM: 14€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FLFCBR4K" target="_blank" rel="noopener noreferrer">Eucerin DermoPure Clinical Crema Corpo Tripla Azione 200 ml, Crema ...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="23" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FK3H7CPJ" data-id="1434181808852832267" data-position="25">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FK3H7CPJ" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71dxYdN49fL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMDM8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FK3H7CPJ" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 5€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FK3H7CPJ" target="_blank" rel="noopener noreferrer">Luce Selfie per Telefono,Luce per Foto Portatile Dimmerabile 3 moda...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="24" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FMDZKXNB" data-id="1434830553789763616" data-position="26">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FMDZKXNB" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61ev48oaxbL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID43PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FMDZKXNB" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 43€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FMDZKXNB" target="_blank" rel="noopener noreferrer">HNBTX Scarpiera da Appendere Alla Porta,Organizer Scarpe con 8 Gran...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="25" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FCSG242T" data-id="1434181733615407216" data-position="27">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FCSG242T?th=1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61nc0RcIo2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNjwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FCSG242T" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FCSG242T?th=1" target="_blank" rel="noopener noreferrer">Distanziometro laser Elitech 165ft, strumento di misura digitale co...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="26" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FH6P2S4Y" data-id="1434181661909717184" data-position="28">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FH6P2S4Y" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71nueHps4CL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FH6P2S4Y" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FH6P2S4Y" target="_blank" rel="noopener noreferrer">3 Pz Organizer per Scarpe da Appendere con 2 Tasche Profond...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="27" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FRM7W3QF" data-id="1434170793901817948" data-position="29">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FRM7W3QF" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61-NF8vCTML.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FRM7W3QF" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FRM7W3QF" target="_blank" rel="noopener noreferrer">ECSiNG Pesa Valigia da Viaggio,Non Sono Necessarie Batterie-Digital...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="28" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FN7RB11H" data-id="1434181625511678133" data-position="30">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FN7RB11H" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/615GLUpSZ3L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FN7RB11H" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 5€</span><br><span style="color:red;font-weight:bold;">AM: 15€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FN7RB11H" target="_blank" rel="noopener noreferrer">20 Rotol Carta per Stampante Termica 57mm x 25mm x 7m Carta Termica...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="29" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0DNFBXJ7J" data-id="1434170792282689536" data-position="31">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0DNFBXJ7J" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41s9Cs6FO9L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0DNFBXJ7J" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 20€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0DNFBXJ7J" target="_blank" rel="noopener noreferrer">Caricatore USB C tipo C da 67 W per MacBook Pro/Air 2020 ...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="30" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FL6JWNZ7" data-id="1434830322687672422" data-position="32">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FL6JWNZ7" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/81tALZmDIuL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID44PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FL6JWNZ7" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 5€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 14€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FL6JWNZ7" target="_blank" rel="noopener noreferrer">15 palline di Natale con stella rossa decorate a mano con brillantini senza scatola</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="31" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FSZ9LJFL" data-id="1434830211429695530" data-position="33">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FSZ9LJFL" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71DRIVh0jvL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FSZ9LJFL" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 22€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FSZ9LJFL" target="_blank" rel="noopener noreferrer">E104 Inchiostro Flaconi di Inchiostro E104 Multipack Compatibile pe...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="32" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FQVDSSBV" data-id="1434830159072198697" data-position="34">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FQVDSSBV" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61RzncTmPlL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FQVDSSBV" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 23€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FQVDSSBV" target="_blank" rel="noopener noreferrer">mini mini Riscaldatore elettrico</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="33" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FLXKXHSD" data-id="1434829781270265919" data-position="35">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FLXKXHSD?th=1&amp;psc=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=45be4b7a0739a65e52fb14095a0debfa&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/712uiK7SmuL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FLXKXHSD" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 10€</span><br><span style="color:red;font-weight:bold;">AM: 19€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FLXKXHSD?th=1&amp;psc=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=45be4b7a0739a65e52fb14095a0debfa&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer">2 Paia Calzini da Sci in Lana di Merino Per Signore e Sign...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="34" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FS7DLCB3" data-id="1434830520507695184" data-position="36">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FS7DLCB3" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71AIoGUyP4L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FS7DLCB3" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span style="color:green;font-weight:bold;font-size:1.5em;">Mio: 6€</span><br><span style="color:red;font-weight:bold;">AM: 12€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FS7DLCB3" target="_blank" rel="noopener noreferrer">o-day Calze Uomo Lunghe Caldo Cotone (Confezione da 2) – Morbide ...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="35" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FB8T4Y9X" data-id="1435246025232089099" data-position="37">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FB8T4Y9X" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41dNjHXQvIL._SL500_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FB8T4Y9X" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 5€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 10€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FB8T4Y9X" target="_blank" rel="noopener noreferrer">E104 Inchiostro compatibile con le cartucce E104 per ET-1810 ET-2870 ET-2720 ET-2715 ET-2721 ET-2712 ET-2810 ET-2820 ET-2821 ET-2825 ET-2826 ET-4700 ET-4800 (2 x nero)</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="36" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0FG64FGLV" data-id="1435339411947520170" data-position="38">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FG64FGLV" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61HgtaJRBkL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0FG64FGLV" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 6€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 16€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FG64FGLV" target="_blank" rel="noopener noreferrer">iFixit Mandible Wire Strippers Abisolierzange</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="37" placeholder="#" class="order-input">
+          <button class="move-down">⬇️</button>
+        </div></div><div class="item" data-asin="B0BYDGCGG1" data-id="1435576901229084705" data-position="39">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0BYDGCGG1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/511S-rQ-k2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNjI8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <button type="button" class="btn-asin" data-asin="B0BYDGCGG1" title="Copia ASIN">ASIN</button>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 24€</span></div>
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0BYDGCGG1" target="_blank" rel="noopener noreferrer">Dispenser Sapone Muro Manuale 1Litro Dispenser Sapone ...</a></p>
+          </div>
+          
+          <button class="btn-edit-text" title="Modifica testo">✏️</button>
+          <button class="btn-delete" title="Elimina prodotto">🗑️</button>
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          <div class="drag-handle" title="Trascina">≡</div>
+        <button type="button" class="btn-save-card" title="Salva catalogo su GitHub" aria-label="Salva catalogo su GitHub">💾</button></div>
+        <div class="controls">
+          <button class="move-up">⬆️</button>
+          <input type="number" min="1" value="38" placeholder="#" class="order-input">
           <button class="move-down">⬇️</button>
         </div></div></div></div>
   <div class="column" id="canalePerte"><h2>🧐</h2><div class="contenuto" id="contenutoPerte"></div></div>
@@ -775,8 +875,44 @@ document.getElementById('apiInfo').textContent = `API: ${API_BASE}`;
 /* ===== UI/Status ===== */
 const STATUS = document.getElementById('statusMsg');
 let BTN_SAVE = document.getElementById('salvaTutto');
-function setStatus(msg) { STATUS.textContent = msg; }
-function setBusy(b) { if (BTN_SAVE) BTN_SAVE.disabled = b; }
+
+let __statusTimer = null;
+function setStatus(msg) { 
+  STATUS.textContent = msg; 
+}
+function setStatusAuto(msg, ms = 15000) {
+  STATUS.textContent = msg;
+  if (__statusTimer) { clearTimeout(__statusTimer); __statusTimer = null; }
+  __statusTimer = setTimeout(() => { if (STATUS.textContent === msg) STATUS.textContent = ''; }, ms);
+}
+function setBusy(b) {
+  if (BTN_SAVE) BTN_SAVE.disabled = b;
+  document.querySelectorAll('.btn-save-card').forEach(btn => {
+    btn.disabled = b;
+    btn.classList.toggle('is-busy', !!b);
+  });
+}
+
+function ensureCardSaveButton(container){
+  if (!container) return;
+  let btn = container.querySelector('.btn-save-card');
+  if (!btn) {
+    btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn-save-card';
+    btn.title = 'Salva catalogo su GitHub';
+    btn.setAttribute('aria-label', 'Salva catalogo su GitHub');
+    btn.textContent = '💾';
+    container.appendChild(btn);
+  }
+  const busy = !!(BTN_SAVE && BTN_SAVE.disabled);
+  btn.disabled = busy;
+  btn.classList.toggle('is-busy', busy);
+}
+
+function ensureAllCardSaveButtons(root = document){
+  root.querySelectorAll('.item-content').forEach(ensureCardSaveButton);
+}
 
 /* ===== Stato app ===== */
 let audioAttivo = localStorage.getItem('audioAttivo') === 'true';
@@ -966,6 +1102,7 @@ async function caricaCatalogo(){
                        : `<img src="${item.image}" alt="" loading="lazy">`)
               : ''
           }
+          ${ withControls && asin ? `<button type="button" class="btn-asin" data-asin="${asin}" title="Copia ASIN">ASIN</button>` : '' }
           <div class="price-big" ${item.price ? '' : 'data-empty="1" style="display:none"'}>${item.price || ''}</div>
           <div class="meta" style="flex:1 1 auto;">
             <p class="desc">${ link ? `<a href="${link}" target="_blank" rel="noopener noreferrer"></a>` : `` }</p>
@@ -973,7 +1110,8 @@ async function caricaCatalogo(){
           ${!item.price ? `<button class="btn-edit-price" title="Aggiungi prezzo">💶 Prezzo</button>` : ''}
           <button class="btn-edit-text" title="Modifica testo">✏️</button>
           <button class="btn-delete" title="Elimina prodotto">🗑️</button>
-          ${withControls ? `<div class="drag-handle" title="Trascina">≡</div>` : ''} 
+          <button class="btn-reorder" title="Modifica disposizione (toggle)">🔂</button>
+          ${withControls ? `<div class="drag-handle" title="Trascina">≡</div>` : ''}
         </div>
         <div class="controls">
           <button class="move-up">⬆️</button>
@@ -1005,6 +1143,7 @@ async function caricaCatalogo(){
     document.getElementById('contenutoVetrina').classList.toggle('drag-enabled', isReorder());
 
     enablePointerSort(document.getElementById('contenutoVetrina'), isReorder());
+    ensureAllCardSaveButtons(document);
     applicaFiltri();
   }catch(err){
     ['contenutoPerte','contenutoVetrina']
@@ -1105,6 +1244,7 @@ let loopOn = true;
 /* ===== Dirty state ===== */
 function setDirty(v){
   DIRTY = !!v;
+  document.body.classList.toggle('has-dirty', DIRTY);
   document.getElementById('salvaTutto').style.display = DIRTY ? 'inline-block' : 'none';
   if (DIRTY) localStorage.setItem('__CATALOGO_EDIT', JSON.stringify(DATA));
   else localStorage.removeItem('__CATALOGO_EDIT');
@@ -1154,6 +1294,54 @@ document.addEventListener('click', (e) => {
   setStatus('💶 Prezzo aggiunto in bozza. Clicca SALVA per pubblicare.');
 });
 
+/* ===== Modifica testo ===== */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-edit-text');
+  if (!btn) return;
+  if (!document.body.classList.contains('edit-unlocked')) return;
+
+  const card = btn.closest('.item');
+  const asin = card?.dataset?.asin || '';
+  if (!asin) return;
+
+  const rec = DATA.find(x => (x.asin||'').toUpperCase() === asin.toUpperCase());
+  if (!rec) { alert('Record non trovato nel dataset.'); return; }
+
+  const descEl = card.querySelector('.desc');
+  const anchor = descEl?.querySelector('a');
+  const currentText = (rec.text || (anchor ? anchor.textContent : (descEl?.textContent || ''))).trim();
+
+  const nuovo = prompt(`Modifica testo per ${asin}`, currentText);
+  if (nuovo === null) return;
+  const testoPulito = nuovo.trim();
+  if (!testoPulito) { alert('Testo vuoto non valido.'); return; }
+
+  rec.text = testoPulito;
+
+  if (anchor) anchor.textContent = testoPulito;
+  else if (descEl) descEl.textContent = testoPulito;
+
+  setDirty(true);
+  setStatus('✏️ Testo aggiornato in bozza. Clicca SALVA.');
+});
+
+/* ===== Toggle riordino (icona 🔂 dentro card) ===== */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-reorder');
+  if (!btn) return;
+  if (!document.body.classList.contains('edit-unlocked')) return;
+  setReorder(!isReorder());
+});
+
+/* ===== DELETE via backend /delete (Discord + JSON) ===== */
+async function deleteViaApi({ id, asin }) {
+  const payload = {};
+  if (id)   payload.id   = String(id);
+  if (asin) payload.asin = String(asin).toUpperCase();
+  const r = await postJSON(`${API_BASE}/delete`, payload, 25000);
+  return r; /* { ok, status, data:{ ok, deletedDiscord, removedJson, totalMatched } } */
+}
+
 /* ===== Click rapido prezzo ===== */
 document.addEventListener('click', async (e)=>{
   const priceBox = e.target.closest('.price-big');
@@ -1185,79 +1373,6 @@ document.addEventListener('click', async (e)=>{
   }
 });
 
-/* ===== Discord: elimina messaggio alla fonte ===== */
-async function deleteSourceDiscordMessage(rec){
-  if (!rec?.id || !rec?.sourceChannel) return { ok:false, skipped:true }; /* why: niente dati, niente delete */
-  try{
-    const r = await postJSON(`${API_BASE}/discord/delete`, {
-      channelId: String(rec.sourceChannel),
-      messageId: String(rec.id)
-    }, 15000);
-    if (!r.ok || !r.data?.ok) {
-      /* why: non bloccare il flusso */
-      setStatus('⚠️ Non riesco a cancellare su Discord: ' + (r.data?.error || `HTTP ${r.status}`));
-      return { ok:false };
-    }
-    return { ok:true };
-  }catch(e){
-    setStatus('⚠️ Errore cancellazione Discord: ' + (e.message || e));
-    return { ok:false, error:e };
-  }
-}
-
-/* ===== Salvataggio data.json ===== */
-async function salvaTutto(){
-  try{
-    setBusy(true);
-    setStatus('⏳ Salvataggio in corso…');
-    const ordine = [...document.querySelectorAll('#contenutoVetrina .item')]
-      .map((el,i)=>({ asin: el.dataset.asin, position: Number(el.dataset.position)|| (i+1) }))
-      .filter(o => o.asin);
-    if (ordine.length){
-      const posMap = Object.fromEntries(ordine.map(o => [o.asin.toUpperCase(), o.position]));
-      DATA = DATA.map(it => {
-        if (String(it.sourceChannel) === VETRINA_CHANNEL && it.asin && posMap[it.asin.toUpperCase()] != null){
-          return { ...it, position: posMap[it.asin.toUpperCase()] };
-        }
-        return it;
-      });
-      writeLocalOrderMapFromDOM();
-    }
-    let r = await putJSON(`${API_BASE}/data`, DATA);
-    if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
-    r = await postJSON(`${API_BASE}/uploadjson`, {});
-    if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
-    setDirty(false);
-    setStatus('✅ Salvato e pubblicato su GitHub.');
-  }catch(e){ setStatus('❌ Errore salvataggio: ' + (e.message||e)); }
-  finally{ setBusy(false); }
-}
-document.getElementById('salvaTutto').addEventListener('click', salvaTutto);
-
-/* ===== Pubblica index.html ===== */
-function toBase64Utf8(text){ return btoa(unescape(encodeURIComponent(text))); }
-async function uploadIndexHtml(){
-  const BTN = document.getElementById('uploadIndex');
-  try{
-    BTN.disabled = true;
-    setStatus('⏳ Pubblico index.html su GitHub…');
-    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-    const payload = { path:'index.html', contentBase64: toBase64Utf8(html), message: 'chore: publish index.html from app' };
-    const r = await postJSON(`${API_BASE}/uploadindex`, payload, 30000);
-    if (!r.ok) {
-      if (r.status === 404) throw new Error('Endpoint /uploadindex non trovato sul backend. Aggiorna il bot.');
-      throw new Error(r.data?.error || `HTTP ${r.status}`);
-    }
-    if (!r.data?.ok) throw new Error(r.data?.error || 'Risposta backend non OK');
-    setStatus('✅ index.html pubblicato su GitHub.');
-  }catch(err){
-    setStatus('❌ Pubblicazione fallita: ' + (err.message || err));
-  }finally{
-    BTN.disabled = false;
-  }
-}
-document.getElementById('uploadIndex')?.addEventListener('click', uploadIndexHtml);
-
 /* ===== Bottoni interni scheda ===== */
 document.addEventListener('click', async (e)=>{
   const btn = e.target.closest('button'); if(!btn) return;
@@ -1283,45 +1398,44 @@ document.addEventListener('click', async (e)=>{
     const asin    = asinRaw.toUpperCase();
     const recId   = card?.dataset?.id ? String(card.dataset.id) : '';
 
-    // trova il record da cancellare alla fonte (ID > ASIN)
-    const recToDelete = recId
-      ? DATA.find(it => String(it.id) === recId)
-      : (asin ? DATA.find(it => String(it.asin||'').toUpperCase() === asin) : null);
+    if (!confirm(`Eliminare ${asin || recId || 'questo elemento'}?\n(Sarà rimosso anche da Discord e dal JSON)`)) return;
 
-    // elimina su Discord (non-bloccante: se fallisce, proseguiamo comunque)
-    try { await deleteSourceDiscordMessage(recToDelete); } catch(_){}
-
-    const beforeLen = DATA.length;
-    DATA = DATA.filter(it => {
-      if (recId && String(it.id) === recId) return false;
-      if (!recId && asin && String(it.asin || '').toUpperCase() === asin) return false;
-      return true;
-    });
-
-    if (DATA.length === beforeLen){
-      alert('Record non trovato nel dataset.');
-      return;
-    }
-
-    if (asinRaw){
-      const map = readLocalOrderMap();
-      if (map && Object.prototype.hasOwnProperty.call(map, asinRaw)){
-        delete map[asinRaw];
-        localStorage.setItem(KEY_VETRINA_ORDER, JSON.stringify(map));
-      }
-    }
-
-    card?.remove();
-    aggiornaPosizioniVetrina();
-    writeLocalOrderMapFromDOM();
-
-    setDirty(true);
-    setStatus('🗑️ Eliminato. Pubblico…');
     try{
+      setStatus('⏳ Elimino da Discord e JSON…');
       btn.disabled = true;
-      await salvaTutto();
-    } catch(_) {
-      /* status già mostrato da salvaTutto */
+
+      const res = await deleteViaApi({ id: recId, asin: asinRaw });
+      if (!res.ok || !res.data?.ok) {
+        const msg = res.data?.error || `HTTP ${res.status}`;
+        setStatus('❌ Delete KO: ' + msg);
+        btn.disabled = false;
+        return;
+      }
+
+      const { deletedDiscord, removedJson, totalMatched } = res.data;
+
+      const beforeLen = DATA.length;
+      DATA = DATA.filter(it => {
+        if (recId && String(it.id) === recId) return false;
+        if (!recId && asin && String(it.asin || '').toUpperCase() === asin) return false;
+        return true;
+      });
+
+      if (asinRaw){
+        const map = readLocalOrderMap();
+        if (map && Object.prototype.hasOwnProperty.call(map, asinRaw)){
+          delete map[asinRaw];
+          localStorage.setItem(KEY_VETRINA_ORDER, JSON.stringify(map));
+        }
+      }
+
+      card?.remove();
+      aggiornaPosizioniVetrina();
+      writeLocalOrderMapFromDOM();
+
+      setStatusAuto(`✅ Eliminato (${removedJson}/${totalMatched} dal JSON, ${deletedDiscord} da Discord).`, 15000);
+    } catch (err) {
+      setStatus('❌ Errore delete: ' + (err?.message || err));
     } finally {
       btn.disabled = false;
     }
@@ -1337,22 +1451,74 @@ document.addEventListener('input',e=>{
   }
 });
 
+/* ===== Salvataggio data.json ===== */
+async function salvaTutto(){
+  try{
+    setBusy(true);
+    setStatus('⏳ Salvataggio in corso…');
+    const ordine = [...document.querySelectorAll('#contenutoVetrina .item')]
+      .map((el,i)=>({ asin: el.dataset.asin, position: Number(el.dataset.position)|| (i+1) }))
+      .filter(o => o.asin);
+    if (ordine.length){
+      const posMap = Object.fromEntries(ordine.map(o => [o.asin.toUpperCase(), o.position]));
+      DATA = DATA.map(it => {
+        if (String(it.sourceChannel) === VETRINA_CHANNEL && it.asin && posMap[it.asin.toUpperCase()] != null){
+          return { ...it, position: posMap[it.asin.toUpperCase()] };
+        }
+        return it;
+      });
+      writeLocalOrderMapFromDOM();
+    }
+    let r = await putJSON(`${API_BASE}/data`, DATA);
+    if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
+    r = await postJSON(`${API_BASE}/uploadjson`, {});
+    if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
+    setDirty(false);
+    setStatusAuto('✅ Salvato e pubblicato su GitHub.', 15000); /* auto-hide 15s */
+  }catch(e){ setStatus('❌ Errore salvataggio: ' + (e.message||e)); }
+  finally{ setBusy(false); }
+}
+document.getElementById('salvaTutto').addEventListener('click', salvaTutto);
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-save-card');
+  if (!btn) return;
+  if (!document.body.classList.contains('edit-unlocked')) return;
+  if (BTN_SAVE && BTN_SAVE.disabled) return;
+  e.preventDefault();
+  salvaTutto();
+});
+
+/* ===== Pubblica index.html ===== */
+function toBase64Utf8(text){ return btoa(unescape(encodeURIComponent(text))); }
+async function uploadIndexHtml(){
+  const BTN = document.getElementById('uploadIndex');
+  try{
+    BTN.disabled = true;
+    setStatus('⏳ Pubblico index.html su GitHub…');
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const payload = { path:'index.html', contentBase64: toBase64Utf8(html), message: 'chore: publish index.html from app' };
+    const r = await postJSON(`${API_BASE}/uploadindex`, payload, 30000);
+    if (!r.ok) {
+      if (r.status === 404) throw new Error('Endpoint /uploadindex non trovato sul backend. Aggiorna il bot.');
+      throw new Error(r.data?.error || `HTTP ${r.status}`);
+    }
+    if (!r.data?.ok) throw new Error(r.data?.error || 'Risposta backend non OK');
+    setStatusAuto('✅ index.html pubblicato su GitHub.', 15000); /* auto-hide 15s */
+  }catch(err){
+    setStatus('❌ Pubblicazione fallita: ' + (err.message || err));
+  }finally{
+    BTN.disabled = false;
+  }
+}
+document.getElementById('uploadIndex')?.addEventListener('click', uploadIndexHtml);
+
 /* ===== Avvio ===== */
 window.onload = async () => {
   const draft = localStorage.getItem('__CATALOGO_EDIT');
   if (draft) {
-    try { DATA = JSON.parse(draft); window.__CATALOGO_ORIG = DATA.slice(); DIRTY = true; } catch {}
+      try { DATA = JSON.parse(draft); window.__CATALOGO_ORIG = DATA.slice(); setDirty(true); } catch {}
   }
   await caricaCatalogo();
-
-  const btn = document.getElementById('toggleReorder');
-  const refreshLabel = () => {
-    btn.textContent = isReorder() ? '✅ Fine' : '✏️ Modifica';
-    btn.classList.toggle('is-on', isReorder());
-    btn.setAttribute('aria-pressed', String(isReorder()));
-  };
-  refreshLabel();
-  btn.addEventListener('click', () => { setReorder(!isReorder()); refreshLabel(); });
 };
 </script>
 
