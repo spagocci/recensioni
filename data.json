@@ -126,7 +126,7 @@
     "text": "Guermok 4K HDMI Capture Card with Touch LED, Dual HDMI In/Loop-Out,...",
     "link": "https://www.amazon.it/dp/B0FL7ZDPP2",
     "image": "https://m.media-amazon.com/images/I/61QfnKYOIxL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 40€</span><br><span style=\"color:red;font-weight:bold;\">AM: 99€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 40€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 99€</span>",
     "asin": "B0FL7ZDPP2",
     "sourceChannel": "1433444235851468980",
     "position": 18
@@ -137,7 +137,7 @@
     "text": "Elitech Termometro IR -50 ~ 530 ℃, termometro a infrarossi per mo...",
     "link": "https://www.amazon.it/dp/B0FH41HC9F",
     "image": "https://m.media-amazon.com/images/I/71cmIeyp3vL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 10€</span><br><span style=\"color:red;font-weight:bold;\">AM: 20€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0FH41HC9F",
     "sourceChannel": "1433444235851468980",
     "position": 23
@@ -148,7 +148,7 @@
     "text": "Eucerin DermoPure Clinical Hydra Repair 40 ml, Crema idratante viso...",
     "link": "https://www.amazon.it/dp/B0FLFCL8JX",
     "image": "https://m.media-amazon.com/images/I/61wWMMAdpoL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 8€</span><br><span style=\"color:red;font-weight:bold;\">AM: 14€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 8€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 14€</span>",
     "asin": "B0FLFCL8JX",
     "sourceChannel": "1433444235851468980",
     "position": 24
@@ -159,7 +159,7 @@
     "text": "Eucerin DermoPure Clinical Crema Corpo Tripla Azione 200 ml, Crema ...",
     "link": "https://www.amazon.it/dp/B0FLFCBR4K",
     "image": "https://m.media-amazon.com/images/I/51YnsNMpkxL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 8€</span><br><span style=\"color:red;font-weight:bold;\">AM: 14€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 8€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 14€</span>",
     "asin": "B0FLFCBR4K",
     "sourceChannel": "1433444235851468980",
     "position": 25
@@ -170,7 +170,7 @@
     "text": "Luce Selfie per Telefono,Luce per Foto Portatile Dimmerabile 3 moda...",
     "link": "https://www.amazon.it/dp/B0FK3H7CPJ",
     "image": "https://m.media-amazon.com/images/I/71dxYdN49fL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMDM8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 5€</span><br><span style=\"color:red;font-weight:bold;\">AM: 20€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0FK3H7CPJ",
     "sourceChannel": "1433444235851468980",
     "position": 26
@@ -181,7 +181,7 @@
     "text": "Power Bank Fino USB-C 5000Mah ELegante + Magnetico WireLess",
     "link": "https://www.amazon.it/dp/B0FK9BS619",
     "image": "https://m.media-amazon.com/images/I/61sjzYewwTL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID40MTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 5€</span><br><span style=\"color:red;font-weight:bold;\">AM: 25€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 25€</span>",
     "asin": "B0FK9BS619",
     "sourceChannel": "1433444235851468980",
     "position": 15
@@ -225,7 +225,7 @@
     "text": "20 Rotol Carta per Stampante Termica 57mm x 25mm x 7m Carta Termica...",
     "link": "https://www.amazon.it/dp/B0FN7RB11H",
     "image": "https://m.media-amazon.com/images/I/615GLUpSZ3L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 5€</span><br><span style=\"color:red;font-weight:bold;\">AM: 15€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 15€</span>",
     "asin": "B0FN7RB11H",
     "sourceChannel": "1433444235851468980",
     "position": 31
@@ -258,7 +258,7 @@
     "text": "Rowenta IXEO Vision, Sistema All-in-One, Stiratura e Vaporizzazione...",
     "link": "https://www.amazon.it/dp/B0FJRSKNJW",
     "image": "https://m.media-amazon.com/images/I/517dAXZYWkL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 120€</span><br><span style=\"color:red;font-weight:bold;\">AM: 330€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 120€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 330€</span>",
     "asin": "B0FJRSKNJW",
     "sourceChannel": "1433444235851468980",
     "position": 4
@@ -280,7 +280,7 @@
     "text": "ECSiNG Pesa Valigia da Viaggio,Non Sono Necessarie Batterie-Digital...",
     "link": "https://www.amazon.it/dp/B0FRM7W3QF",
     "image": "https://m.media-amazon.com/images/I/61-NF8vCTML.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 10€</span><br><span style=\"color:red;font-weight:bold;\">AM: 20€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0FRM7W3QF",
     "sourceChannel": "1433444235851468980",
     "position": 30
@@ -291,7 +291,7 @@
     "text": "Caricatore USB C tipo C da 67 W per MacBook Pro/Air 2020 ...",
     "link": "https://www.amazon.it/dp/B0DNFBXJ7J",
     "image": "https://m.media-amazon.com/images/I/41s9Cs6FO9L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 10€</span><br><span style=\"color:red;font-weight:bold;\">AM: 20€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0DNFBXJ7J",
     "sourceChannel": "1433444235851468980",
     "position": 32
@@ -302,7 +302,7 @@
     "text": "EPOMAKER X AULA F108 PRO Tastiera da Gioco Wireless con Schermo, Ba...",
     "link": "https://www.amazon.it/dp/B0F1FJD1YV",
     "image": "https://m.media-amazon.com/images/I/61rzGb-KtjL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNTc8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 60€</span><br><span style=\"color:red;font-weight:bold;\">AM: 120€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 60€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 120€</span>",
     "asin": "B0F1FJD1YV",
     "sourceChannel": "1433444235851468980",
     "position": 13
@@ -313,7 +313,7 @@
     "text": "Cudy 793784 Router Poe Wi-Fi 6 Mesh AX3000 2.5G, WR3000P Bianco",
     "link": "https://amazon.it/dp/B0FG3D2SDY",
     "image": "https://m.media-amazon.com/images/I/31ynFac0x5L._SL500_.jpg",
-    "price": "<span style=\"color:green;font-weight:bold;font-size:1.5em;\">Mio: 35€</span><br><span style=\"color:red;font-weight:bold;\">AM: 80€</span>",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 35€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 80€</span>",
     "asin": "B0FG3D2SDY",
     "sourceChannel": "1433444235851468980",
     "position": 16
