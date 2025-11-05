@@ -357,7 +357,7 @@
     "text": "Curluriy Pantaloni da Uomo Velluto a Coste Casual Pantaloni con Coulisse Elastico in Vita Pantalone con Tasca Autunno Inverno",
     "link": "https://amazon.it/dp/B0FX2Y78LN",
     "image": "https://m.media-amazon.com/images/I/311XUPtPwFL._SL500_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 25€</span>",
     "asin": "B0FX2Y78LN",
     "sourceChannel": "1433444235851468980",
     "position": 7
