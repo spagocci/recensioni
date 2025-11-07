@@ -447,7 +447,8 @@
     "image": "https://m.media-amazon.com/images/I/316ZcnqlXzL._SL500_.jpg",
     "price": "",
     "asin": "B0DM6J3L3Q",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 41
   },
   {
     "id": "1436292826018218048",
@@ -457,6 +458,7 @@
     "image": "https://m.media-amazon.com/images/I/51AGOh3peaL._SL500_.jpg",
     "price": "",
     "asin": "B0FV8GPY9D",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 42
   }
 ]
