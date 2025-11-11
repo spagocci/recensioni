@@ -511,6 +511,26 @@
     "sourceChannel": "1433444235851468980"
   },
   {
+    "id": "1437803201112969227",
+    "timestamp": "2025-11-11T13:56:36.237Z",
+    "text": "SHEGLAM It-Curl Arricciacapelli Istantaneo Arricciacapelli Automatico 32mm Ceramica, 3 Temperature (170-210°C), Ricci Facili e Veloce per Capelli Lunghi (32mm)",
+    "link": "https://amazon.it/dp/B0FMF5VVK7",
+    "image": "https://m.media-amazon.com/images/I/411U7VRsEBL._SL500_.jpg",
+    "price": "",
+    "asin": "B0FMF5VVK7",
+    "sourceChannel": "1433444235851468980"
+  },
+  {
+    "id": "1437848202127872143",
+    "timestamp": "2025-11-11T16:55:25.315Z",
+    "text": "Docciaschiuma adidas Vibes Energy Drive",
+    "link": "https://amazon.it/dp/B0FVP3DJBJ",
+    "image": "https://m.media-amazon.com/images/I/31mI0qvydVL._SS210_.jpg",
+    "price": "",
+    "asin": "B0FVP3DJBJ",
+    "sourceChannel": "1433444235851468980"
+  },
+  {
     "id": "1437716792117301269",
     "timestamp": "2025-11-11T08:13:14.727Z",
     "text": "Caricatore USB 4 in 1, per auto, totale 78 W, pieghevole a 180°, caricatore rapido da auto retrattile con cavo USBC e light-ing, 12 V/24 V, accessorio per cellulare, regalo per papà",
@@ -579,25 +599,5 @@
     "price": "",
     "asin": "B0FRKVCLJQ",
     "sourceChannel": "1430829927175032954"
-  },
-  {
-    "id": "1437803201112969227",
-    "timestamp": "2025-11-11T13:56:36.237Z",
-    "text": "SHEGLAM It-Curl Arricciacapelli Istantaneo Arricciacapelli Automatico 32mm Ceramica, 3 Temperature (170-210°C), Ricci Facili e Veloce per Capelli Lunghi (32mm)",
-    "link": "https://amazon.it/dp/B0FMF5VVK7",
-    "image": "https://m.media-amazon.com/images/I/411U7VRsEBL._SL500_.jpg",
-    "price": "",
-    "asin": "B0FMF5VVK7",
-    "sourceChannel": "1433444235851468980"
-  },
-  {
-    "id": "1437848202127872143",
-    "timestamp": "2025-11-11T16:55:25.315Z",
-    "text": "Docciaschiuma adidas Vibes Energy Drive",
-    "link": "https://amazon.it/dp/B0FVP3DJBJ",
-    "image": "https://m.media-amazon.com/images/I/31mI0qvydVL._SS210_.jpg",
-    "price": "",
-    "asin": "B0FVP3DJBJ",
-    "sourceChannel": "1433444235851468980"
   }
 ]
