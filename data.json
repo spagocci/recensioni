@@ -415,5 +415,25 @@
     "price": "",
     "asin": "B0FQVFV7BL",
     "sourceChannel": "1433444235851468980"
+  },
+  {
+    "id": "1438140039254249623",
+    "timestamp": "2025-11-12T12:15:04.708Z",
+    "text": "Fructis Metodo Ricci a scelta",
+    "link": "https://amazon.it/dp/B0FXMK46N4",
+    "image": "https://m.media-amazon.com/images/I/41oh-p3QY0L._SS210_.jpg",
+    "price": "",
+    "asin": "B0FXMK46N4",
+    "sourceChannel": "1430829927175032954"
+  },
+  {
+    "id": "1438140023852761119",
+    "timestamp": "2025-11-12T12:15:01.036Z",
+    "text": "Fructis Metodo Ricci a scelta",
+    "link": "https://amazon.it/dp/B0FXMK46N4",
+    "image": "https://m.media-amazon.com/images/I/41oh-p3QY0L._SS210_.jpg",
+    "price": "",
+    "asin": "B0FXMK46N4",
+    "sourceChannel": "1430829927175032954"
   }
 ]
