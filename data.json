@@ -412,7 +412,7 @@
     "text": "deleyCON USB 2.0 Kabel, 100W PD - C/C",
     "link": "https://amazon.it/dp/B0FX53B4QW",
     "image": "https://m.media-amazon.com/images/I/41QZrLciFcL._SL500_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 4€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 9€</span>",
     "asin": "B0FX53B4QW",
     "sourceChannel": "1433444235851468980",
     "position": 39
