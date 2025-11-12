@@ -458,7 +458,8 @@
     "image": "https://m.media-amazon.com/images/I/41t3ALOjAhL._SL500_.jpg",
     "price": "",
     "asin": "B0FPKV4VGP",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 44
   },
   {
     "id": "1437492064542789646",
@@ -468,7 +469,8 @@
     "image": "https://m.media-amazon.com/images/I/41QZrLciFcL._SL500_.jpg",
     "price": "",
     "asin": "B0FX53B4QW",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 45
   },
   {
     "id": "1437389603551186997",
@@ -478,17 +480,19 @@
     "image": "https://m.media-amazon.com/images/I/51eatQGjd2L._SS210_.jpg",
     "price": "",
     "asin": "B0FR4ZBRJZ",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 46
   },
   {
     "id": "1437803201112969227",
     "timestamp": "2025-11-11T13:56:36.237Z",
-    "text": "SHEGLAM It-Curl Arricciacapelli Istantaneo Arricciacapelli Automatico 32mm Ceramica, 3 Temperature (170-210°C), Ricci Facili e Veloce per Capelli Lunghi (32mm)",
+    "text": "Arricciacapelli Istantaneo Arricciacapelli Automatico 32mm Ceramica, 3 Temperature (170-210°C), Ricci Facili e Veloce per Capelli Lunghi (32mm)",
     "link": "https://amazon.it/dp/B0FMF5VVK7",
     "image": "https://m.media-amazon.com/images/I/411U7VRsEBL._SL500_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 15€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 0€</span>",
     "asin": "B0FMF5VVK7",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 43
   },
   {
     "id": "1437848202127872143",
@@ -498,7 +502,8 @@
     "image": "https://m.media-amazon.com/images/I/31mI0qvydVL._SS210_.jpg",
     "price": "",
     "asin": "B0FVP3DJBJ",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 42
   },
   {
     "id": "1437713489454960704",
@@ -518,6 +523,36 @@
     "image": "https://m.media-amazon.com/images/I/41i9GMFyqNL._SS210_.jpg",
     "price": "",
     "asin": "B0FY621X1R",
+    "sourceChannel": "1430829927175032954"
+  },
+  {
+    "id": "1437427548173762632",
+    "timestamp": "2025-11-10T13:03:53.597Z",
+    "text": "Glliter 62 XL 62XL Cartucce d'inchiostro Sostituzione per HP 62 Nero e Colore per ENVY 5540 5547 5640 7640 5644 5646 per Officejet 200 250 5740 5742 5744 (2-Pack)",
+    "link": "https://amazon.it/dp/B0FRKVCLJQ",
+    "image": "https://m.media-amazon.com/images/I/51HTGUp4I2L._SS210_.jpg",
+    "price": "",
+    "asin": "B0FRKVCLJQ",
+    "sourceChannel": "1430829927175032954"
+  },
+  {
+    "id": "1437390438838571129",
+    "timestamp": "2025-11-10T10:36:26.042Z",
+    "text": "Glliter 62 XL 62XL Cartucce d'inchiostro Sostituzione per HP 62 Nero e Colore per ENVY 5540 5547 5640 7640 5644 5646 per Officejet 200 250 5740 5742 5744 (2-Pack)",
+    "link": "https://amazon.it/dp/B0FRKVCLJQ",
+    "image": "https://m.media-amazon.com/images/I/51HTGUp4I2L._SS210_.jpg",
+    "price": "",
+    "asin": "B0FRKVCLJQ",
+    "sourceChannel": "1430829927175032954"
+  },
+  {
+    "id": "1437390414259687485",
+    "timestamp": "2025-11-10T10:36:20.182Z",
+    "text": "Glliter 62 XL 62XL Cartucce d'inchiostro Sostituzione per HP 62 Nero e Colore per ENVY 5540 5547 5640 7640 5644 5646 per Officejet 200 250 5740 5742 5744 (2-Pack)",
+    "link": "https://amazon.it/dp/B0FRKVCLJQ",
+    "image": "https://m.media-amazon.com/images/I/51HTGUp4I2L._SS210_.jpg",
+    "price": "",
+    "asin": "B0FRKVCLJQ",
     "sourceChannel": "1430829927175032954"
   },
   {
@@ -548,6 +583,7 @@
     "image": "https://m.media-amazon.com/images/I/41s4nIrnnQL._SS210_.jpg",
     "price": "",
     "asin": "B0D9YQKY1H",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 47
   }
 ]
