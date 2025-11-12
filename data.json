@@ -458,7 +458,8 @@
     "image": "https://m.media-amazon.com/images/I/41t3ALOjAhL._SL500_.jpg",
     "price": "",
     "asin": "B0FPKV4VGP",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 44
   },
   {
     "id": "1437492064542789646",
@@ -468,7 +469,8 @@
     "image": "https://m.media-amazon.com/images/I/41QZrLciFcL._SL500_.jpg",
     "price": "",
     "asin": "B0FX53B4QW",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 45
   },
   {
     "id": "1437389603551186997",
@@ -478,7 +480,8 @@
     "image": "https://m.media-amazon.com/images/I/51eatQGjd2L._SS210_.jpg",
     "price": "",
     "asin": "B0FR4ZBRJZ",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 46
   },
   {
     "id": "1437803201112969227",
@@ -486,9 +489,10 @@
     "text": "SHEGLAM It-Curl Arricciacapelli Istantaneo Arricciacapelli Automatico 32mm Ceramica, 3 Temperature (170-210°C), Ricci Facili e Veloce per Capelli Lunghi (32mm)",
     "link": "https://amazon.it/dp/B0FMF5VVK7",
     "image": "https://m.media-amazon.com/images/I/411U7VRsEBL._SL500_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 15€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 0€</span>",
     "asin": "B0FMF5VVK7",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 43
   },
   {
     "id": "1437848202127872143",
@@ -498,7 +502,8 @@
     "image": "https://m.media-amazon.com/images/I/31mI0qvydVL._SS210_.jpg",
     "price": "",
     "asin": "B0FVP3DJBJ",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 42
   },
   {
     "id": "1437713489454960704",
@@ -578,6 +583,7 @@
     "image": "https://m.media-amazon.com/images/I/41s4nIrnnQL._SS210_.jpg",
     "price": "",
     "asin": "B0D9YQKY1H",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 47
   }
 ]
