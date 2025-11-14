@@ -1,11 +1,9 @@
-<!-- /index.html -->
 <!DOCTYPE html>
-<html lang="it">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="it"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Spagocci 2.0</title>
-<link rel="icon" href="https://raw.githubusercontent.com/spagocci/recensioni/main/icona.png" type="image/png" />
+<link rel="icon" href="https://raw.githubusercontent.com/spagocci/recensioni/main/icona.png" type="image/png">
 <style>
   :root{ --line-clamp:5; }
 
@@ -35,7 +33,6 @@
   .item {background:#fff;border:1px solid #eee;border-radius:12px;padding:8px;display:flex;flex-direction:column;align-items:center;}
   .item-content {text-align:center;position:relative;display:block;}
   .item-content a.img-link { display:block; position:relative; z-index:1; }
-
   .item-content img { display:block; width:100%; height:auto; max-width:none; object-fit:contain; }
 
   .price-big {font-weight:bold;font-size:1em;margin-top:6px;cursor:pointer; position:relative; z-index:5;}
@@ -43,21 +40,24 @@
   .column a:hover{text-decoration:underline;}
   small{color:#666;font-size:0.8em;}
 
-  /* === Toolbar in-card (ordine richiesto) === */
+  /* Toolbar in-card */
   .actions{ display:none; gap:6px; align-items:center; flex-wrap:wrap;
     margin-top:8px; padding-top:6px; border-top:1px dashed #eee; }
   body.edit-unlocked .actions{ display:flex; }
   .actions button{ padding:4px 8px; font-size:12px; margin:0; }
   .actions input.order-input{ width:54px; text-align:center; padding:4px 6px; font-size:12px; }
   .actions .btn-asin{ border:1px solid #b30000; background:#fff; color:#b30000; font-size:11px; padding:4px 8px; border-radius:6px; }
+  .actions .btn-set-mio, .actions .btn-set-valore { border:1px solid #ddd; background:#fafafa; border-radius:6px; }
+  .actions .btn-set-mio:hover, .actions .btn-set-valore:hover { background:#f0f0f0; }
 
-  /* Nascondi controlli legacy sparsi: uso solo toolbar */
+  /* Nascondi controlli legacy */
   .controls, .btn-delete, .btn-clear-text { display:none !important; }
 
+  /* Modifica: layout + hide immagini */
   .reorder-on .item { padding:6px 8px; }
   .reorder-on .item-content { display:flex; align-items:flex-start; gap:10px; text-align:left; }
-  .reorder-on .item-content .img-link { display:inline-block; width:120px; flex:0 0 120px; }
-  .reorder-on .item-content img { width:auto; max-width:120px; max-height:120px; }
+  .reorder-on .item-content .img-link { display:none !important; }
+  .reorder-on .item-content img { display:none !important; }
   .reorder-on .price-big { margin-top:0; }
   .reorder-on .desc { margin:0; }
 
@@ -93,13 +93,20 @@
   /* Center del pulsante Modifica/Fine */
   #statusBar{ display:grid; grid-template-columns: 1fr auto 1fr; align-items:center; gap:10px; margin-bottom:15px; flex-wrap:unset; }
   #toggleReorder{ grid-column:2; margin-left:0 !important; justify-self:center; }
+
+  /* === Video link pill === */
+  .video-link{
+    position:absolute; top:6px; right:6px; z-index:6;
+    font-weight:700; color:#06f; text-decoration:underline;
+    font-size:0.9rem;
+  }
 </style>
 </head>
-<body>
+<body class="edit-unlocked">
 <p class="link-bar">
   <b>
     <a href="https://whatsapp.com/channel/0029Vb6FyJ88qIzyi9nRtV2O">WHATSAPP📦</a> -
-    <a href="https://www.ebay.it/sch/i.html?_dkr=1&_ssn=davidespagocci">🛍️EBAY</a>
+    <a href="https://www.ebay.it/sch/i.html?_dkr=1&amp;_ssn=davidespagocci">🛍️EBAY</a>
   </b>
 </p>
 
@@ -108,14 +115,14 @@
   <button id="clearMostra">❌</button>
 </div>
 <input id="filtroParole" type="text" placeholder="Nascondi Parole (es: Custodia, per finestre)🚫">
-<button id="toggleAudio">📢Notifiche</button>
+<button id="toggleAudio">🔇Audio</button>
 
 <div id="statusBar">
-  <span id="apiInfo"></span>
-  <button id="salvaTutto" title="Salva locale + pubblica su GitHub">💾 SALVA</button>
+  <span id="apiInfo">API: http://localhost:3000</span>
+  <button id="salvaTutto" title="Salva locale + pubblica data.json" disabled="">💾 SALVA</button>
   <button id="toggleReorder" type="button" title="Riordina vetrina" aria-pressed="false">✏️ Modifica</button>
 </div>
-<div id="statusMsg" role="status" aria-live="polite"></div>
+<div id="statusMsg" role="status" aria-live="polite">⏳ Preparazione index.html…</div>
 
 <audio id="audioGenerale" src="https://raw.githubusercontent.com/spagocci/recensioni/main/tutti.mp3" preload="auto"></audio>
 <audio id="audioPochiSecondi" src="https://raw.githubusercontent.com/spagocci/recensioni/main/perte.mp3" preload="auto"></audio>
@@ -123,7 +130,727 @@
 <audio id="audioDisattivate" src="https://raw.githubusercontent.com/spagocci/recensioni/main/disattivate.mp3" preload="auto"></audio>
 
 <div class="row">
-  <div class="column" id="canaleVetrina"><h2>🌈Usato 🫱🏻‍🫲🏻 Spagocci⭐</h2><div class="contenuto" id="contenutoVetrina"></div></div>
+  <div class="column" id="canaleVetrina"><h2>🌈Usato 🫱🏻‍🫲🏻 Spagocci⭐</h2><div class="contenuto" id="contenutoVetrina"><div class="item" data-asin="B0FP49DDM5" data-id="1434499395973414994">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FP49DDM5" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71MOl+NZcKL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 100€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 200€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FP49DDM5" target="_blank" rel="noopener noreferrer">DaL FigLio di Bob Marley! House of Marley Rise Up Giradischi con Cassa integrata e Coperchio Bluetooth con Casse Integrate - Giradischi Vinili a 3 velocità, Streaming a 2 vie, Finitura in Bambù e Coperchio Antipolvere, Realizzato in Modo Sostenibile</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FP49DDM5" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="1" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FMF67WJS" data-id="1434839947143155803">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FMF67WJS" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41J94B08UeL._SL500_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 100€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 200€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FMF67WJS" target="_blank" rel="noopener noreferrer">Dal figlio di Bob Marley! Marley House of Get Together Duo 2 Altoparlanti Attivi da Scaffale - 2x10W, 1 Portatile + 1 Fisso, Casse per Giradischi, Accoppiamento Bluetooth Stereo, Ingresso RCA/AUX, Design Sostenibile, Bambù</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FMF67WJS" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="2" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FJRSKNJW" data-id="1434173748155781171">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FJRSKNJW" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/517dAXZYWkL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 120€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 330€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FJRSKNJW" target="_blank" rel="noopener noreferrer">Rowenta IXEO Vision, Sistema All-in-One, Stiratura e Vaporizzazione...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FJRSKNJW" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="3" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FMF5VVK7" data-id="1437803201112969227">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FMF5VVK7" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/411U7VRsEBL._SL500_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 15€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 45€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FMF5VVK7" target="_blank" rel="noopener noreferrer">Arricciacapelli Istantaneo Arricciacapelli Automatico 32mm Ceramica, 3 Temperature (170-210°C), Ricci Facili e Veloce per Capelli Lunghi (32mm)</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FMF5VVK7" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="4" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FR4ZBRJZ" data-id="1437389603551186997">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FR4ZBRJZ" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/51eatQGjd2L._SS210_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 25€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FR4ZBRJZ" target="_blank" rel="noopener noreferrer">Pmueuff Macchina Sottovuoto per Alimenti, 8 in 1 Macchina Sottovuoto Alimenti con Display a LED, Coltello da taglio e 10 Sacchetti Sottovuoto per Conservazione di Alimenti Secchi e Umidi</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FR4ZBRJZ" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="5" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0F23VL9JJ" data-id="1434830438626754600">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0F23VL9JJ" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71PVL7wZ6mL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 30€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 80€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0F23VL9JJ" target="_blank" rel="noopener noreferrer">Bonsenkitchen Macchina per sottovuoto con taglierina e contenitore ...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0F23VL9JJ" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="6" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0DRHVQH3Q" data-id="1435575896529436754">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0DRHVQH3Q" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61z9d67hR7L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xODU8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 40€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 145€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0DRHVQH3Q" target="_blank" rel="noopener noreferrer">WAVLINK Laptop Docking Station Triplo display (Single 8K@30Hz/4K@14...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0DRHVQH3Q" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="7" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FR8LKZ4S" data-id="1435575571747700736">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FR8LKZ4S" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61BoCBD3kiL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 20€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 60€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FR8LKZ4S" target="_blank" rel="noopener noreferrer">JAGUAR Set Regalo Premium, Portafoglio in Pelle, Cintura uomo 125 c...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FR8LKZ4S" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="8" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0F2TGQFKW" data-id="1435576455286489099">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0F2TGQFKW" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71PzwGg6WhL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID45MTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 35€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 92€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0F2TGQFKW" target="_blank" rel="noopener noreferrer">Razer Basilisk Mobile - Piccolo mouse ergonomico portatile da gioco...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0F2TGQFKW" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="9" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FNMWPK5T" data-id="1438470511284715652">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FNMWPK5T" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41pq+CdhwvL._SL500_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 20€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FNMWPK5T" target="_blank" rel="noopener noreferrer">Scopa e Paletta, Estensibile Manico Estensibile da 149CM, Spazzola Girevole a 180° per Pulizia Pavimenti Casa, Cucina, Ufficio</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FNMWPK5T" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="10" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0DPG2NZW2" data-id="1435169886023319672">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0DPG2NZW2" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41kgolatx8L._SL500_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 50€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 130€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0DPG2NZW2" target="_blank" rel="noopener noreferrer">Trasmettitore HDMI Wireless e 2 Ricevitori Lemorele 1080P, Supporto 1 TX fino a 4 RX, Streaming Video HD</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0DPG2NZW2" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="11" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        <a class="video-link" href="https://www.youtube.com/watch?v=s6oi3ZNCbsc" target="_blank" rel="noopener noreferrer">GUARDA iL ViDEO!</a></div></div><div class="item" data-asin="B0F1FJD1YV" data-id="1434856923739590698">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0F1FJD1YV" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61rzGb-KtjL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNTc8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 60€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 120€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0F1FJD1YV" target="_blank" rel="noopener noreferrer">EPOMAKER X AULA F108 PRO Tastiera da Gioco Wireless con Schermo, Ba...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0F1FJD1YV" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="12" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FG3D2SDY" data-id="1434848290817572955">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FG3D2SDY" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/31ynFac0x5L._SL500_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 35€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 80€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FG3D2SDY" target="_blank" rel="noopener noreferrer">Cudy 793784 Router Poe Wi-Fi 6 Mesh AX3000 2.5G, WR3000P Bianco</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FG3D2SDY" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="13" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0F94D64P3" data-id="1434830278676975618">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0F94D64P3" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/617l6Q0Y7sL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4zNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 39€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0F94D64P3" target="_blank" rel="noopener noreferrer">UGREEN HiTune S3 Pro Cuffie Senza Fili Bluetooth6.0 con Clip Apertu...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0F94D64P3" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="14" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FL7ZDPP2" data-id="1434210359161389086">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FL7ZDPP2" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61QfnKYOIxL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yMDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 40€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 99€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FL7ZDPP2" target="_blank" rel="noopener noreferrer">Guermok 4K HDMI Capture Card with Touch LED, Dual HDMI In/Loop-Out,...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FL7ZDPP2" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="15" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0DB5SQT71" data-id="1434181703143919728">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0DB5SQT71?th=1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71evcgFmqCL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4zMTwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 25€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 60€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0DB5SQT71?th=1" target="_blank" rel="noopener noreferrer">ORIGINE Casco Jet Moto Casco Aperto Scooter con Doppia Visiera Omol...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0DB5SQT71" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="16" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0DBHHWSW8" data-id="1434830791426310264">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0DBHHWSW8?th=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=130e0014c9bd0de434ad58373697efbc&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61179zvDaVL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID42MzU8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 20€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 60€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0DBHHWSW8?th=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=130e0014c9bd0de434ad58373697efbc&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer">ORIGINE Casco Rosso Lucido a Specchio Jet Moto Casco Aperto Scooter Omologato ECE con Visiera</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0DBHHWSW8" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="17" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FH41HC9F" data-id="1434181872870752387">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FH41HC9F" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71cmIeyp3vL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 20€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FH41HC9F" target="_blank" rel="noopener noreferrer">Elitech Termometro IR -50 ~ 530 ℃, termometro a infrarossi per mo...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FH41HC9F" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="18" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FLFCL8JX" data-id="1434181852695892141">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FLFCL8JX" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61wWMMAdpoL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 8€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 14€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FLFCL8JX" target="_blank" rel="noopener noreferrer">Eucerin DermoPure Clinical Hydra Repair 40 ml, Crema idratante viso...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FLFCL8JX" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="19" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FLFCBR4K" data-id="1434181832169226310">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FLFCBR4K" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/51YnsNMpkxL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNDwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 8€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 14€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FLFCBR4K" target="_blank" rel="noopener noreferrer">Eucerin DermoPure Clinical Crema Corpo Tripla Azione 200 ml, Crema ...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FLFCBR4K" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="20" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FK3H7CPJ" data-id="1434181808852832267">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FK3H7CPJ" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71dxYdN49fL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xMDM8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 5€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 20€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FK3H7CPJ" target="_blank" rel="noopener noreferrer">Luce Selfie per Telefono,Luce per Foto Portatile Dimmerabile 3 moda...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FK3H7CPJ" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="21" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FMDZKXNB" data-id="1434830553789763616">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FMDZKXNB" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61ev48oaxbL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID43PC9zcGFuPg==,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 43€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FMDZKXNB" target="_blank" rel="noopener noreferrer">HNBTX Scarpiera da Appendere Alla Porta,Organizer Scarpe con 8 Gran...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FMDZKXNB" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="22" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FCSG242T" data-id="1434181733615407216">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FCSG242T?th=1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61nc0RcIo2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNjwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 20€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FCSG242T?th=1" target="_blank" rel="noopener noreferrer">Distanziometro laser Elitech 165ft, strumento di misura digitale co...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FCSG242T" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="23" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FH6P2S4Y" data-id="1434181661909717184">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FH6P2S4Y" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71nueHps4CL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOUR-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 20€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FH6P2S4Y" target="_blank" rel="noopener noreferrer">3 Pz Organizer per Scarpe da Appendere con 2 Tasche Profond...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FH6P2S4Y" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="24" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FRM7W3QF" data-id="1434170793901817948">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FRM7W3QF" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61-NF8vCTML.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 20€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FRM7W3QF" target="_blank" rel="noopener noreferrer">ECSiNG Pesa Valigia da Viaggio,Non Sono Necessarie Batterie-Digital...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FRM7W3QF" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="25" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FN7RB11H" data-id="1434181625511678133">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FN7RB11H" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/615GLUpSZ3L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFIVE-medium,BottomLeft,30,-20_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 5€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 15€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FN7RB11H" target="_blank" rel="noopener noreferrer">20 Rotol Carta per Stampante Termica 57mm x 25mm x 7m Carta Termica...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FN7RB11H" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="26" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0DNFBXJ7J" data-id="1434170792282689536">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0DNFBXJ7J" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41s9Cs6FO9L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 20€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0DNFBXJ7J" target="_blank" rel="noopener noreferrer">Caricatore USB C tipo C da 67 W per MacBook Pro/Air 2020 ...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0DNFBXJ7J" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="27" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FSZ9LJFL" data-id="1434830211429695530">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FSZ9LJFL" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71DRIVh0jvL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 22€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FSZ9LJFL" target="_blank" rel="noopener noreferrer">E104 Inchiostro Flaconi di Inchiostro E104 Multipack Compatibile pe...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FSZ9LJFL" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="28" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FLXKXHSD" data-id="1434829781270265919">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FLXKXHSD?th=1&amp;psc=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=45be4b7a0739a65e52fb14095a0debfa&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/712uiK7SmuL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 19€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FLXKXHSD?th=1&amp;psc=1&amp;linkCode=sl1&amp;tag=ita36000-21&amp;linkId=45be4b7a0739a65e52fb14095a0debfa&amp;language=it_IT&amp;ref_=as_li_ss_tl" target="_blank" rel="noopener noreferrer">Calzini da Sci in Lana di Merino Confezione da 2 Per Signore e Sign...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FLXKXHSD" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="29" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FS7DLCB3" data-id="1434830520507695184">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0FS7DLCB3" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/71AIoGUyP4L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4yNzwvc3Bhbj4=,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 6€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 12€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0FS7DLCB3" target="_blank" rel="noopener noreferrer">Calze Uomo Lunghe Caldo Cotone (Confezione da 2) – Morbide ...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FS7DLCB3" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="30" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FB8T4Y9X" data-id="1435246025232089099">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FB8T4Y9X" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41dNjHXQvIL._SL500_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 5€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 10€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FB8T4Y9X" target="_blank" rel="noopener noreferrer">E104 Inchiostro compatibile con le cartucce E104 per ET-1810 ET-2870 ET-2720 ET-2715 ET-2721 ET-2712 ET-2810 ET-2820 ET-2821 ET-2825 ET-2826 ET-4700 ET-4800 (2 x nero)</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FB8T4Y9X" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="31" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0BYDGCGG1" data-id="1435576901229084705">
+        <div class="item-content">
+          <a class="img-link" href="https://www.amazon.it/dp/B0BYDGCGG1" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/511S-rQ-k2L.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNjI8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 10€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 24€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://www.amazon.it/dp/B0BYDGCGG1" target="_blank" rel="noopener noreferrer">Dispenser Sapone Muro Manuale 1Litro Dispenser Sapone ...</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0BYDGCGG1" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="33" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FPKV4VGP" data-id="1437772892367749301">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FPKV4VGP" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41t3ALOjAhL._SL500_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 8€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 16€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FPKV4VGP" target="_blank" rel="noopener noreferrer">Reyke Tracker, Smart Tag e Trova chiavi per chiavi, bagagli, valigia, portafoglio, compatibile con iOS e Android, nero, confezione da 2</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FPKV4VGP" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="34" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FX53B4QW" data-id="1437492064542789646">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FX53B4QW" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41QZrLciFcL._SL500_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 4€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 9€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FX53B4QW" target="_blank" rel="noopener noreferrer">Cavo USB-C a USB-C 1,5M fino a 100W Ricarica Ultra Rapida</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FX53B4QW" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="35" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FQVFV7BL" data-id="1438136980226441256">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FQVFV7BL" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41x0kWZVxVL._SL500_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 8€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 16€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FQVFV7BL" target="_blank" rel="noopener noreferrer">Lettore di Memorie NVME Docking Station</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FQVFV7BL" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="36" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div><div class="item" data-asin="B0FXY8J8LG" data-id="1438823904503267396">
+        <div class="item-content">
+          <a class="img-link" href="https://amazon.it/dp/B0FXY8J8LG" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41zOD6JS9mL._SS210_.jpg" alt="" loading="lazy"></a>
+          <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 6€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 13€</span></div>
+
+          <div class="meta" style="flex:1 1 auto;">
+            <p class="desc"><a href="https://amazon.it/dp/B0FXY8J8LG" target="_blank" rel="noopener noreferrer">Scuma Tazza Cane Lavoro per il Mio Cane - Tazza Colazione per Amanti dei Cani - Regali Simpatici per un Amica - Idee Natale Regalo Cane e Padrone - Tazze Carine da Regalare - Gadget Cani</a></p>
+          </div>
+
+          <div class="actions">
+            <button class="btn-asin" data-asin="B0FXY8J8LG" title="Copia ASIN">ASIN</button>
+            <input type="number" min="1" value="37" placeholder="#" class="order-input" title="Posizione 🔢">
+            
+            <button class="btn-edit-text" title="Modifica testo">✏️</button>
+            <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
+            
+            <button class="btn-save-one" title="Salva modifiche">💾</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
+          </div>
+        </div></div></div></div>
   <div class="column" id="canalePerte"><h2>🧐</h2><div class="contenuto" id="contenutoPerte"></div></div>
 </div>
 
@@ -167,21 +894,28 @@ const VETRINA_CHANNEL = '1433444235851468980';
 /* ===== Persistenza ordine ===== */
 const KEY_VETRINA_ORDER = 'vetrinaOrder';
 function readLocalOrderMap(){
-  try { return JSON.parse(localStorage.getItem(KEY_VETRINA_ORDER) || '{}') || {}; }
-  catch { return {}; }
+  try {
+    const raw = JSON.parse(localStorage.getItem(KEY_VETRINA_ORDER) || '{}') || {};
+    return Object.fromEntries(
+      Object.entries(raw)
+        .filter(([k,v]) => k && v != null)
+        .map(([k,v]) => [String(k).toUpperCase(), Number(v)])
+    );
+  } catch { return {}; }
 }
 function writeLocalOrderMapFromDOM(){
   const ordine = [...document.querySelectorAll('#contenutoVetrina .item')]
-    .map(el=>({asin:el.dataset.asin, position:Number(el.dataset.position)}))
-    .filter(o=>o.asin && Number.isFinite(o.position));
-  const map = Object.fromEntries(ordine.map(o=>[o.asin, o.position]));
+    .map(el => ({ asin: (el.dataset.asin || '').toUpperCase(), position: Number(el.dataset.position) }))
+    .filter(o => o.asin && Number.isFinite(o.position));
+  const map = Object.fromEntries(ordine.map(o => [o.asin, o.position]));
   localStorage.setItem(KEY_VETRINA_ORDER, JSON.stringify(map));
 }
 function applyOrderMapToData(data, orderMap){
   if (!orderMap || !Object.keys(orderMap).length) return data;
-  return data.map(it=>{
-    if (it.sourceChannel===VETRINA_CHANNEL && it.asin && orderMap[it.asin]!=null){
-      return { ...it, position: Number(orderMap[it.asin]) };
+  return data.map(it => {
+    const asin = String(it.asin || '').toUpperCase();
+    if (it.sourceChannel === VETRINA_CHANNEL && asin && orderMap[asin] != null){
+      return { ...it, position: Number(orderMap[asin]) };
     }
     return it;
   });
@@ -242,9 +976,7 @@ toggleAudioBtn.addEventListener('click', async () => {
   audioAttivo = !audioAttivo;
   localStorage.setItem('audioAttivo', audioAttivo);
   aggiornaBottoneAudio();
-  try {
-    await (audioAttivo ? elAudioAttivate.play() : elAudioDisattivate.play());
-  } catch (e) {}
+  try { await (audioAttivo ? elAudioAttivate.play() : elAudioDisattivate.play()); } catch (e) {}
 });
 
 const filtroInput = document.getElementById('filtroParole');
@@ -288,20 +1020,18 @@ function parsePriceHTML(html){
   if (spMio || spVal){
     const getNum = (t)=> {
       const m = String(t||'').match(/([\d.,]+)\s*€?/);
-      return m ? normEuro(m[1]) : '0€';
+      if (!m) return '0€';
+      try { return normEuro(m[1]); } catch { return '0€'; }
     };
-    return {
-      my:     spMio ? getNum(spMio.textContent) : '0€',
-      valore: spVal ? getNum(spVal.textContent) : '0€'
-    };
+    return { my: spMio ? getNum(spMio.textContent) : '0€', valore: spVal ? getNum(spVal.textContent) : '0€' };
   }
   const text = tmp.textContent || '';
   const m1 = text.match(/mio\s*:\s*([\d.,]+)\s*€?/i);
   const m2 = text.match(/\b(valore|am|amazon|va\s*lore)\s*:\s*([\d.,]+)\s*€?/i);
-  return {
-    my:      m1 ? normEuro(m1[1]) : '0€',
-    valore:  m2 ? normEuro(m2[2]) : '0€'
-  };
+  let my = '0€', valore = '0€';
+  try { if (m1) my = normEuro(m1[1]); } catch { my = '0€'; }
+  try { if (m2) valore = normEuro(m2[2]); } catch { valore = '0€'; }
+  return { my, valore };
 }
 
 /* ===== Render ===== */
@@ -349,15 +1079,19 @@ async function caricaCatalogo(){
             <p class="desc">${ link ? `<a href="${link}" target="_blank" rel="noopener noreferrer"></a>` : `` }</p>
           </div>
 
-          <!-- Toolbar azioni: ASIN🔢, Edita, Cancella, Riordina, Salva, Pubblica -->
           <div class="actions">
             <button class="btn-asin" data-asin="${asin}" title="Copia ASIN">ASIN</button>
             <input type="number" min="1" value="${pos || ''}" placeholder="#" class="order-input" title="Posizione 🔢">
+            ${ withControls ? `
+              <button class="btn-set-mio" title="Imposta 'Mio'">💰</button>
+              <button class="btn-set-valore" title="Imposta 'Valore'">🎖️</button>
+            ` : '' }
             <button class="btn-edit-text" title="Modifica testo">✏️</button>
             <button class="btn-cancella" title="Cancella da Discord + JSON">🗑️</button>
             ${withControls ? `<div class="drag-handle" title="Trascina per riordinare">≡</div>` : ''}
             <button class="btn-save-one" title="Salva modifiche">💾</button>
-            <button class="btn-publish-one" title="Pubblica su GitHub">📤</button>
+            <button class="btn-publish-one" title="Pubblica index.html">📤</button>
+            <button class="btn-video" title="Aggiungi link video">📼</button>
           </div>
         </div>`;
 
@@ -367,10 +1101,21 @@ async function caricaCatalogo(){
         if (a) a.textContent = item.text || '';
         else descEl.textContent = item.text || '';
       }
+
+      if (item.videoLink) {
+        const content = div.querySelector('.item-content');
+        const a = document.createElement('a');
+        a.className = 'video-link';
+        a.href = item.videoLink;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = 'GUARDA iL ViDEO!';
+        content.appendChild(a);
+      }
       return div;
     }
 
-    perte.forEach(it=>{ if (!messaggiVisualizzati.has(it.id)) messaggiVisualizzati.add(it.id); p.appendChild(renderItem(it,false)); });
+    perte.forEach(it=>{ if (!messaggiVisualizzati.has(it.id)) messaggiVisualizzati.add(it.id); p.appendChild(renderItem(it,isReorder())); });
     vetrina.forEach((it,idx)=>{
       if (!messaggiVisualizzati.has(it.id)) messaggiVisualizzati.add(it.id);
       const el = renderItem(it, isReorder());
@@ -383,6 +1128,7 @@ async function caricaCatalogo(){
 
     localStorage.setItem('messaggiVisualizzati', JSON.stringify([...messaggiVisualizzati]));
     document.getElementById('canaleVetrina').classList.toggle('reorder-on', isReorder());
+    document.getElementById('canalePerte').classList.toggle('reorder-on', isReorder());
     document.getElementById('contenutoVetrina').classList.toggle('drag-enabled', isReorder());
 
     enablePointerSort(document.getElementById('contenutoVetrina'), isReorder());
@@ -395,7 +1141,7 @@ async function caricaCatalogo(){
 
 /* ===== Pointer-based Sort ===== */
 const DRAG_THRESHOLD_PX = 12;
-let ps = { enabled:false, dragging:false, down:false, origin:null, placeholder:null, ghost:null, startX:0, startY:0, nx:0, ny:0, raf:false };
+let ps = { enabled:false, dragging:false, down:false, origin:null, placeholder:null, ghost:null, startX:0, startY0:0, nx:0, ny:0, raf:false };
 function enablePointerSort(container, enable){
   container.removeEventListener('pointerdown', onPD);
   window.removeEventListener('pointermove', onPM);
@@ -508,7 +1254,7 @@ document.addEventListener('click', (e) => {
   if (rec) { rec.text = nuovo; setDirty(true); setStatus('✏️ Testo aggiornato in bozza. Clicca SALVA.'); }
 });
 
-/* ===== 🔥 Cancella = DELETE (Discord + JSON) ===== */
+/* ===== 🔥 Cancella ===== */
 let __deleting = false;
 document.addEventListener('click', async (e) => {
   const btn = e.target.closest('.btn-cancella');
@@ -538,7 +1284,7 @@ document.addEventListener('click', async (e) => {
   } finally { btn.disabled = false; __deleting = false; }
 });
 
-/* ===== Prezzo: aggiungi/quick edit (invariato) ===== */
+/* ===== Prezzo: aggiungi/quick edit ===== */
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('.btn-edit-price');
   if (!btn) return;
@@ -563,6 +1309,55 @@ document.addEventListener('click', (e) => {
   setStatus('💶 Prezzo aggiunto in bozza. Clicca SALVA.');
 });
 
+/* === NUOVO: bottoni 💰 / 🎖️ === */
+document.addEventListener('click', (e)=>{
+  const btnMio = e.target.closest('.btn-set-mio');
+  const btnVal = e.target.closest('.btn-set-valore');
+  if (!btnMio && !btnVal) return;
+  if (!document.body.classList.contains('edit-unlocked')) return;
+
+  const btn = btnMio || btnVal;
+  const card = btn.closest('.item');
+  const asin = card?.dataset?.asin || '';
+  if (!asin) return;
+
+  const rec = DATA.find(x => (x.asin||'').toUpperCase() === asin.toUpperCase());
+  if (!rec) return;
+
+  const cur = parsePriceHTML(rec.price || '');
+
+  try {
+    if (btnMio) {
+      let mio = prompt(`💰 "Mio" per ${asin} (es. 33 o 33,99)`, cur.my.replace('€',''));
+      if (mio === null) return;
+      mio = normEuro(mio);
+      rec.price = buildPriceHTML(mio, cur.valore || '0€');
+    } else {
+      let valore = prompt(`🎖️ "Valore" per ${asin} (es. 65 o 65,99)`, cur.valore.replace('€',''));
+      if (valore === null) return;
+      valore = normEuro(valore);
+      rec.price = buildPriceHTML(cur.my || '0€', valore);
+    }
+  } catch (err) {
+    alert(err?.message || err);
+    return;
+  }
+
+  const content = card.querySelector('.item-content');
+  let priceBox = content.querySelector('.price-big');
+  if (!priceBox) {
+    priceBox = document.createElement('div');
+    priceBox.className = 'price-big';
+    const desc = content.querySelector('.desc');
+    content.insertBefore(priceBox, desc);
+  }
+  priceBox.innerHTML = rec.price;
+
+  setDirty(true);
+  setStatus('💶 Prezzo aggiornato in bozza. Clicca SALVA per scrivere su data.json.');
+});
+
+/* === Edit singola part clic prezzo === */
 document.addEventListener('click', async (e)=>{
   const priceBox = e.target.closest('.price-big');
   if (!priceBox) return;
@@ -593,7 +1388,58 @@ document.addEventListener('click', async (e)=>{
   }
 });
 
-/* ===== Salvataggio ===== */
+/* ===== NUOVO: Gestione bottone 📼 Video ===== */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.btn-video');
+  if (!btn) return;
+  if (!document.body.classList.contains('edit-unlocked')) return;
+
+  const card = btn.closest('.item');
+  const asin = card?.dataset?.asin || '';
+  if (!asin) return;
+
+  const rec = DATA.find(x => (x.asin||'').toUpperCase() === asin.toUpperCase());
+  if (!rec) return;
+
+  const current = rec.videoLink || '';
+  const url = prompt(`Link video per ${asin} (es. https://www.youtube.com/watch?v=...)`, current);
+  if (url === null) return;
+
+  const trimmed = url.trim();
+  if (!trimmed) return;
+
+  const ok = /^(https?:\/\/).+\..+/.test(trimmed);
+  if (!ok) { alert('URL non valido. Inserisci un link completo http/https.'); return; }
+
+  rec.videoLink = trimmed;
+
+  const content = card.querySelector('.item-content');
+  let a = content.querySelector('a.video-link');
+  if (!a) {
+    a = document.createElement('a');
+    a.className = 'video-link';
+    a.textContent = 'GUARDA iL ViDEO!';
+    content.appendChild(a);
+  }
+  a.href = trimmed;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+
+  setDirty(true);
+  setStatus('🎬 Link video aggiunto in bozza. Clicca SALVA.');
+});
+
+/* ===== Helpers upload index.html ===== */
+function getCurrentHTML(){
+  // why: assicura DOCTYPE incluso e cattura lo stato corrente dell’interfaccia
+  return '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+}
+function toBase64Utf8(str){
+  // why: btoa non gestisce UTF-8; encode per sicurezza
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+/* ===== Salvataggio (data.json) ===== */
 async function salvaTutto(){
   try{
     setBusy(true);
@@ -616,21 +1462,28 @@ async function salvaTutto(){
     r = await postJSON(`${API_BASE}/uploadjson`, {});
     if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
     setDirty(false);
-    setStatus('✅ Salvato e pubblicato su GitHub.');
+    setStatus('✅ data.json salvato e pubblicato su GitHub.');
   }catch(e){ setStatus('❌ Errore salvataggio: ' + (e.message||e)); }
   finally{ setBusy(false); }
 }
 document.getElementById('salvaTutto').addEventListener('click', salvaTutto);
 
-/* ===== Pubblica solo ===== */
+/* ===== Pubblica solo (index.html → /uploadindex) ===== */
 async function publishOnly(){
   try{
     setBusy(true);
-    setStatus('⏳ Pubblicazione in corso…');
-    const r = await postJSON(`${API_BASE}/uploadjson`, {});
+    setStatus('⏳ Preparazione index.html…');
+    const html = getCurrentHTML();
+    const contentBase64 = toBase64Utf8(html);
+    setStatus('⏳ Pubblicazione index.html in corso…');
+    const r = await postJSON(`${API_BASE}/uploadindex`, {
+      path: 'index.html',
+      contentBase64,
+      message: 'chore: update index.html via UI'
+    });
     if (!r.ok || !r.data?.ok) throw new Error(r.data?.error || `HTTP ${r.status}`);
-    setStatus('📤 Pubblicato su GitHub.');
-  }catch(e){ setStatus('❌ Errore pubblicazione: ' + (e.message||e)); }
+    setStatus('📤 index.html pubblicata su GitHub.');
+  }catch(e){ setStatus('❌ Errore pubblicazione index.html: ' + (e.message||e)); }
   finally{ setBusy(false); }
 }
 
@@ -678,7 +1531,7 @@ window.onload = async () => {
 <div id="secretConsole">
   <form id="secretForm" autocomplete="off">
     <span id="secretPrompt">Console:</span>
-    <input id="secretInput" type="password" placeholder="digita comando e premi Invio" />
+    <input id="secretInput" type="password" placeholder="digita comando e premi Invio">
   </form>
 </div>
 <script>
@@ -724,5 +1577,6 @@ window.onload = async () => {
     });
   })();
 </script>
-</body>
-</html>
+
+
+</body></html>
