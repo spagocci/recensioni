@@ -96,10 +96,22 @@
 
   /* === Video link pill === */
   .video-link{
-    position:absolute; top:6px; right:6px; z-index:6;
-    font-weight:700; color:#06f; text-decoration:underline;
-    font-size:0.9rem;
+    position:absolute;
+    top:6px; right:6px;
+    z-index:20;                 /* sopra img (z=1) e prezzo (z=5) */
+    display:inline-block;
+    font-weight:800;
+    color:#d00;                 /* rosso */
+    text-decoration:none;       /* badge, non solo testo sottolineato */
+    background:rgba(255,255,255,.95);
+    border:2px solid #d00;
+    border-radius:10px;
+    padding:4px 8px;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+    line-height:1;
+    pointer-events:auto;        /* click sempre attivo */
   }
+  .video-link:hover{ filter:brightness(0.95); }
 </style>
 </head>
 <body class="edit-unlocked">
@@ -331,7 +343,7 @@
             <button class="btn-video" title="Aggiungi link video">📼</button>
           </div>
         </div></div><div class="item" data-asin="B0DPG2NZW2" data-id="1435169886023319672">
-        <div class="item-content">
+        <div class="item-content"><a class="video-link" href="https://www.youtube.com/watch?v=s6oi3ZNCbsc" target="_blank" rel="noopener noreferrer">Guarda il video!</a>
           <a class="img-link" href="https://amazon.it/dp/B0DPG2NZW2" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/41kgolatx8L._SL500_.jpg" alt="" loading="lazy"></a>
           <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 50€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 130€</span></div>
 
@@ -350,7 +362,7 @@
             <button class="btn-publish-one" title="Pubblica index.html">📤</button>
             <button class="btn-video" title="Aggiungi link video">📼</button>
           </div>
-        <a class="video-link" href="https://www.youtube.com/watch?v=s6oi3ZNCbsc" target="_blank" rel="noopener noreferrer">GUARDA iL ViDEO!</a></div></div><div class="item" data-asin="B0F1FJD1YV" data-id="1434856923739590698">
+        </div></div><div class="item" data-asin="B0F1FJD1YV" data-id="1434856923739590698">
         <div class="item-content">
           <a class="img-link" href="https://www.amazon.it/dp/B0F1FJD1YV" target="_blank" rel="noopener noreferrer"><img src="https://m.media-amazon.com/images/I/61rzGb-KtjL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_PIRIOFOURANDHALF-medium,BottomLeft,30,-20_ZJPHNwYW4gZm9yZWdyb3VuZD0iIzU2NTk1OSIgZm9udD0iQW1hem9uRW1iZXIgNTAiID4xNTc8L3NwYW4+,500,900,420,420,0,0_QL100_.jpg" alt="" loading="lazy"></a>
           <div class="price-big"><span class="price-part" data-part="mio" style="font-weight:bold;color:green;">Mio: 60€</span><br><span class="price-part" data-part="valore" style="font-weight:bold;color:red;">Valore: 120€</span></div>
@@ -1102,18 +1114,23 @@ async function caricaCatalogo(){
         else descEl.textContent = item.text || '';
       }
 
-      if (item.videoLink) {
-        const content = div.querySelector('.item-content');
-        const a = document.createElement('a');
-        a.className = 'video-link';
-        a.href = item.videoLink;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.textContent = 'GUARDA iL ViDEO!';
-        content.appendChild(a);
-      }
-      return div;
+  if (item.videoLink) {
+    const content = div.querySelector('.item-content');
+    let a = content.querySelector('a.video-link');
+    if (!a) {
+      a = document.createElement('a');
+      a.className = 'video-link';
+      a.textContent = 'Guarda il video!'; // rosso + grassetto via CSS
+      // inserisco come primo figlio per sicurezza visiva
+      content.insertBefore(a, content.firstChild);
     }
+    a.href = item.videoLink;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+  }
+
+  return div; // ← mancava
+}
 
     perte.forEach(it=>{ if (!messaggiVisualizzati.has(it.id)) messaggiVisualizzati.add(it.id); p.appendChild(renderItem(it,isReorder())); });
     vetrina.forEach((it,idx)=>{
@@ -1390,44 +1407,44 @@ document.addEventListener('click', async (e)=>{
 
 /* ===== NUOVO: Gestione bottone 📼 Video ===== */
 document.addEventListener('click', (e) => {
-  const btn = e.target.closest('.btn-video');
-  if (!btn) return;
-  if (!document.body.classList.contains('edit-unlocked')) return;
+    const btn = e.target.closest('.btn-video');
+    if (!btn) return;
+    if (!document.body.classList.contains('edit-unlocked')) return;
 
-  const card = btn.closest('.item');
-  const asin = card?.dataset?.asin || '';
-  if (!asin) return;
+    const card = btn.closest('.item');
+    const asin = card?.dataset?.asin || '';
+    if (!asin) return;
 
-  const rec = DATA.find(x => (x.asin||'').toUpperCase() === asin.toUpperCase());
-  if (!rec) return;
+    const rec = DATA.find(x => (x.asin||'').toUpperCase() === asin.toUpperCase());
+    if (!rec) return;
 
-  const current = rec.videoLink || '';
-  const url = prompt(`Link video per ${asin} (es. https://www.youtube.com/watch?v=...)`, current);
-  if (url === null) return;
+    const current = rec.videoLink || '';
+    const url = prompt(`Link video per ${asin} (es. https://www.youtube.com/watch?v=...)`, current);
+    if (url === null) return;
 
-  const trimmed = url.trim();
-  if (!trimmed) return;
+    const trimmed = url.trim();
+    if (!trimmed) return;
 
-  const ok = /^(https?:\/\/).+\..+/.test(trimmed);
-  if (!ok) { alert('URL non valido. Inserisci un link completo http/https.'); return; }
+    const ok = /^(https?:\/\/).+\..+/.test(trimmed);
+    if (!ok) { alert('URL non valido. Inserisci un link completo http/https.'); return; }
 
-  rec.videoLink = trimmed;
+    rec.videoLink = trimmed;
 
-  const content = card.querySelector('.item-content');
-  let a = content.querySelector('a.video-link');
-  if (!a) {
-    a = document.createElement('a');
-    a.className = 'video-link';
-    a.textContent = 'GUARDA iL ViDEO!';
-    content.appendChild(a);
-  }
-  a.href = trimmed;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
+    const content = card.querySelector('.item-content');
+    let a = content.querySelector('a.video-link');
+    if (!a) {
+      a = document.createElement('a');
+      a.className = 'video-link';
+      a.textContent = 'Guarda il video!';
+      content.insertBefore(a, content.firstChild); // primo nodo = sempre visibile
+    }
+    a.href = trimmed;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
 
-  setDirty(true);
-  setStatus('🎬 Link video aggiunto in bozza. Clicca SALVA.');
-});
+    setDirty(true);
+    setStatus('🎬 Link video aggiunto in bozza. Clicca SALVA.');
+  });
 
 /* ===== Helpers upload index.html ===== */
 function getCurrentHTML(){
