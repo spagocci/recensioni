@@ -19,7 +19,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 20€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 60€</span>",
     "asin": "B0DBHHWSW8",
     "sourceChannel": "1433444235851468980",
-    "position": 17
+    "position": 18
   },
   {
     "id": "1434830553789763616",
@@ -30,7 +30,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 43€</span>",
     "asin": "B0FMDZKXNB",
     "sourceChannel": "1433444235851468980",
-    "position": 23
+    "position": 24
   },
   {
     "id": "1434830520507695184",
@@ -63,7 +63,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 39€</span>",
     "asin": "B0F94D64P3",
     "sourceChannel": "1433444235851468980",
-    "position": 14
+    "position": 15
   },
   {
     "id": "1434830211429695530",
@@ -74,7 +74,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 22€</span>",
     "asin": "B0FSZ9LJFL",
     "sourceChannel": "1433444235851468980",
-    "position": 29
+    "position": 30
   },
   {
     "id": "1434829781270265919",
@@ -107,7 +107,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 40€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 99€</span>",
     "asin": "B0FL7ZDPP2",
     "sourceChannel": "1433444235851468980",
-    "position": 15
+    "position": 16
   },
   {
     "id": "1434181872870752387",
@@ -118,7 +118,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0FH41HC9F",
     "sourceChannel": "1433444235851468980",
-    "position": 19
+    "position": 20
   },
   {
     "id": "1434181852695892141",
@@ -129,7 +129,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 8€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 14€</span>",
     "asin": "B0FLFCL8JX",
     "sourceChannel": "1433444235851468980",
-    "position": 20
+    "position": 21
   },
   {
     "id": "1434181832169226310",
@@ -140,7 +140,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 8€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 14€</span>",
     "asin": "B0FLFCBR4K",
     "sourceChannel": "1433444235851468980",
-    "position": 21
+    "position": 22
   },
   {
     "id": "1434181808852832267",
@@ -151,7 +151,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0FK3H7CPJ",
     "sourceChannel": "1433444235851468980",
-    "position": 22
+    "position": 23
   },
   {
     "id": "1434181758928162826",
@@ -162,7 +162,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 25€</span>",
     "asin": "B0FK9BS619",
     "sourceChannel": "1433444235851468980",
-    "position": 12
+    "position": 13
   },
   {
     "id": "1434181733615407216",
@@ -173,7 +173,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0FCSG242T",
     "sourceChannel": "1433444235851468980",
-    "position": 24
+    "position": 25
   },
   {
     "id": "1434181703143919728",
@@ -184,7 +184,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 25€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 60€</span>",
     "asin": "B0DB5SQT71",
     "sourceChannel": "1433444235851468980",
-    "position": 16
+    "position": 17
   },
   {
     "id": "1434181661909717184",
@@ -195,7 +195,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0FH6P2S4Y",
     "sourceChannel": "1433444235851468980",
-    "position": 25
+    "position": 26
   },
   {
     "id": "1434181625511678133",
@@ -206,7 +206,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 15€</span>",
     "asin": "B0FN7RB11H",
     "sourceChannel": "1433444235851468980",
-    "position": 27
+    "position": 28
   },
   {
     "id": "1434173748155781171",
@@ -228,7 +228,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0FMDTRP4F",
     "sourceChannel": "1433444235851468980",
-    "position": 18
+    "position": 19
   },
   {
     "id": "1434170793901817948",
@@ -239,7 +239,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0FRM7W3QF",
     "sourceChannel": "1433444235851468980",
-    "position": 26
+    "position": 27
   },
   {
     "id": "1434170792282689536",
@@ -250,7 +250,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0DNFBXJ7J",
     "sourceChannel": "1433444235851468980",
-    "position": 28
+    "position": 29
   },
   {
     "id": "1434856923739590698",
@@ -261,7 +261,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 60€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 120€</span>",
     "asin": "B0F1FJD1YV",
     "sourceChannel": "1433444235851468980",
-    "position": 11
+    "position": 12
   },
   {
     "id": "1434848290817572955",
@@ -272,7 +272,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 35€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 80€</span>",
     "asin": "B0FG3D2SDY",
     "sourceChannel": "1433444235851468980",
-    "position": 13
+    "position": 14
   },
   {
     "id": "1435169886023319672",
@@ -283,7 +283,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 50€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 130€</span>",
     "asin": "B0DPG2NZW2",
     "sourceChannel": "1433444235851468980",
-    "position": 10
+    "position": 11
   },
   {
     "id": "1435246025232089099",
@@ -365,7 +365,7 @@
   {
     "id": "1437492064542789646",
     "timestamp": "2025-11-10T17:20:15.498Z",
-    "text": "deleyCON USB 2.0 Kabel, 100W PD - C/C",
+    "text": "Cavo USB-C a USB-C 1,5M fino a 100W Ricarica Ultra Rapida",
     "link": "https://amazon.it/dp/B0FX53B4QW",
     "image": "https://m.media-amazon.com/images/I/41QZrLciFcL._SL500_.jpg",
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 4€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 9€</span>",
