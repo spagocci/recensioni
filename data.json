@@ -208,7 +208,8 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 120€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 330€</span>",
     "asin": "B0FJRSKNJW",
     "sourceChannel": "1433444235851468980",
-    "position": 3
+    "position": 3,
+    "videoLink": "https://www.youtube.com/watch?v=DVmP3TR5ODo"
   },
   {
     "id": "1434170793901817948",
