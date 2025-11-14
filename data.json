@@ -423,9 +423,10 @@
     "text": "Scuma Tazza Cane Lavoro per il Mio Cane - Tazza Colazione per Amanti dei Cani - Regali Simpatici per un Amica - Idee Natale Regalo Cane e Padrone - Tazze Carine da Regalare - Gadget Cani",
     "link": "https://amazon.it/dp/B0FXY8J8LG",
     "image": "https://m.media-amazon.com/images/I/41zOD6JS9mL._SS210_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 6€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 13€</span>",
     "asin": "B0FXY8J8LG",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 39
   },
   {
     "id": "1438793995886137404",
