@@ -277,7 +277,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 10€</span>",
     "asin": "B0FB8T4Y9X",
     "sourceChannel": "1433444235851468980",
-    "position": 35
+    "position": 47
   },
   {
     "id": "1435575571747700736",
@@ -392,10 +392,10 @@
   {
     "id": "1439889297787326475",
     "timestamp": "2025-11-17T08:06:00.442Z",
-    "text": "Wholede Gilet Riscaldabile per Uomo e Donna con Batteria da 27000 mAh/7, 4 V, 17 Zone di Riscaldamento Riscaldata Elettrico Giacca Termico con 3 Impostazioni di Temperatura Regolabili (Nero, M)",
+    "text": "Gilet Riscaldabile per Uomo e Donna con Batteria da 27000 mAh/7, 4 V, 17 Zone di Riscaldamento Riscaldata Elettrico Giacca Termico con 3 Impostazioni di Temperatura Regolabili (Nero, M)",
     "link": "https://amazon.it/dp/B0FKZ45WVG",
     "image": "https://m.media-amazon.com/images/I/51Rzt91fdQL._SS210_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 40€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 100€</span>",
     "asin": "B0FKZ45WVG",
     "sourceChannel": "1433444235851468980",
     "position": 4
