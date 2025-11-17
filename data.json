@@ -409,7 +409,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 25€</span>",
     "asin": "B0FPDZVFY5",
     "sourceChannel": "1433444235851468980",
-    "position": 2,
+    "position": 3,
     "videoLink": "https://www.youtube.com/watch?v=3ZNnO2lnzjk"
   },
   {
@@ -432,7 +432,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 50€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 100€</span>",
     "asin": "B0FKZ45WVG",
     "sourceChannel": "1433444235851468980",
-    "position": 3
+    "position": 1
   },
   {
     "id": "1440061249235718325",
@@ -443,7 +443,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 30€</span>",
     "asin": "B0FSKGZSXJ",
     "sourceChannel": "1433444235851468980",
-    "position": 1,
+    "position": 2,
     "videoLink": "https://www.youtube.com/watch?v=6-4p1dOme8U"
   }
 ]
