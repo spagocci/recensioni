@@ -401,17 +401,6 @@
     "position": 26
   },
   {
-    "id": "1439513596081078384",
-    "timestamp": "2025-11-16T07:13:06.175Z",
-    "text": "Humagineer Ruote per carichi pesanti",
-    "link": "https://amazon.it/dp/B0G255DJD1",
-    "image": "https://m.media-amazon.com/images/I/41gzMynJKNL._SS210_.jpg",
-    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 30€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 65€</span>",
-    "asin": "B0G255DJD1",
-    "sourceChannel": "1433444235851468980",
-    "position": 27
-  },
-  {
     "id": "1439226802408132638",
     "timestamp": "2025-11-15T12:13:29.235Z",
     "text": "Scalda tazza da caffè, scalda tazza con regolazione della temperatura su 4 livelli, display digitale, funzione di spegnimento automatico dopo 8 ore, adatto per riscaldare caffè/latte/cacao",
@@ -432,25 +421,5 @@
     "asin": "B0FPDZVFY5",
     "sourceChannel": "1433444235851468980",
     "position": 29
-  },
-  {
-    "id": "1439513517899124870",
-    "timestamp": "2025-11-16T07:12:47.535Z",
-    "text": "Humagineer Ruote per carichi pesanti",
-    "link": "https://amazon.it/dp/B0G255DJD1",
-    "image": "https://m.media-amazon.com/images/I/41gzMynJKNL._SS210_.jpg",
-    "price": "",
-    "asin": "B0G255DJD1",
-    "sourceChannel": "1430829927175032954"
-  },
-  {
-    "id": "1439513487209398423",
-    "timestamp": "2025-11-16T07:12:40.218Z",
-    "text": "Humagineer Ruote per carichi pesanti",
-    "link": "https://amazon.it/dp/B0G255DJD1",
-    "image": "https://m.media-amazon.com/images/I/41gzMynJKNL._SS210_.jpg",
-    "price": "",
-    "asin": "B0G255DJD1",
-    "sourceChannel": "1430829927175032954"
   }
 ]
