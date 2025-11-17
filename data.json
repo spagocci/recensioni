@@ -443,6 +443,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 30€</span>",
     "asin": "B0FSKGZSXJ",
     "sourceChannel": "1433444235851468980",
-    "position": 1
+    "position": 1,
+    "videoLink": "https://www.youtube.com/watch?v=6-4p1dOme8U"
   }
 ]
