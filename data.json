@@ -31,7 +31,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 43€</span>",
     "asin": "B0FMDZKXNB",
     "sourceChannel": "1433444235851468980",
-    "position": 100
+    "position": 40
   },
   {
     "id": "1434830520507695184",
@@ -86,7 +86,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 19€</span>",
     "asin": "B0FLXKXHSD",
     "sourceChannel": "1433444235851468980",
-    "position": 38
+    "position": 37
   },
   {
     "id": "1434499395973414994",
@@ -298,7 +298,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 40€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 145€</span>",
     "asin": "B0DRHVQH3Q",
     "sourceChannel": "1433444235851468980",
-    "position": 37
+    "position": 36
   },
   {
     "id": "1435576455286489099",
@@ -320,7 +320,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 24€</span>",
     "asin": "B0BYDGCGG1",
     "sourceChannel": "1433444235851468980",
-    "position": 39
+    "position": 38
   },
   {
     "id": "1437772892367749301",
@@ -331,7 +331,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 8€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 16€</span>",
     "asin": "B0FPKV4VGP",
     "sourceChannel": "1433444235851468980",
-    "position": 30
+    "position": 300
   },
   {
     "id": "1437492064542789646",
@@ -342,7 +342,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 4€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 9€</span>",
     "asin": "B0FX53B4QW",
     "sourceChannel": "1433444235851468980",
-    "position": 40
+    "position": 39
   },
   {
     "id": "1437389603551186997",
@@ -375,7 +375,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 8€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 16€</span>",
     "asin": "B0FQVFV7BL",
     "sourceChannel": "1433444235851468980",
-    "position": 31
+    "position": 30
   },
   {
     "id": "1438823904503267396",
@@ -386,7 +386,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 6€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 13€</span>",
     "asin": "B0FXY8J8LG",
     "sourceChannel": "1433444235851468980",
-    "position": 32
+    "position": 31
   },
   {
     "id": "1439889297787326475",
@@ -408,7 +408,7 @@
     "price": "",
     "asin": "B0FSZ4JQN2",
     "sourceChannel": "1433444235851468980",
-    "position": 33
+    "position": 32
   },
   {
     "id": "1439513596081078384",
@@ -419,7 +419,7 @@
     "price": "",
     "asin": "B0G255DJD1",
     "sourceChannel": "1433444235851468980",
-    "position": 34
+    "position": 33
   },
   {
     "id": "1439226802408132638",
@@ -430,7 +430,7 @@
     "price": "",
     "asin": "B0FLY3VG2Z",
     "sourceChannel": "1433444235851468980",
-    "position": 35
+    "position": 34
   },
   {
     "id": "1439209358578946068",
@@ -441,7 +441,7 @@
     "price": "",
     "asin": "B0FPDZVFY5",
     "sourceChannel": "1433444235851468980",
-    "position": 36
+    "position": 35
   },
   {
     "id": "1439889223254671430",
