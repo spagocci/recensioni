@@ -417,7 +417,7 @@
     "text": "Humagineer Ruote per carichi pesanti",
     "link": "https://amazon.it/dp/B0G255DJD1",
     "image": "https://m.media-amazon.com/images/I/41gzMynJKNL._SS210_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 30€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 65€</span>",
     "asin": "B0G255DJD1",
     "sourceChannel": "1433444235851468980",
     "position": 28
