@@ -31,7 +31,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 43€</span>",
     "asin": "B0FMDZKXNB",
     "sourceChannel": "1433444235851468980",
-    "position": 36
+    "position": 800
   },
   {
     "id": "1434830520507695184",
@@ -75,7 +75,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 22€</span>",
     "asin": "B0FSZ9LJFL",
     "sourceChannel": "1433444235851468980",
-    "position": 40
+    "position": 39
   },
   {
     "id": "1434829781270265919",
@@ -142,7 +142,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 8€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 14€</span>",
     "asin": "B0FLFCBR4K",
     "sourceChannel": "1433444235851468980",
-    "position": 38
+    "position": 37
   },
   {
     "id": "1434181808852832267",
@@ -186,7 +186,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 10€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 20€</span>",
     "asin": "B0FH6P2S4Y",
     "sourceChannel": "1433444235851468980",
-    "position": 39
+    "position": 38
   },
   {
     "id": "1434181625511678133",
@@ -276,7 +276,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 5€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 10€</span>",
     "asin": "B0FB8T4Y9X",
     "sourceChannel": "1433444235851468980",
-    "position": 700
+    "position": 40
   },
   {
     "id": "1435575571747700736",
@@ -331,7 +331,7 @@
     "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 8€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 16€</span>",
     "asin": "B0FPKV4VGP",
     "sourceChannel": "1433444235851468980",
-    "position": 37
+    "position": 36
   },
   {
     "id": "1437492064542789646",
