@@ -486,7 +486,7 @@
     "text": "Prolunga USB-C 1,5m fino a 100W per Ricarica Rapida",
     "link": "https://www.amazon.it/dp/B0FXXLJ62C",
     "image": "https://m.media-amazon.com/images/I/61pT+8eorYL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 3€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 7€</span>",
     "asin": "B0FXXLJ62C",
     "sourceChannel": "1433444235851468980",
     "position": 41
