@@ -455,7 +455,8 @@
     "image": "https://m.media-amazon.com/images/I/41VKOFpNorL._SL500_.jpg",
     "price": "",
     "asin": "B0FVG1P9XG",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 42
   },
   {
     "id": "1440322305690439690",
@@ -465,7 +466,8 @@
     "image": "https://m.media-amazon.com/images/I/41GNWC-HugL._SL500_.jpg",
     "price": "",
     "asin": "B0FP5S7LHK",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 43
   },
   {
     "id": "1440274259871268865",
@@ -475,16 +477,18 @@
     "image": "https://m.media-amazon.com/images/I/41Mb8p6qYPL._SS210_.jpg",
     "price": "",
     "asin": "B0FRFNWNTM",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 44
   },
   {
     "id": "1440380436416167996",
     "timestamp": "2025-11-18T16:37:37.016Z",
-    "text": "deleyCON 1,5m Prolunga USB-C 100W per Ricarica Rapida - Cavo PD 3.0...",
+    "text": "Prolunga USB-C 1,5m fino a 100W per Ricarica Rapida",
     "link": "https://www.amazon.it/dp/B0FXXLJ62C",
     "image": "https://m.media-amazon.com/images/I/61pT+8eorYL.jpg_BO30,255,255,255_UF900,850_SR1910,1000,0,C_QL100_.jpg",
     "price": "",
     "asin": "B0FXXLJ62C",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 41
   }
 ]
