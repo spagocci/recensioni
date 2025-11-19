@@ -486,9 +486,10 @@
     "text": "PERUGINA Tartufi Cioccolatini Fondenti, Scatola 200g",
     "link": "https://amazon.it/dp/B0FK5HTP3Q",
     "image": "https://m.media-amazon.com/images/I/51P17q1I43L._SL500_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 3€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 7€</span>",
     "asin": "B0FK5HTP3Q",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 44
   },
   {
     "id": "1440641265996922900",
@@ -498,7 +499,8 @@
     "image": "https://m.media-amazon.com/images/I/31nLKC2CvkL._SS210_.jpg",
     "price": "",
     "asin": "B0FX1W6XT9",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 45
   },
   {
     "id": "1440640123627900989",
@@ -508,7 +510,8 @@
     "image": "https://m.media-amazon.com/images/I/51BshmY2GNL._SS210_.jpg",
     "price": "",
     "asin": "B0G1YMLBCX",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 46
   },
   {
     "id": "1440639807247220828",
@@ -518,7 +521,8 @@
     "image": "https://m.media-amazon.com/images/I/31i2o2mMtaL._SS210_.jpg",
     "price": "",
     "asin": "B0FX3LQ1P7",
-    "sourceChannel": "1433444235851468980"
+    "sourceChannel": "1433444235851468980",
+    "position": 47
   },
   {
     "id": "1440656313427300433",
