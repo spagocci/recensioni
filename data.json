@@ -673,10 +673,9 @@
     "text": "JOYUSING Videocamera per documenti 4K Ultra HD con pulsanti fisici - Webcam USB per insegnanti, demo dal vivo e insegnamento remoto, conferenze web, compatibile con Windows/Mac",
     "link": "https://amazon.it/dp/B0FX1W6XT9",
     "image": "https://m.media-amazon.com/images/I/31nLKC2CvkL._SS210_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 50€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 109€</span>",
     "asin": "B0FX1W6XT9",
-    "sourceChannel": "1433444235851468980",
-    "position": 43
+    "sourceChannel": "1433444235851468980"
   },
   {
     "id": "1440640123627900989",
@@ -686,8 +685,7 @@
     "image": "https://m.media-amazon.com/images/I/51BshmY2GNL._SS210_.jpg",
     "price": "",
     "asin": "B0G1YMLBCX",
-    "sourceChannel": "1433444235851468980",
-    "position": 44
+    "sourceChannel": "1433444235851468980"
   },
   {
     "id": "1440639807247220828",
@@ -695,9 +693,8 @@
     "text": "JOYUSING HDMI/USB Dual Mode 13MP Documento/Visualizzatore con luce per apprendimento a distanza, conferenze web, registrazione video, proiezione in tempo reale, demo dal vivo, Mac, Windows",
     "link": "https://amazon.it/dp/B0FX3LQ1P7",
     "image": "https://m.media-amazon.com/images/I/31i2o2mMtaL._SS210_.jpg",
-    "price": "",
+    "price": "<span class=\"price-part\" data-part=\"mio\" style=\"font-weight:bold;color:green;\">Mio: 50€</span><br><span class=\"price-part\" data-part=\"valore\" style=\"font-weight:bold;color:red;\">Valore: 189€</span>",
     "asin": "B0FX3LQ1P7",
-    "sourceChannel": "1433444235851468980",
-    "position": 1
+    "sourceChannel": "1433444235851468980"
   }
 ]
